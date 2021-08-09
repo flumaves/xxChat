@@ -21,6 +21,7 @@
 		9B678DBA26C1622300483386 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B678DB826C1622300483386 /* LaunchScreen.storyboard */; };
 		9B678DBD26C162C700483386 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B678DBC26C162C700483386 /* Main.storyboard */; };
 		A5EB6BAAED9F4D3A27992041 /* Pods_xxChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFA0A68199639277E7A4574 /* Pods_xxChat.framework */; };
+		A654FE0526C17DAC00DCE37C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = A654FE0426C17DAC00DCE37C /* User.m */; };
 		D896ADF420D3A0455DCA96A1 /* Pods_xxChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E2D4B3588605E9F2AA7F96 /* Pods_xxChatTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,8 @@
 		9B678DB626C1596600483386 /* MeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeViewController.m; sourceTree = "<group>"; };
 		9B678DB826C1622300483386 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B678DBC26C162C700483386 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		A654FE0326C17DAC00DCE37C /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		A654FE0426C17DAC00DCE37C /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		A9BFB7ADCDC74788E2CD01FE /* Pods-xxChat-xxChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.release.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.release.xcconfig"; sourceTree = "<group>"; };
 		BED5FCBB519A9BE3680A35D3 /* Pods-xxChat-xxChatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.debug.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CA19132E76973E48485A7738 /* Pods-xxChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChatTests.debug.xcconfig"; path = "Target Support Files/Pods-xxChatTests/Pods-xxChatTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -143,10 +146,10 @@
 		9B678D7426BEB7DA00483386 /* xxChat */ = {
 			isa = PBXGroup;
 			children = (
-				9B678DAD26C1560100483386 /* Views */,
+				A654FE0226C17D5400DCE37C /* Views */,
 				9B678DAC26C155EB00483386 /* Others */,
 				9B678DAB26C155DE00483386 /* Controllers */,
-				9B678DAA26C155D600483386 /* Models */,
+				A654FE0126C17D3F00DCE37C /* Models */,
 				9B678D8126BEB7DC00483386 /* Assets.xcassets */,
 				9B678D8626BEB7DC00483386 /* Info.plist */,
 				9B678D8726BEB7DC00483386 /* main.m */,
@@ -172,13 +175,6 @@
 				9B678D9E26BEB7DC00483386 /* Info.plist */,
 			);
 			path = xxChatUITests;
-			sourceTree = "<group>";
-		};
-		9B678DAA26C155D600483386 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		9B678DAB26C155DE00483386 /* Controllers */ = {
@@ -207,7 +203,16 @@
 			path = Others;
 			sourceTree = "<group>";
 		};
-		9B678DAD26C1560100483386 /* Views */ = {
+		A654FE0126C17D3F00DCE37C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A654FE0326C17DAC00DCE37C /* User.h */,
+				A654FE0426C17DAC00DCE37C /* User.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A654FE0226C17D5400DCE37C /* Views */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -425,6 +430,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A654FE0526C17DAC00DCE37C /* User.m in Sources */,
 				9B678DB126C157BF00483386 /* ContactsViewController.m in Sources */,
 				9B678DB426C1595D00483386 /* DiscoverViewController.m in Sources */,
 				9B678DB726C1596600483386 /* MeViewController.m in Sources */,
