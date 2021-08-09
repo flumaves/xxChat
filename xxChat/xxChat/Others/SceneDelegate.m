@@ -46,6 +46,8 @@
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     //把每个界面控制器添加到 tabBarController 中
     [self addChildControllersToTabBarController:tabBarController];
+    //tabBar渲染的颜色
+    tabBarController.tabBar.tintColor = [UIColor colorWithRed:50 /255.0 green:205 /255.0 blue:50 / 255.0 alpha:1];
 
     self.window.rootViewController = tabBarController;
 }
@@ -54,7 +56,7 @@
 - (void)addChildControllersToTabBarController:(UITabBarController *)tabBar {
     //消息界面
     _chatsViewController = [[ChatsViewController alloc] init];
-    [self tabBarController:tabBar addChildViewController:_chatsViewController withTitle:@"消息" withImageName:@"消息"];
+    [self tabBarController:tabBar addChildViewController:_chatsViewController withTitle:@"聊天" withImageName:@"聊天"];
     //联系人界面
     _contactsViewController = [[ContactsViewController alloc] init];
     [self tabBarController:tabBar addChildViewController:_contactsViewController withTitle:@"联系人" withImageName:@"联系人"];
@@ -65,7 +67,7 @@
     
     //个人界面
     _meViewController = [[MeViewController alloc] init];
-    [self tabBarController:tabBar addChildViewController:_meViewController withTitle:@"个人" withImageName:@"个人"];
+    [self tabBarController:tabBar addChildViewController:_meViewController withTitle:@"我" withImageName:@"我"];
 }
 
 //每个界面控制器添加导航栏 设置在tabBar上的title和图片

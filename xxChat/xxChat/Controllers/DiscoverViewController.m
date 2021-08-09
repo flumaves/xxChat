@@ -7,7 +7,10 @@
 
 #import "DiscoverViewController.h"
 
-@interface DiscoverViewController ()
+@interface DiscoverViewController () <UITableViewDataSource, UITableViewDelegate>
+
+//加载朋友圈的tableView
+@property (nonatomic, strong)UITableView *discoverTableView;
 
 @end
 
@@ -16,17 +19,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.discoverTableView];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (UITableView *)discoverTableView {
+    if (_discoverTableView == nil) {
+        _discoverTableView = [[UITableView alloc] initWithFrame:self.view.frame];
+        _discoverTableView.delegate = self;
+        _discoverTableView.dataSource = self;
+    }
+    return _discoverTableView;
 }
-*/
+
+///tableView的 dataSource 和 delegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 10;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //复用ID为 chat
+    NSString *ID = @"discover";
+    
+    UITableViewCell *cell = [self.discoverTableView dequeueReusableCellWithIdentifier:ID];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+    }
+    
+    cell.textLabel.text = @"This is a discover";
+    
+    return cell;
+}
 
 @end
