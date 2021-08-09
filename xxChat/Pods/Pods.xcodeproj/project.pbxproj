@@ -16,6 +16,7 @@
 				587CDDA1D109AFB25CA09CFF2D92CF65 /* PBXTargetDependency */,
 			);
 			name = JMessage;
+			productName = JMessage;
 		};
 		D504B99928659EA67A1C3A9E981EB8FF /* JCore */ = {
 			isa = PBXAggregateTarget;
@@ -25,6 +26,7 @@
 			dependencies = (
 			);
 			name = JCore;
+			productName = JCore;
 		};
 /* End PBXAggregateTarget section */
 
@@ -96,16 +98,16 @@
 		43F223362EFEEF3F97B842076E684843 /* Pods-xxChatTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-xxChatTests-dummy.m"; sourceTree = "<group>"; };
 		5CA872BCF2DC46934F1ECB5F7B1E5E6E /* JMessage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JMessage.framework; sourceTree = "<group>"; };
 		5DA3DFD4275BC0459DAF89909BCA02CB /* Pods-xxChat-xxChatUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-xxChat-xxChatUITests-acknowledgements.plist"; sourceTree = "<group>"; };
-		67A6CC9CB9C5AF5742448DE44676CFB0 /* Pods_xxChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_xxChat.framework; path = "Pods-xxChat.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		67A6CC9CB9C5AF5742448DE44676CFB0 /* Pods_xxChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_xxChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AAA47223FD4DD37298F40EE43C325E8 /* Pods-xxChat.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-xxChat.modulemap"; sourceTree = "<group>"; };
-		6F14804E8D354911AC5859C0472EC494 /* Pods_xxChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_xxChatTests.framework; path = "Pods-xxChatTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6F3D44491C80CAF51F66BEBE1D3DB7D8 /* Pods_xxChat_xxChatUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_xxChat_xxChatUITests.framework; path = "Pods-xxChat-xxChatUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F14804E8D354911AC5859C0472EC494 /* Pods_xxChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_xxChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F3D44491C80CAF51F66BEBE1D3DB7D8 /* Pods_xxChat_xxChatUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_xxChat_xxChatUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		730C667E444392B07543E861F0E8B997 /* Pods-xxChatTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-xxChatTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		78B69AF3E78F4B902BA1C1860B1D4B85 /* Pods-xxChat-xxChatUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-xxChat-xxChatUITests.modulemap"; sourceTree = "<group>"; };
 		84E8549F606168D48C971567F0640E0C /* Pods-xxChat-xxChatUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-xxChat-xxChatUITests-umbrella.h"; sourceTree = "<group>"; };
 		98A4C0BDB778627CFDD6FFD225969422 /* Pods-xxChatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-xxChatTests.release.xcconfig"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9FE1AA1AA3B12E28C6B83C84B7E03803 /* Pods-xxChatTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-xxChatTests.modulemap"; sourceTree = "<group>"; };
 		AD2E4C130CF6466E4E11A6C6B722E592 /* Pods-xxChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-xxChatTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B40FD10D6E812B5FB642CDA8B0E1B132 /* Pods-xxChatTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-xxChatTests-umbrella.h"; sourceTree = "<group>"; };
@@ -182,7 +184,6 @@
 				5E84B3D1E54E31890AE4650FA938A94C /* Frameworks */,
 				7B4F4CFB51C2057AFFEF1B0ED1652570 /* Support Files */,
 			);
-			name = JCore;
 			path = JCore;
 			sourceTree = "<group>";
 		};
@@ -200,7 +201,6 @@
 				4489EF1110F5B3DBE329BADDD8ACE097 /* Frameworks */,
 				59AFCFD4BCCA7BD6177B40F3137D8912 /* Support Files */,
 			);
-			name = JMessage;
 			path = JMessage;
 			sourceTree = "<group>";
 		};
@@ -407,7 +407,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1250;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 9.3";
@@ -528,7 +528,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -545,7 +545,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -562,7 +562,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -765,7 +765,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
