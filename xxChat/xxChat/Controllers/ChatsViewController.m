@@ -6,6 +6,7 @@
 //
 
 #import "ChatsViewController.h"
+#import "ChatCell.h"
 
 @interface ChatsViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -46,14 +47,17 @@
     //复用ID为 chat
     NSString *ID = @"chat";
     
-    UITableViewCell *cell = [self.chatTableView dequeueReusableCellWithIdentifier:ID];
+    ChatCell *cell = [self.chatTableView dequeueReusableCellWithIdentifier:ID];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+        cell = [[ChatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
-    
-    cell.textLabel.text = @"This is a chat";
     
     return cell;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 70;
+}
+
 @end

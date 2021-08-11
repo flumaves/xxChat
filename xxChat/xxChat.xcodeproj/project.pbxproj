@@ -22,6 +22,7 @@
 		9B678DBD26C162C700483386 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B678DBC26C162C700483386 /* Main.storyboard */; };
 		9B678DC026C2CE9200483386 /* InformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678DBF26C2CE9200483386 /* InformationCell.m */; };
 		9B678DC626C3C1EF00483386 /* SelfInformationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */; };
+		9B678DC926C3D97C00483386 /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678DC826C3D97C00483386 /* ChatCell.m */; };
 		A5EB6BAAED9F4D3A27992041 /* Pods_xxChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFA0A68199639277E7A4574 /* Pods_xxChat.framework */; };
 		A654FE0526C17DAC00DCE37C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = A654FE0426C17DAC00DCE37C /* User.m */; };
 		D896ADF420D3A0455DCA96A1 /* Pods_xxChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E2D4B3588605E9F2AA7F96 /* Pods_xxChatTests.framework */; };
@@ -78,6 +79,8 @@
 		9B678DBF26C2CE9200483386 /* InformationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InformationCell.m; sourceTree = "<group>"; };
 		9B678DC426C3C1EF00483386 /* SelfInformationTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelfInformationTableViewController.h; sourceTree = "<group>"; };
 		9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelfInformationTableViewController.m; sourceTree = "<group>"; };
+		9B678DC726C3D97C00483386 /* ChatCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
+		9B678DC826C3D97C00483386 /* ChatCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatCell.m; sourceTree = "<group>"; };
 		A654FE0326C17DAC00DCE37C /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		A654FE0426C17DAC00DCE37C /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		A9BFB7ADCDC74788E2CD01FE /* Pods-xxChat-xxChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.release.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -225,6 +228,8 @@
 			children = (
 				9B678DBE26C2CE9200483386 /* InformationCell.h */,
 				9B678DBF26C2CE9200483386 /* InformationCell.m */,
+				9B678DC726C3D97C00483386 /* ChatCell.h */,
+				9B678DC826C3D97C00483386 /* ChatCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -481,6 +486,7 @@
 				9B678DB126C157BF00483386 /* ContactsViewController.m in Sources */,
 				9B678DB426C1595D00483386 /* DiscoverViewController.m in Sources */,
 				9B678DB726C1596600483386 /* MeViewController.m in Sources */,
+				9B678DC926C3D97C00483386 /* ChatCell.m in Sources */,
 				9B678D7D26BEB7DA00483386 /* ChatsViewController.m in Sources */,
 				9B678D7726BEB7DA00483386 /* AppDelegate.m in Sources */,
 				9B678DC026C2CE9200483386 /* InformationCell.m in Sources */,

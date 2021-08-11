@@ -64,20 +64,28 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //静态的tableView
     if (indexPath.section == 0) {
-        //个人信息
+        ///个人信息
         InformationCell *cell = [[InformationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        //右侧小箭头
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        //选中不改变颜色
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     } else if (indexPath.section == 1) {
-        //设定
+        ///设定
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        //右侧小箭头
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        //选中不改变状态
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.imageView.image = [UIImage imageNamed:@"设置"];
-        cell.textLabel.text = @"设定";
+        cell.textLabel.text = @"设定(未开发)";
         return cell;
     } else if (indexPath.section == 2) {
-        //推出登陆
+        ///退出登陆
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        //选中不改变状态
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         /*
          这个cell中只需要自己添加一个居中的UILabel
           就不单独封装成一个cell了
