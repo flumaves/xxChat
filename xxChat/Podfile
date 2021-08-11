@@ -17,5 +17,7 @@ target 'xxChat' do
   end
   
   pod 'JMessage'
+  
+  pod 'SDAutoLayout'
 
 end

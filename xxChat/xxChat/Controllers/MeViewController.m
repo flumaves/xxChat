@@ -8,6 +8,7 @@
 #import "MeViewController.h"
 
 #import "InformationCell.h"
+#import "SelfInformationTableViewController.h"
 
 @interface MeViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -17,6 +18,19 @@
 @end
 
 @implementation MeViewController
+
+/*
+ 这个页面需要隐藏掉navagationBar
+ 所以在将要显示view的时候设置hidden = YES
+ 在页面离开时设置hidden = NO
+ */
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    self.navigationController.navigationBar.hidden = NO;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,7 +54,7 @@
 
 #pragma mark -tableView的 dataSource 和 delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -50,24 +64,59 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //静态的tableView
     if (indexPath.section == 0) {
+        //个人信息
         InformationCell *cell = [[InformationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     } else if (indexPath.section == 1) {
+        //设定
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.imageView.image = [UIImage imageNamed:@"设置"];
         cell.textLabel.text = @"设定";
+        return cell;
+    } else if (indexPath.section == 2) {
+        //推出登陆
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        /*
+         这个cell中只需要自己添加一个居中的UILabel
+          就不单独封装成一个cell了
+         */
+        CGFloat lblW = 200;
+        CGFloat lblH = 30;
+        CGFloat lblX = (self.view.bounds.size.width - lblW) / 2;
+        CGFloat lblY = 10;  //cell的高度50 - label的高度30 再除2
+        UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(lblX, lblY, lblW, lblH)];
+        lbl.text = @"退出登录";
+        lbl.textColor = [UIColor redColor];
+        lbl.textAlignment = NSTextAlignmentCenter;
+        [cell addSubview:lbl];
         return cell;
     }
     return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    //除了最上面显示信息的cell高度设置为140 其余高度都为50
+    CGFloat rowHeight = 0;
     if (indexPath.section == 0) {
-        return 140;
+        rowHeight = 140;
     } else {
-        return 50;
+        rowHeight = 50;
+    }
+    return rowHeight;
+}
+
+//cell被选中
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        //点击 个人信息的cell
+        SelfInformationTableViewController *controller = [[SelfInformationTableViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+    } else if (indexPath.section == 1) {
+        //点击 设定
+    } else if (indexPath.section == 2) {
+        //点击 退出登录
     }
 }
 

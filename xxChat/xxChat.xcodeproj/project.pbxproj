@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,6 +21,7 @@
 		9B678DBA26C1622300483386 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B678DB826C1622300483386 /* LaunchScreen.storyboard */; };
 		9B678DBD26C162C700483386 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B678DBC26C162C700483386 /* Main.storyboard */; };
 		9B678DC026C2CE9200483386 /* InformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678DBF26C2CE9200483386 /* InformationCell.m */; };
+		9B678DC626C3C1EF00483386 /* SelfInformationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */; };
 		A5EB6BAAED9F4D3A27992041 /* Pods_xxChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFA0A68199639277E7A4574 /* Pods_xxChat.framework */; };
 		A654FE0526C17DAC00DCE37C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = A654FE0426C17DAC00DCE37C /* User.m */; };
 		D896ADF420D3A0455DCA96A1 /* Pods_xxChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E2D4B3588605E9F2AA7F96 /* Pods_xxChatTests.framework */; };
@@ -75,6 +76,8 @@
 		9B678DBC26C162C700483386 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9B678DBE26C2CE9200483386 /* InformationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InformationCell.h; sourceTree = "<group>"; };
 		9B678DBF26C2CE9200483386 /* InformationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InformationCell.m; sourceTree = "<group>"; };
+		9B678DC426C3C1EF00483386 /* SelfInformationTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelfInformationTableViewController.h; sourceTree = "<group>"; };
+		9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelfInformationTableViewController.m; sourceTree = "<group>"; };
 		A654FE0326C17DAC00DCE37C /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		A654FE0426C17DAC00DCE37C /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		A9BFB7ADCDC74788E2CD01FE /* Pods-xxChat-xxChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.release.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -191,6 +194,8 @@
 				9B678DB326C1595D00483386 /* DiscoverViewController.m */,
 				9B678DB526C1596600483386 /* MeViewController.h */,
 				9B678DB626C1596600483386 /* MeViewController.m */,
+				9B678DC426C3C1EF00483386 /* SelfInformationTableViewController.h */,
+				9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -245,6 +250,7 @@
 				9B678D6E26BEB7DA00483386 /* Sources */,
 				9B678D6F26BEB7DA00483386 /* Frameworks */,
 				9B678D7026BEB7DA00483386 /* Resources */,
+				D4417E102F422B730B9300D0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -282,6 +288,7 @@
 				9B678D9426BEB7DC00483386 /* Sources */,
 				9B678D9526BEB7DC00483386 /* Frameworks */,
 				9B678D9626BEB7DC00483386 /* Resources */,
+				B5A3815A9701DF78E168D58B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -384,6 +391,40 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B5A3815A9701DF78E168D58B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D4417E102F422B730B9300D0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-xxChat/Pods-xxChat-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-xxChat/Pods-xxChat-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-xxChat/Pods-xxChat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E63965B7D39D4B141E9B312C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -435,6 +476,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B678DC626C3C1EF00483386 /* SelfInformationTableViewController.m in Sources */,
 				A654FE0526C17DAC00DCE37C /* User.m in Sources */,
 				9B678DB126C157BF00483386 /* ContactsViewController.m in Sources */,
 				9B678DB426C1595D00483386 /* DiscoverViewController.m in Sources */,

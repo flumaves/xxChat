@@ -2,19 +2,23 @@ PODS:
   - JCore (2.7.1)
   - JMessage (3.9.1):
     - JCore (< 3.0.0, >= 2.0.0)
+  - SDAutoLayout (2.2.1)
 
 DEPENDENCIES:
   - JMessage
+  - SDAutoLayout
 
 SPEC REPOS:
   trunk:
     - JCore
     - JMessage
+    - SDAutoLayout
 
 SPEC CHECKSUMS:
   JCore: 9d5bda3a172c65bbe14f2806ab0f6246f8a06065
   JMessage: 43dfcd5348573b2f4f24357b12e9b19076322606
+  SDAutoLayout: 8bf6b3bbc8b01f775d4defbb4fda2ace805461be
 
-PODFILE CHECKSUM: eead489c151a106b8a9f332cd9d23e0f461abe49
+PODFILE CHECKSUM: c8a6f8a195ff43ec319598878330a4f4ce48f33d
 
 COCOAPODS: 1.10.2
