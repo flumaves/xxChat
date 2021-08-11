@@ -48,6 +48,7 @@
     NSDictionary* dic = tempDic;
     return dic;
 }
+
 #pragma mark - 字典数组转模型数组
 + (NSArray*)usersArrayWithDictionaryArray: (NSArray*)dicArray
 {

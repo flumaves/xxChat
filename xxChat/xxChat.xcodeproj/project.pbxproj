@@ -20,6 +20,7 @@
 		9B678DB726C1596600483386 /* MeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678DB626C1596600483386 /* MeViewController.m */; };
 		9B678DBA26C1622300483386 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B678DB826C1622300483386 /* LaunchScreen.storyboard */; };
 		9B678DBD26C162C700483386 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B678DBC26C162C700483386 /* Main.storyboard */; };
+		9B678DC026C2CE9200483386 /* InformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678DBF26C2CE9200483386 /* InformationCell.m */; };
 		A5EB6BAAED9F4D3A27992041 /* Pods_xxChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFA0A68199639277E7A4574 /* Pods_xxChat.framework */; };
 		A654FE0526C17DAC00DCE37C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = A654FE0426C17DAC00DCE37C /* User.m */; };
 		D896ADF420D3A0455DCA96A1 /* Pods_xxChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E2D4B3588605E9F2AA7F96 /* Pods_xxChatTests.framework */; };
@@ -72,6 +73,8 @@
 		9B678DB626C1596600483386 /* MeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeViewController.m; sourceTree = "<group>"; };
 		9B678DB826C1622300483386 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B678DBC26C162C700483386 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		9B678DBE26C2CE9200483386 /* InformationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InformationCell.h; sourceTree = "<group>"; };
+		9B678DBF26C2CE9200483386 /* InformationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InformationCell.m; sourceTree = "<group>"; };
 		A654FE0326C17DAC00DCE37C /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		A654FE0426C17DAC00DCE37C /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		A9BFB7ADCDC74788E2CD01FE /* Pods-xxChat-xxChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.release.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -215,6 +218,8 @@
 		A654FE0226C17D5400DCE37C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9B678DBE26C2CE9200483386 /* InformationCell.h */,
+				9B678DBF26C2CE9200483386 /* InformationCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -436,6 +441,7 @@
 				9B678DB726C1596600483386 /* MeViewController.m in Sources */,
 				9B678D7D26BEB7DA00483386 /* ChatsViewController.m in Sources */,
 				9B678D7726BEB7DA00483386 /* AppDelegate.m in Sources */,
+				9B678DC026C2CE9200483386 /* InformationCell.m in Sources */,
 				9B678D8826BEB7DC00483386 /* main.m in Sources */,
 				9B678D7A26BEB7DA00483386 /* SceneDelegate.m in Sources */,
 			);
