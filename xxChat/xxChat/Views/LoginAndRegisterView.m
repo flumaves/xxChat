@@ -2,7 +2,7 @@
 //  LoginAndRegisterView.m
 //  xxChat
 //
-//  Created by 谢恩平 on 2021/8/14.
+//  Created by 谢恩平 on 2021/8/16.
 //
 
 #import "LoginAndRegisterView.h"
