@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <SDAutoLayout/SDAutoLayout.h>
+#import <JMessage/JMessage.h>
 #import "LoginAndRegisterView.h"
 NS_ASSUME_NONNULL_BEGIN
 

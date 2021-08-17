@@ -136,6 +136,7 @@
     [self.confirmButton setBackgroundColor:MainColor];
     [self.confirmButton setTitle:@"确 认" forState:UIControlStateNormal];
     self.confirmButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    [self.confirmButton addTarget:self action:@selector(clickConfiremButton:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.confirmButton];
     
     
@@ -224,12 +225,17 @@
 - (void)slideringViewsWithButton: (UIButton*)button{
     //改变button颜色
     [button setTitleColor:MainColor forState:UIControlStateNormal];
-    //将另一个button颜色调回
-    if (self.loginButton==button) {
+    //将另一个button颜色调回,并将被点击的button的账号密码设为空
+    if (self.loginButton==button&&self.inRegister) {
         [self.registerButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    }else{
+        self.loginAccount.text = @"";
+        self.loginPassword.text = @"";
+    }else if (self.registerButton==button&&!self.inRegister){
         [self.loginButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        
+        self.regiAccount.text = @"";
+        self.regiPassword_1.text = @"";
+        self.regiPassword_2.text = @"";
+
     }
 
     //动画
@@ -302,8 +308,45 @@
 
         }
        
-    }completion:nil];
-      
+    }completion:^(BOOL finished) {
+           
+        
+    }];
+    
+}
+
+#pragma mark - 确认按钮点击方法
+
+- (void)clickConfiremButton: (UIButton*)button{
+    NSLog(@"确认");
+    ///如果账号长度为0，并且滑块在对应的(注册或者登陆)按钮下面
+  if((!self.loginAccount.text.length&&!self.inRegister)||(!self.regiAccount.text.length&&self.inRegister)){
+      [self.delegate passAccount:@""
+                    WithPassword:@""
+                 WithAccountType:No_Account];
+    ///如果密码长度为0，并且滑块在对应的（注册或登录）按钮下面
+  }else if((!self.loginPassword.text.length&&!self.inRegister)||(!self.regiPassword_1.text.length&&self.inRegister)||(!self.regiPassword_2.text.length&&self.inRegister)){
+      [self.delegate passAccount:@""
+                    WithPassword:@""
+                 WithAccountType:No_Password];
+    ///注册的账号不为空，两次密码都不相等
+  }else if(self.regiAccount.text.length&&![self.regiPassword_1.text isEqualToString:self.regiPassword_2.text]){
+      [self.delegate passAccount:@""
+                    WithPassword:@""
+                 WithAccountType:Password_NotEqual];
+    ///登陆账号不为空，密码不为空，且滑块在登陆按钮下
+  }else if(self.loginAccount.text.length&&self.loginPassword.text.length&&!self.inRegister){
+          [self.delegate passAccount:self.loginAccount.text
+                        WithPassword:self.loginPassword.text
+                     WithAccountType:Login_Account];
+    ///注册账号不为空，两次密码箱登，且滑块在注册按钮下面
+  }else if(self.regiAccount.text.length&&[self.regiPassword_1.text isEqualToString:self.regiPassword_2.text]&&self.inRegister){
+      [self.delegate passAccount:self.regiAccount.text
+                    WithPassword:self.regiPassword_1.text
+                 WithAccountType:Register_Account];
+  }
+
+  
 }
 
 @end

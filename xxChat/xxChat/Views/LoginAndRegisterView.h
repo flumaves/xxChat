@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <SDAutoLayout/SDAutoLayout.h>
+#import "xxChatDelegate.h"
 
 #define MainColor [UIColor colorWithRed:130/255.0 green:151/255.0 blue:206/255.0 alpha:1]
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -41,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 //判断滑块在哪个位置的bool
 @property (nonatomic) BOOL inRegister;
 
+//delegate
+@property (nonatomic,weak) id<xxChatDelegate>delegate;
 @end
 
 NS_ASSUME_NONNULL_END

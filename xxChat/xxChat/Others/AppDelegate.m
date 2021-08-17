@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import <JMessage/JMessage.h>
+#define JMESSAGE_APPKEY @"4823f4aad010e515513e2275"
 
 @interface AppDelegate ()
 
@@ -16,8 +17,18 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Required - 启动 JMessage SDK
+    [JMessage setupJMessage:launchOptions appKey:JMESSAGE_APPKEY channel:nil apsForProduction:NO category:nil messageRoaming:NO];
     
+  
     return YES;
+}
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+
+  // Required - 注册token
+
+  [JMessage registerDeviceToken:deviceToken];
+
 }
 
 

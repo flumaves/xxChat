@@ -9,7 +9,7 @@
 #define MainColor [UIColor colorWithRed:130/255.0 green:151/255.0 blue:206/255.0 alpha:1]
 
 
-@interface VisitorViewController ()
+@interface VisitorViewController ()<xxChatDelegate>
 //xxchat的logo
 @property (nonatomic,strong) UIImageView *xxIcon;
 //登陆与注册的view
@@ -41,6 +41,7 @@
     
     //初始化登陆和注册的view
     self.LARView = [[LoginAndRegisterView alloc]init];
+    self.LARView.delegate = self;
     [self.view addSubview:_LARView];
     
     //执行自动布局方法
@@ -63,5 +64,46 @@
 
 }
 
+#pragma mark -展示提示框
+//展示提示框
+-(void)showAlertViewWithMessage: (NSString*)message
+{
+  UIAlertController* alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+     
+  }];
+
+  [alertController addAction:cancelAction];
+  [self presentViewController:alertController animated:YES completion:nil];
+}
+
+
+#pragma mark - LARView delegate
+
+- (void)passAccount: (NSString*)account WithPassword: (NSString*)password WithAccountType: (AccountType)type{
+  if (type==Register_Account) {
+    //注册账号
+//      [JMSGUser registerWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
+//                NSLog(@"-%@-",error);
+//      }];
+      
+      NSLog(@"注册账号");
+  }else if(type==Login_Account){
+      //登陆账号
+//      [JMSGUser loginWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
+//                NSLog(@"-%@-",error);
+//      }];
+      NSLog(@"登陆账号");
+  }else if(type==No_Account){
+      //没填账号
+      [self showAlertViewWithMessage:@"账号不能为空哦QAQ"];
+  }else if(type==No_Password){
+      //没填密码
+      [self showAlertViewWithMessage:@"密码不能为空哦QAQ"];
+  }else if (type==Password_NotEqual)
+      //密码不相等
+      [self showAlertViewWithMessage:@"两次密码不相等QAQ"];
+
+}
 
 @end
