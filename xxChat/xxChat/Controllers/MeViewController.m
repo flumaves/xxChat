@@ -125,6 +125,11 @@
         //点击 设定
     } else if (indexPath.section == 2) {
         //点击 退出登录
+        [JMSGUser logout:^(id resultObject, NSError *error) {
+                    NSLog(@"-%@-",error);
+        }];
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"FinishLogout" object:self];
     }
 }
 

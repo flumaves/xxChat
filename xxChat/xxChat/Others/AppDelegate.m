@@ -19,7 +19,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Required - 启动 JMessage SDK
     [JMessage setupJMessage:launchOptions appKey:JMESSAGE_APPKEY channel:nil apsForProduction:NO category:nil messageRoaming:NO];
-    
   
     return YES;
 }

@@ -83,17 +83,26 @@
 - (void)passAccount: (NSString*)account WithPassword: (NSString*)password WithAccountType: (AccountType)type{
   if (type==Register_Account) {
     //注册账号
-//      [JMSGUser registerWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
-//                NSLog(@"-%@-",error);
-//      }];
+      [JMSGUser registerWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
+                NSLog(@"-%@-",error);
+          NSLog(@"=%@=",resultObject);
+          [self showAlertViewWithMessage:@"注册成功QAQ"];
+          self.LARView.regiAccount.text = @"";
+          self.LARView.regiPassword_2.text = @"";
+          self.LARView.regiPassword_1.text = @"";
+      }];
       
-      NSLog(@"注册账号");
   }else if(type==Login_Account){
       //登陆账号
-//      [JMSGUser loginWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
-//                NSLog(@"-%@-",error);
-//      }];
+      [JMSGUser loginWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
+                NSLog(@"-%@-",error);
+          NSLog(@"=%@=",resultObject);
+      }];
       NSLog(@"登陆账号");
+      //监听已经登陆
+      [[NSNotificationCenter defaultCenter]postNotificationName:@"FinishLogin" object:self];
+      
+      
   }else if(type==No_Account){
       //没填账号
       [self showAlertViewWithMessage:@"账号不能为空哦QAQ"];
