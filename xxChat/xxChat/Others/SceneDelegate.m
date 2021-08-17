@@ -48,7 +48,7 @@
 ///加载页面的方法的简单封装
 - (void)loadViewControllers {
     //判断是否登陆
-    if (_didLogin){
+    if (!_didLogin){
         //创建最外层的 tabBarController
         UITabBarController *tabBarController = [[UITabBarController alloc] init];
         //把每个界面控制器添加到 tabBarController 中

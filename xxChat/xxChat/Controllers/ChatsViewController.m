@@ -7,6 +7,7 @@
 
 #import "ChatsViewController.h"
 #import "ChatCell.h"
+#import "MessageViewController.h"
 
 @interface ChatsViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -60,4 +61,11 @@
     return 70;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    ChatCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    MessageViewController *controller = [[MessageViewController alloc] init];
+    controller.title = cell.name.text;
+    [self.navigationController pushViewController:controller animated:YES];
+}
 @end
