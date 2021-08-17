@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <JMessage/JMessage.h>
 
 @interface ChatsViewController : UIViewController
 

@@ -324,27 +324,32 @@
       [self.delegate passAccount:@""
                     WithPassword:@""
                  WithAccountType:No_Account];
+      
     ///如果密码长度为0，并且滑块在对应的（注册或登录）按钮下面
   }else if((!self.loginPassword.text.length&&!self.inRegister)||(!self.regiPassword_1.text.length&&self.inRegister)||(!self.regiPassword_2.text.length&&self.inRegister)){
       [self.delegate passAccount:@""
                     WithPassword:@""
                  WithAccountType:No_Password];
+      
     ///注册的账号不为空，两次密码都不相等
   }else if(self.regiAccount.text.length&&![self.regiPassword_1.text isEqualToString:self.regiPassword_2.text]){
       [self.delegate passAccount:@""
                     WithPassword:@""
                  WithAccountType:Password_NotEqual];
+      
     ///登陆账号不为空，密码不为空，且滑块在登陆按钮下
   }else if(self.loginAccount.text.length&&self.loginPassword.text.length&&!self.inRegister){
           [self.delegate passAccount:self.loginAccount.text
                         WithPassword:self.loginPassword.text
                      WithAccountType:Login_Account];
-    ///注册账号不为空，两次密码箱登，且滑块在注册按钮下面
+      
+    ///注册账号不为空，两次密码相等，且滑块在注册按钮下面
   }else if(self.regiAccount.text.length&&[self.regiPassword_1.text isEqualToString:self.regiPassword_2.text]&&self.inRegister){
       [self.delegate passAccount:self.regiAccount.text
                     WithPassword:self.regiPassword_1.text
                  WithAccountType:Register_Account];
   }
+    
 
   
 }

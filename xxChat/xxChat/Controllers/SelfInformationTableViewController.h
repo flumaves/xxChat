@@ -9,6 +9,7 @@
 ///该tableView用于显示个人界面中点击第一个cell跳转的更详细的个人信息显示
 
 #import <UIKit/UIKit.h>
+#import <JMessage/JMessage.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
