@@ -6,6 +6,7 @@
  ******************************************************/
 
 #import <Foundation/Foundation.h>
+#import <JMessage/JMessage.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,10 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) NSString* account;
 ///密码
 @property (nonatomic,copy) NSString* password;
+
+//============================================  下面的可通过JMSUserInfo获取
+
 ///用户名
-@property (nonatomic,copy) NSString* userName;
-///头像URLString
-@property (nonatomic,copy) NSString* profilePicURLStr;
+@property (nonatomic, strong) NSString* nickname;
+///头像
+@property (nonatomic, strong) NSData * avatarData;
+///生日
+@property (nonatomic, strong) NSNumber *birthday;
 
 
 ///字典转模型方法
@@ -28,8 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 ///字典数组转模型数组方法
 + (NSArray*)usersArrayWithDictionaryArray: (NSArray*)dicArray;
-
-
 
 @end
 

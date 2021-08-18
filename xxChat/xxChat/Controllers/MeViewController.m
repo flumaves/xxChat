@@ -15,6 +15,9 @@
 //加载个人列表的tableView
 @property (nonatomic, strong)UITableView *meTableView;
 
+//登陆的人的用户模型
+@property (nonatomic, strong)JMSGUser *user;
+
 @end
 
 @implementation MeViewController
@@ -50,6 +53,15 @@
         _meTableView.tableFooterView = [[UIView alloc] init];
     }
     return _meTableView;
+}
+
+#pragma mark - 懒加载
+- (JMSGUser *)user {
+    if (_user == nil) {
+        JMSGUser *userInfo = [JMSGUser myInfo];
+        _user = userInfo;
+    }
+    return _user;
 }
 
 #pragma mark -tableView的 dataSource 和 delegate
@@ -120,6 +132,7 @@
     if (indexPath.section == 0) {
         //点击 个人信息的cell
         SelfInformationTableViewController *controller = [[SelfInformationTableViewController alloc] init];
+        controller.user = self.user;
         [self.navigationController pushViewController:controller animated:YES];
     } else if (indexPath.section == 1) {
         //点击 设定
