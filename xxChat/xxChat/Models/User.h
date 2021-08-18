@@ -27,9 +27,16 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary*)dicWithUser: (User*)user;
 
 ///字典数组转模型数组方法
-+ (NSArray*)usersArrayWithDictionaryArray: (NSArray*)dicArray;
++ (NSMutableArray*)usersArrayWithDictionaryArray: (NSMutableArray*)dicArray;
 
+///模型数组转字典数组方法
++ (NSMutableArray*)dicsArrayWithUserArray: (NSMutableArray*)userArray;
 
+///写入本地
++ (void) writeToFileWithUsersDicArray:(NSMutableArray*)mutArray AndFileName:(NSString*)name;
+
+///在本地取出
++ (NSMutableArray*)getDictionaryFromPlistWithFileName:(NSString*)name;
 
 @end
 

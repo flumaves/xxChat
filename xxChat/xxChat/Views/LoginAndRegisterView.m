@@ -213,7 +213,10 @@
     heightIs(0.5).leftEqualToView(_loginAccount);
     
     //确认按钮
-    _confirmButton.sd_layout.topSpaceToView(self.loginPassword, 50).centerXEqualToView(self).widthRatioToView(self, 0.6).autoHeightRatio(0.2);
+    _confirmButton.sd_layout.
+    topSpaceToView(self.loginPassword, 50).
+    centerXEqualToView(self).widthRatioToView(self, 0.6).
+    autoHeightRatio(0.2);
     _confirmButton.sd_cornerRadiusFromHeightRatio = [NSNumber numberWithFloat:0.5];
     
     

@@ -6,6 +6,7 @@
 //
 
 #import "VisitorViewController.h"
+#import "User.h"
 #define MainColor [UIColor colorWithRed:130/255.0 green:151/255.0 blue:206/255.0 alpha:1]
 
 
@@ -14,6 +15,8 @@
 @property (nonatomic,strong) UIImageView *xxIcon;
 //登陆与注册的view
 @property (nonatomic,strong) LoginAndRegisterView *LARView;
+//本地保存的登陆记录
+@property (nonatomic,strong) NSMutableArray *didLoginArray;
 
 
 @end
@@ -27,16 +30,27 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self layOutView];
+    [self setAllViews];
+    [self setData];
 }
 
-- (void)layOutView{
+///懒加载
+-(NSMutableArray*)didLoginArray
+{
+    if(_didLoginArray==nil)
+    {
+        _didLoginArray = [[NSMutableArray alloc]init];
+    }
+    return _didLoginArray;
+}
+
+- (void)setAllViews{
     self.view.backgroundColor = [UIColor colorWithRed:130/255.0 green:151/255.0 blue:206/255.0 alpha:1];
     //初始化xxchat的logo
     self.xxIcon = [[UIImageView alloc]init];
     self.xxIcon.backgroundColor = [UIColor whiteColor];
 //    self.xxIcon.size = CGSizeMake(200, 200);
-    self.xxIcon.layer.cornerRadius = 50;
+//    self.xxIcon.layer.cornerRadius = 50;
     [self.view addSubview:_xxIcon];
     
     //初始化登陆和注册的view
@@ -56,6 +70,7 @@
     centerXEqualToView(self.view).
     widthIs(100).
     heightIs(100);
+    _xxIcon.sd_cornerRadiusFromHeightRatio = [NSNumber numberWithFloat:0.5];
     
     _LARView.sd_layout.
     topSpaceToView(_xxIcon, 100).
@@ -84,8 +99,6 @@
   if (type==Register_Account) {
     //注册账号
       [JMSGUser registerWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
-                NSLog(@"-%@-",error);
-          NSLog(@"=%@=",resultObject);
           [self showAlertViewWithMessage:@"注册成功QAQ"];
           self.LARView.regiAccount.text = @"";
           self.LARView.regiPassword_2.text = @"";
@@ -95,11 +108,14 @@
   }else if(type==Login_Account){
       //登陆账号
       [JMSGUser loginWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
-                NSLog(@"-%@-",error);
-          NSLog(@"=%@=",resultObject);
+                
       }];
-      NSLog(@"登陆账号");
-      //监听已经登陆
+      //搜索登陆记录，有前科就把它删掉
+      [self searchingAndUpdateUserArrayWithAccount:account];
+      //记录登陆信息
+      [self recordingLoginInfoWithAccount:account WithPassword:password];
+
+      //监听已经登陆,让scene delegate跳转页面
       [[NSNotificationCenter defaultCenter]postNotificationName:@"FinishLogin" object:self];
       
       
@@ -112,6 +128,50 @@
   }else if (type==Password_NotEqual)
       //密码不相等
       [self showAlertViewWithMessage:@"两次密码不相等QAQ"];
+}
+#pragma mark - 设置一些一开始的数据
+- (void)setData{
+    //设置上次登陆的账号在登陆界面中
+    NSMutableArray* dicArray = [User getDictionaryFromPlistWithFileName:@"Users"];
+    self.didLoginArray = [User usersArrayWithDictionaryArray:dicArray];
+    if (self.didLoginArray.count!=0){
+        User *user = self.didLoginArray[self.didLoginArray.count-1];
+        self.LARView.loginAccount.text = user.account;
+        //暂时为了方便登陆先把密码加进去，以后删除
+        self.LARView.loginPassword.text = user.password;
+    }
+}
+
+//将最新的登陆信息存在本地
+- (void)recordingLoginInfoWithAccount:(NSString*)account WithPassword:(NSString*)password{
+    User *user = [[User alloc]init];
+    user.account = account;
+    user.password = password;
+    [self.didLoginArray addObject:user];
+    NSMutableArray *array = [User dicsArrayWithUserArray:self.didLoginArray];
+    [User writeToFileWithUsersDicArray:array AndFileName:@"Users"];
+}
+
+//搜索是否有登陆记录，有就删掉
+- (void)searchingAndUpdateUserArrayWithAccount:(NSString*)account{
+    //指定过滤条件：数组中的实例的account属性是否包含account
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"account CONTAINS %@", account];
+    //获取过滤出来的数据
+    NSMutableArray* array = [NSMutableArray arrayWithArray:[self.didLoginArray filteredArrayUsingPredicate:predicate]];
+    //如果过滤出来的数组不为0
+    if (array.count!=0){
+        NSUInteger index = 0;
+        //遍历数组找相同
+        for (NSUInteger i=0; i<self.didLoginArray.count;i++ ) {
+            User *user = self.didLoginArray[i];
+            if ([user.account isEqualToString:account]) {
+                index = i;
+                break;
+            }
+        }
+        //删除指定下标的元素
+        [self.didLoginArray removeObjectAtIndex:index];
+    }
 
 }
 

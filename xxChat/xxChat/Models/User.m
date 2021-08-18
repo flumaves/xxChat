@@ -50,16 +50,49 @@
 }
 
 #pragma mark - 字典数组转模型数组
-+ (NSArray*)usersArrayWithDictionaryArray: (NSArray*)dicArray
++ (NSMutableArray*)usersArrayWithDictionaryArray: (NSMutableArray*)dicArray
 {
     
     NSMutableArray* tempArray = [[NSMutableArray alloc]init];
     
-    for (NSDictionary* user in dicArray)
+    for (NSDictionary* userDic in dicArray)
     {
-        [tempArray addObject: [User userWithDic:user]];
+        [tempArray addObject: [User userWithDic:userDic]];
     }
     return tempArray;
 }
+
+#pragma mark - 模型数组转字典数组
++ (NSMutableArray*)dicsArrayWithUserArray: (NSMutableArray*)userArray
+{
+    
+    NSMutableArray* tempArray = [[NSMutableArray alloc]init];
+    
+    for (User* user in userArray)
+    {
+        [tempArray addObject: [User dicWithUser:user]];
+    }
+    return tempArray;
+}
+
+#pragma  mark - 将数组写入本地的方法
++ (void) writeToFileWithUsersDicArray:(NSMutableArray*)mutArray AndFileName:(NSString*)name
+{
+   NSArray* array = mutArray;
+   NSString* docpath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];//返回的是一个文件数组
+   NSString* filepath = [docpath stringByAppendingPathComponent:name];
+   [array writeToFile:filepath atomically:YES];
+}
+
+#pragma mark - 从本地拿字典数组
++ (NSMutableArray*)getDictionaryFromPlistWithFileName:(NSString*)name
+{
+    NSString* docpath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString* filepath = [docpath stringByAppendingPathComponent:name];
+    NSMutableArray* array = [NSMutableArray arrayWithContentsOfFile:filepath];
+    
+    return array;
+}
+
 
 @end
