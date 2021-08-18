@@ -52,8 +52,8 @@
     
     //开发用 默认直接登陆一个账号
     //得用定时器延时 否则error
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:7.0 target:self selector:@selector(login) userInfo:nil repeats:NO];
-    [timer fire];
+   // NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:7.0 target:self selector:@selector(login) userInfo:nil repeats:NO];
+   // [timer fire];
 }
 
 - (void)login {

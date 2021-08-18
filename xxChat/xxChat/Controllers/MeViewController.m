@@ -78,6 +78,8 @@
     if (indexPath.section == 0) {
         ///个人信息
         InformationCell *cell = [[InformationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        //给cell传用户信息
+        cell.userInfo = self.user;
         //右侧小箭头
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         //选中不改变颜色
@@ -132,7 +134,6 @@
     if (indexPath.section == 0) {
         //点击 个人信息的cell
         SelfInformationTableViewController *controller = [[SelfInformationTableViewController alloc] init];
-        controller.user = self.user;
         [self.navigationController pushViewController:controller animated:YES];
     } else if (indexPath.section == 1) {
         //点击 设定

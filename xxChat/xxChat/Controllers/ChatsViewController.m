@@ -24,6 +24,15 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.chatTableView];
     
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"login" style:UIBarButtonItemStyleDone target:self action:@selector(login)];
+}
+
+- (void)login {
+    [JMSGUser loginWithUsername:@"111111" password:@"111111" completionHandler:^(id resultObject, NSError *error) {
+        if (error) {
+            NSLog(@"error");
+        }
+    }];
 }
 
 - (UITableView *)chatTableView {

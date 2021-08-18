@@ -9,10 +9,14 @@
 ///该cell用于 **个人界面** 中显示个人信息
 
 #import <UIKit/UIKit.h>
+#import <JMessage/JMessage.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface InformationCell : UITableViewCell
+
+//用户信息
+@property (nonatomic, strong)JMSGUser *userInfo;
 
 //头像
 @property (nonatomic, strong)UIImageView *iconImgView;

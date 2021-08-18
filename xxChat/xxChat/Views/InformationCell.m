@@ -27,7 +27,6 @@
         CGFloat accountW = 200;
         CGFloat accountH = 30;
         self.accountLbl = [[UILabel alloc] initWithFrame:CGRectMake(accountX, accountY, accountW, accountH)];
-        self.accountLbl.text = @"show account there";
         [self addSubview:_accountLbl];
         
         //用户名
@@ -37,12 +36,18 @@
         CGFloat userNameH = 30;
         self.userNameLbl = [[UILabel alloc] initWithFrame:CGRectMake(userNameX, userNameY, userNameW, userNameH)];
         self.userNameLbl.textColor = [UIColor grayColor];
-        self.userNameLbl.text = @"ID :xxxxxx";
-        [self addSubview:_userNameLbl];
         
-        //右边的箭头
+        [self addSubview:_userNameLbl];
     }
     return self;
+}
+
+- (void)setUserInfo:(JMSGUser *)userInfo {
+    _userInfo = userInfo;
+    //账号
+    self.accountLbl.text = _userInfo.username;
+    //用户名
+    self.userNameLbl.text = _userInfo.nickname;
 }
 
 
