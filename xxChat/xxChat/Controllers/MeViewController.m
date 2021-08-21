@@ -47,8 +47,10 @@
 - (UITableView *)meTableView {
     if (_meTableView == nil) {
         _meTableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+        _meTableView.backgroundColor = [UIColor colorWithRed:243/255.0 green:243/255.0 blue:243/255.0 alpha:1];
         _meTableView.delegate = self;
         _meTableView.dataSource = self;
+        _meTableView.scrollEnabled = NO;
         
         _meTableView.tableFooterView = [[UIView alloc] init];
     }
@@ -134,6 +136,7 @@
     if (indexPath.section == 0) {
         //点击 个人信息的cell
         SelfInformationTableViewController *controller = [[SelfInformationTableViewController alloc] init];
+        controller.user = _user;
         [self.navigationController pushViewController:controller animated:YES];
     } else if (indexPath.section == 1) {
         //点击 设定

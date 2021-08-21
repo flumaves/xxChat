@@ -21,15 +21,16 @@
         self.iconImgView.layer.cornerRadius = 10;
         [self addSubview:_iconImgView];
         
-        //账户
+        //用户名
         CGFloat accountX = CGRectGetMaxX(self.iconImgView.frame) + 20;
         CGFloat accountY = 55;
         CGFloat accountW = 200;
         CGFloat accountH = 30;
         self.accountLbl = [[UILabel alloc] initWithFrame:CGRectMake(accountX, accountY, accountW, accountH)];
+        _accountLbl.font = [UIFont systemFontOfSize:22];
         [self addSubview:_accountLbl];
         
-        //用户名
+        //账号
         CGFloat userNameX = accountX;
         CGFloat userNameY = CGRectGetMaxY(self.accountLbl.frame) + 5;
         CGFloat userNameW = 200;
@@ -45,9 +46,9 @@
 - (void)setUserInfo:(JMSGUser *)userInfo {
     _userInfo = userInfo;
     //账号
-    self.accountLbl.text = _userInfo.username;
+    self.accountLbl.text = _userInfo.nickname;
     //用户名
-    self.userNameLbl.text = _userInfo.nickname;
+    self.userNameLbl.text = [@"xxChat ID : " stringByAppendingString:_userInfo.username];
 }
 
 
