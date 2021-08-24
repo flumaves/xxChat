@@ -10,6 +10,32 @@
 
 @implementation Message
 
+///在设置JMSGMessage的时候 就分析JMSGMessage并对属性进行设置
+- (void)setMessage:(JMSGMessage *)message {
+    _message = message;
+    
+    //判断消息的类型
+    JMSGTextContent *textContent =  (JMSGTextContent *)message.content;
+    _text = textContent.text;
+    //判断是谁发送的消息
+    JMSGUser *user = message.target;    //获取消息发送的对象
+    if (_userName != user.username) {
+        //发送的目标不是自己 （即自己发的消息）
+        _type = MessageType_ME;
+    } else {
+        _type = MessageType_Other;
+    }
+    //时间
+    NSNumber *timer = message.timestamp;
+    NSTimeInterval interval = [timer doubleValue] / 1000;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    //设置日期格式
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    NSString *str = [formatter stringFromDate:date];
+    _time = str;
+}
+
 - (instancetype)initWithDict:(NSDictionary *)dict
 {
     if (self = [super init]) {

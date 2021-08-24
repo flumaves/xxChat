@@ -28,7 +28,7 @@
     CGFloat iconL = 40;
     CGFloat iconX = 0;
     CGFloat iconY = CGRectGetMaxY(_timeFrame) + space;
-    if (_message.type == MessageType_ME) {   //自己发的消息
+    if (_message.type == MessageType_ME) {  //自己发的消息
         iconX = screenWidth - space - iconL;
     } else {                                //别人发的消息
         iconX = space;

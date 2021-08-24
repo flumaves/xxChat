@@ -13,8 +13,9 @@
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
+#define INTERVAL 60*3 //3分钟的时间间隔
 
-@interface MessageViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface MessageViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, JMSGMessageDelegate>
 
 //显示消息的tableView
 @property (nonatomic, strong) UITableView *messageTableView;
@@ -23,7 +24,15 @@
 @property (nonatomic, strong) InputView *inputView;
 
 //消息数组
-@property (nonatomic, strong) NSMutableArray *messages;
+@property (nonatomic, strong) NSMutableArray *messagesArray;
+
+//登陆的人
+@property (nonatomic, strong) JMSGUser *user;
+
+//聊天的对象
+@property (nonatomic, strong) JMSGUser *anotherUser;
+
+//聊天的群组
 
 //判断是否正在输入文字
 @property (nonatomic, assign, getter=isTyping ) BOOL typing;
@@ -46,6 +55,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //添加代理
+    [JMessage addDelegate:self withConversation:_conversation];
+    
     //此时键盘为隐藏
     self.typing = NO;
     
@@ -58,26 +70,53 @@
 }
 
 #pragma mark - 懒加载
-- (NSMutableArray *)messages {
-    if (_messages == nil) {
-        NSString *fullPath = [[NSBundle mainBundle] pathForResource:@"message.plist" ofType:nil];
-        NSArray *dictArray = [NSArray arrayWithContentsOfFile:fullPath];
-        NSMutableArray *models = [NSMutableArray arrayWithCapacity:dictArray.count];
-        Message *previousModel = nil;
-        
-        for (NSDictionary *dict in dictArray) {
-            MessageFrame *frameM = [[MessageFrame alloc] init];
-            Message *message = [Message messageWithDict:dict];
-            
-            //判断是否显示时间
-            message.timeHidden =  [message.time isEqualToString:previousModel.time];
-            frameM.message = message;
-            [models addObject:frameM];
-            previousModel = message;
-        }
-        self.messages = [models mutableCopy];
+//“我”用户
+- (JMSGUser *)user {
+    if (_user == nil) {
+        JMSGUser *user = [JMSGUser myInfo];
+        _user = user;
     }
-    return _messages;
+    return _user;
+}
+
+//另一个用户
+- (JMSGUser *)anotherUser {
+    if (_anotherUser == nil) {
+        _anotherUser = _conversation.target;
+    }
+    return _anotherUser;
+}
+
+- (NSMutableArray *)messagesArray {
+    if (_messagesArray == nil) {
+        _messagesArray = [[NSMutableArray alloc] init];
+        
+        //获取最新的50条记录
+        NSNumber *limit = [NSNumber numberWithInt:50];
+        NSArray *array = [_conversation messageArrayFromNewestWithOffset:nil limit:limit];
+        Message *lastMessage = [[Message alloc] init];
+        
+        for (JMSGMessage *j_message in array) {
+            //从JMSGMessage 转成 自己的message并封装messageFrame
+            Message *message = [[Message alloc] init];
+            message.userName = self.user.username;
+            [message setMessage:j_message];
+            //比较时间 设置模型的timeHidden属性
+            if (lastMessage.time == nil) {  //这是第一条信息
+                message.timeHidden = NO;
+            } else {
+                //消息数据是从最新的往前遍历 所以应该以上一条模型的时间戳为当前时间
+                message.timeHidden = [self setTimeHiddenBetweenLastTime:j_message andCurrentTime:lastMessage.message];
+            }
+            //封装messageFrame
+            MessageFrame *messageFrame = [[MessageFrame alloc] init];
+            [messageFrame setMessage:message];
+            [_messagesArray insertObject:messageFrame atIndex:0];
+            //重新记录lastMessage
+            lastMessage = message;
+        }
+    }
+    return _messagesArray;
 }
 
 //创建界面
@@ -98,6 +137,67 @@
     
     //注册键盘变化的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeKeyBoard:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+#pragma mark - 收到消息的回调
+- (void)onReceiveMessage:(JMSGMessage *)message error:(NSError *)error {
+    if (error) {
+        NSLog(@"%@",error);
+        return;
+    }
+    //创建模型储存
+    Message *newMessage = [[Message alloc] init];
+    newMessage.userName = _user.username;
+    [newMessage setMessage:message];
+    //获取最新一次消息的模型
+    MessageFrame *lastMessageFrame = self.messagesArray.lastObject;
+    JMSGMessage *lastMessage = lastMessageFrame.message.message;
+    newMessage.timeHidden = [self setTimeHiddenBetweenLastTime:lastMessage andCurrentTime:message];
+    
+    MessageFrame *messageFrame = [[MessageFrame alloc] init];
+    messageFrame.message = newMessage;
+    
+    [self.messagesArray addObject:messageFrame];
+    [self.messageTableView reloadData];
+    [self tableViewscrollToBotton];
+}
+
+
+#pragma mark - 发送消息的回调
+- (void)onSendMessageResponse:(JMSGMessage *)message error:(NSError *)error {
+    if (error) {
+        NSLog(@"%@",error);
+        return;
+    }
+    //消息发送成功
+    //创建模型储存
+    Message *newMessage = [[Message alloc] init];
+    newMessage.userName = _user.username;
+    [newMessage setMessage:message];
+    //获取最新一次消息的模型
+    MessageFrame *lastMessageFrame = self.messagesArray.lastObject;
+    JMSGMessage *lastMessage = lastMessageFrame.message.message;
+    newMessage.timeHidden = [self setTimeHiddenBetweenLastTime:lastMessage andCurrentTime:message];
+    
+    MessageFrame *messageFrame = [[MessageFrame alloc] init];
+    messageFrame.message = newMessage;
+    
+    [self.messagesArray addObject:messageFrame];
+    [self.messageTableView reloadData];
+    [self tableViewscrollToBotton];
+}
+
+#pragma mark - 比较时间的间隔
+- (BOOL)setTimeHiddenBetweenLastTime:(JMSGMessage *)lastMessage andCurrentTime:(JMSGMessage *)currentMessage {
+    NSTimeInterval lastTime = [lastMessage.timestamp doubleValue] / 1000;
+    NSTimeInterval currentTime = [currentMessage.timestamp doubleValue] / 1000;
+    NSTimeInterval betweenTime = currentTime - lastTime;
+    if (betweenTime > INTERVAL) {
+        //大于五分钟 不隐藏timeString
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 #pragma mark - keyBoard通知的具体操作
@@ -134,8 +234,8 @@
         self.messageTableView.frame = frame;
     }];
     
-    if (self.messages.count > 0) {  //有消息记录再让tableview滚动，否则会error
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.messages.count - 1 inSection:0];
+    if (self.messagesArray.count > 0) {  //有消息记录再让tableview滚动，否则会error
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.messagesArray.count - 1 inSection:0];
         [self.messageTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
 }
@@ -161,47 +261,30 @@
 
 ///点击发送后执行的操作
 - (void)addMessage:(NSString *)text type:(MessageType)type {
-    //获取最后一条消息的模型 进行时间的比较
-    Message *lastMessage = (Message *)[[_messages lastObject] message];
+    //创建消息
+    JMSGTextContent *content = [[JMSGTextContent alloc] initWithText:text];
+    JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:content username:self.anotherUser.username];
     
-    //消息当前发送时间
-    NSDate *date = [NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"HH:mm";
-    NSString *dateString = [formatter stringFromDate:date];
-    
-    //创建模型储存
-    Message *newMessage = [[Message alloc] init];
-    newMessage.type = MessageType_ME;
-    newMessage.text = text;
-    newMessage.time = dateString;
-    newMessage.timeHidden = [dateString isEqualToString:lastMessage.time];
-    
-    MessageFrame *messageFrame = [[MessageFrame alloc] init];
-    messageFrame.message = newMessage;
-    
-    [self.messages addObject:messageFrame];
-    [self.messageTableView reloadData];
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_messages.count - 1 inSection:0];
-    [self.messageTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    //发送消息
+    [JMSGMessage sendMessage:message];
 }
 
 ///拖动屏幕的操作
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     //取消编辑状态 会改变keyboard的状态 从而发送通知
     [self.view endEditing:YES];
+    self.typing = NO;
 }
 
 #pragma mark - tableView的 dataSource 和 delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MessageCell *cell = [MessageCell cellWithTableView:tableView];
-    cell.messageFrame = self.messages[indexPath.row];
+    cell.messageFrame = self.messagesArray[indexPath.row];
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.messages.count;
+    return self.messagesArray.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -209,9 +292,18 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MessageFrame *frame = [self.messages objectAtIndex:indexPath.row];
+    MessageFrame *frame = [self.messagesArray objectAtIndex:indexPath.row];
     return frame.rowHeight;
 }
+
+#pragma mark - 滚动到最后一行
+- (void)tableViewscrollToBotton {
+    if (_messagesArray.count != 0) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_messagesArray.count - 1 inSection:0];
+        [self.messageTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    }
+}
+
 
 #pragma mark - textfield的delegate
 //当按下回车键的时候

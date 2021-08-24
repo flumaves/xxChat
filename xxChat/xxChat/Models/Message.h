@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <JMessage/JMessage.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,11 +14,17 @@ NS_ASSUME_NONNULL_BEGIN
 ///提供给messageCell使用
 
 typedef enum {
-    MessageType_ME = 0,
-    MessageType_Other
+    MessageType_ME = 0, //自己发送的
+    MessageType_Other   //别人发送的
 } MessageType;
 
 @interface Message : NSObject
+
+//用户的userName (用来判断是谁发送的消息)
+@property (nonatomic, strong) NSString *userName;
+
+//消息
+@property (nonatomic ,strong)JMSGMessage *message;
 
 //正文
 @property (nonatomic, strong)NSString *text;

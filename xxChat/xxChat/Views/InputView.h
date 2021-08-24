@@ -16,6 +16,15 @@ NS_ASSUME_NONNULL_BEGIN
 //文本输入框
 @property (nonatomic, strong) UITextField *inputTextField;
 
+//录音按钮
+@property (nonatomic, strong) UIButton *recordBtn;
+
+//表情包按钮
+@property (nonatomic, strong) UIButton *emojiBtn;
+
+//更多按钮
+@property (nonatomic, strong) UIButton *moreBtn;
+
 @end
 
 NS_ASSUME_NONNULL_END
