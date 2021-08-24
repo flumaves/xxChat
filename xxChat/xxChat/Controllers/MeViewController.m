@@ -29,6 +29,8 @@
  */
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.hidden = YES;
+    //加载页面时 重新获取user数据
+    _user = [JMSGUser myInfo];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -136,7 +138,6 @@
     if (indexPath.section == 0) {
         //点击 个人信息的cell
         SelfInformationTableViewController *controller = [[SelfInformationTableViewController alloc] init];
-        controller.user = _user;
         [self.navigationController pushViewController:controller animated:YES];
     } else if (indexPath.section == 1) {
         //点击 设定

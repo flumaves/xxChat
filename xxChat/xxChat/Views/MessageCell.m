@@ -25,6 +25,9 @@
 //重写init方法
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        //tableView旋转180度后 内容要正过来则要再旋转180度
+        self.transform = CGAffineTransformMakeRotation(M_PI);
+        
         //时间
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.textAlignment = NSTextAlignmentCenter;

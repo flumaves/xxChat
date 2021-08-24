@@ -10,6 +10,7 @@
 #import "MessageFrame.h"
 #import "MessageCell.h"
 #import "InputView.h"
+#import "MessageTableView.h"
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -18,7 +19,7 @@
 @interface MessageViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, JMSGMessageDelegate>
 
 //显示消息的tableView
-@property (nonatomic, strong) UITableView *messageTableView;
+@property (nonatomic, strong) MessageTableView *messageTableView;
 
 //底部输入文字的视图
 @property (nonatomic, strong) InputView *inputView;
@@ -52,6 +53,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = NO;
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -111,7 +113,7 @@
             //封装messageFrame
             MessageFrame *messageFrame = [[MessageFrame alloc] init];
             [messageFrame setMessage:message];
-            [_messagesArray insertObject:messageFrame atIndex:0];
+            [_messagesArray addObject:messageFrame];
             //重新记录lastMessage
             lastMessage = message;
         }
@@ -119,15 +121,19 @@
     return _messagesArray;
 }
 
-//创建界面
+#pragma mark - 创建界面
 - (void)creatTableView {
+    CGFloat navigationBarMAXY = CGRectGetMaxY(self.navigationController.navigationBar.frame);
     //tableView
-    self.messageTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 90)];
-    self.messageTableView.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
+    self.messageTableView = [[MessageTableView alloc] initWithFrame:CGRectMake(0, navigationBarMAXY, ScreenWidth, ScreenHeight - 90 - navigationBarMAXY)];
     self.messageTableView.dataSource = self;
     self.messageTableView.delegate = self;
-    self.messageTableView.separatorStyle = NO;
     [self.view addSubview:self.messageTableView];
+    
+    //navigationBar后面添加一个view解决透明度引起的颜色问题
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, navigationBarMAXY)];
+    view.backgroundColor = self.messageTableView.backgroundColor;
+    [self.view addSubview:view];
     
     //文本输入框
     self.inputView = [[InputView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.messageTableView.frame), ScreenWidth, 90)];
@@ -157,7 +163,7 @@
     MessageFrame *messageFrame = [[MessageFrame alloc] init];
     messageFrame.message = newMessage;
     
-    [self.messagesArray addObject:messageFrame];
+    [self.messagesArray insertObject:messageFrame atIndex:0];
     [self.messageTableView reloadData];
     [self tableViewscrollToBotton];
 }
@@ -182,7 +188,7 @@
     MessageFrame *messageFrame = [[MessageFrame alloc] init];
     messageFrame.message = newMessage;
     
-    [self.messagesArray addObject:messageFrame];
+    [self.messagesArray insertObject:messageFrame atIndex:0];
     [self.messageTableView reloadData];
     [self tableViewscrollToBotton];
 }
@@ -295,6 +301,7 @@
     MessageFrame *frame = [self.messagesArray objectAtIndex:indexPath.row];
     return frame.rowHeight;
 }
+
 
 #pragma mark - 滚动到最后一行
 - (void)tableViewscrollToBotton {

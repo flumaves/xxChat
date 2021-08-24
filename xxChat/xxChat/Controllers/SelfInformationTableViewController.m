@@ -10,6 +10,8 @@
 
 @interface SelfInformationTableViewController ()
 
+@property (nonatomic, strong) JMSGUser *user;
+
 @end
 
 @implementation SelfInformationTableViewController
@@ -21,6 +23,8 @@
  */
 - (void)viewWillAppear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = YES;
+    //加载页面重新获取user模型 使得在更改用户信息后能及时更新
+    _user = [JMSGUser myInfo];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
