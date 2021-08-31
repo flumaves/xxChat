@@ -238,7 +238,6 @@
         self.regiAccount.text = @"";
         self.regiPassword_1.text = @"";
         self.regiPassword_2.text = @"";
-
     }
 
     //动画

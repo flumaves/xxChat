@@ -10,6 +10,7 @@
 #import <JMessage/JMessage.h>
 #import "LoginAndRegisterView.h"
 NS_ASSUME_NONNULL_BEGIN
+#define MainColor [UIColor colorWithRed:130/255.0 green:151/255.0 blue:206/255.0 alpha:1]
 
 @interface VisitorViewController : UIViewController
 

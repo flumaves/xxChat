@@ -59,12 +59,12 @@
     [self.view addSubview:_LARView];
     
     //执行自动布局方法
-    [self AutolayoutAllViews];
+    [self autolayoutAllViews];
     
 }
 
 #pragma mark - 自动布局方法
-- (void)AutolayoutAllViews{
+- (void)autolayoutAllViews{
     _xxIcon.sd_layout.
     topSpaceToView(self.view, 100).
     centerXEqualToView(self.view).
@@ -108,17 +108,20 @@
   }else if(type==Login_Account){
       //登陆账号
       [JMSGUser loginWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
-                
-      }];
-      //搜索登陆记录，有前科就把它删掉
-      [self searchingAndUpdateUserArrayWithAccount:account];
-      //记录登陆信息
-      [self recordingLoginInfoWithAccount:account WithPassword:password];
+          //如果错误为空，即登陆成功
+          if (error==NULL){
+              //搜索登陆记录，有前科就把它删掉
+              [self searchingAndUpdateUserArrayWithAccount:account];
+              //记录登陆信息
+              [self recordingLoginInfoWithAccount:account WithPassword:password];
 
-      //监听已经登陆,让scene delegate跳转页面
-      [[NSNotificationCenter defaultCenter]postNotificationName:@"FinishLogin" object:self];
-      
-      
+              //监听已经登陆,让scene delegate跳转页面
+              [[NSNotificationCenter defaultCenter]postNotificationName:@"FinishLogin" object:self];
+          }else{
+              NSLog(@"error==%@",error);
+          }
+      }];
+    
   }else if(type==No_Account){
       //没填账号
       [self showAlertViewWithMessage:@"账号不能为空哦QAQ"];

@@ -22,6 +22,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.chatTableView];
+    [self layoutView];
     
 }
 
@@ -59,5 +60,33 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 70;
 }
+
+#pragma mark -
+- (void)layoutView{
+    //右上角的添加button
+    UIBarButtonItem *addBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(openAddController)];
+    addBtnItem.tintColor = MainColor;
+    
+    UIBarButtonItem *searchBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(openSearchController)];
+    searchBtnItem.tintColor = MainColor;
+    NSArray *btnArray = [NSArray arrayWithObjects:addBtnItem,searchBtnItem, nil];
+    
+    [self.navigationItem setRightBarButtonItems:btnArray];
+    
+}
+//打开搜索页面
+- (void)openSearchController{
+}
+
+
+//打开添加页面
+- (void)openAddController{
+    AddViewController *addViewController = [[AddViewController alloc]init];
+    [self.navigationController pushViewController:addViewController animated:YES];
+    
+}
+
+
+
 
 @end
