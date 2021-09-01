@@ -37,8 +37,7 @@
 ///懒加载
 -(NSMutableArray*)didLoginArray
 {
-    if(_didLoginArray==nil)
-    {
+    if(_didLoginArray==nil){
         _didLoginArray = [[NSMutableArray alloc]init];
     }
     return _didLoginArray;

@@ -17,11 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 //名称
 @property (nonatomic, strong)UILabel *name;
 
-//最新的一条聊天记录
-@property (nonatomic, strong)UILabel *message;
-
-//时间
-@property (nonatomic, strong)UILabel *time;
+//ID
+@property (nonatomic, strong)UILabel *ID;
 
 //行高
 @property (nonatomic, assign)CGFloat rowHeight;

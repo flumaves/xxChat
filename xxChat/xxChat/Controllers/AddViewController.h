@@ -7,7 +7,11 @@
 
 #import <UIKit/UIKit.h>
 #import <SDAutoLayout/SDAutoLayout.h>
+#import <JMessage/JMessage.h>
 #import "SearchResultCell.h"
+#import "SearchInfomationController.h"
+
+#define JMESSAGE_APPKEY @"4823f4aad010e515513e2275"
 
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
@@ -27,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIButton* confirmButton;
 //结果展示的tableview
 @property (nonatomic,strong) UITableView* searchTableView;
+//显示在tableview上的模型数组
+@property (nonatomic,strong) NSMutableArray* userAndGroupArray;
 //判断点击了哪个模式（找人或者找群）的bool
 @property (nonatomic) BOOL inFindGroup;
 @end

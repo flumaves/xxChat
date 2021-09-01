@@ -18,8 +18,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Required - 启动 JMessage SDK
     [JMessage setupJMessage:launchOptions appKey:JMESSAGE_APPKEY channel:nil apsForProduction:NO category:nil messageRoaming:NO];
+    [JMessage addDelegate:self withConversation:nil];
+
     return YES;
-    [JMessage addDelegate:self  withConversation:nil];
 }
 
 //- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

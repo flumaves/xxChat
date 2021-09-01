@@ -8,7 +8,7 @@
 #import "ChatsViewController.h"
 #import "ChatCell.h"
 
-@interface ChatsViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface ChatsViewController () <UITableViewDataSource, UITableViewDelegate,JMessageDelegate>
 
 //加载会话列表的tableView
 @property (nonatomic, strong)UITableView *chatTableView;
@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.chatTableView];
     [self layoutView];
@@ -81,9 +81,16 @@
 
 //打开添加页面
 - (void)openAddController{
+    self.hidesBottomBarWhenPushed = YES;//隐藏tabar
     AddViewController *addViewController = [[AddViewController alloc]init];
     [self.navigationController pushViewController:addViewController animated:YES];
-    
+    self.hidesBottomBarWhenPushed = NO;//back回来又不隐藏了
+}
+
+- (void)onReceiveFriendNotificationEvent:(JMSGFriendNotificationEvent *)event{
+    if (event.eventType==kJMSGEventNotificationReceiveFriendInvitation) {
+        
+    }
 }
 
 

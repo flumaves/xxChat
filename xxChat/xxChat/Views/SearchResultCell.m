@@ -38,11 +38,11 @@
         CGFloat messageY = CGRectGetMaxY(_name.frame) + 10;
         CGFloat messageW = nameW;
         CGFloat messageH = 15;
-        self.message = [[UILabel alloc] initWithFrame:CGRectMake(messageX, messageY, messageW, messageH)];
-        self.message.text = @"这是ID";
-        self.message.font = [UIFont systemFontOfSize:15];
-        self.message.textColor = [UIColor grayColor];
-        [self addSubview:_message];
+        self.ID = [[UILabel alloc] initWithFrame:CGRectMake(messageX, messageY, messageW, messageH)];
+        self.ID.text = @"这是ID";
+        self.ID.font = [UIFont systemFontOfSize:15];
+        self.ID.textColor = [UIColor grayColor];
+        [self addSubview:_ID];
         
 //        //时间
 //        CGFloat timeW = 100;
