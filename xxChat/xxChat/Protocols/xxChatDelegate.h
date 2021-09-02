@@ -19,9 +19,14 @@ typedef enum AccountType AccountType;
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol xxChatDelegate <NSObject>
+//传登陆和注册的值
 - (void)passAccount: (NSString*)account WithPassword: (NSString*)password WithAccountType: (AccountType)type;
 
+//传接受邀请的行为
+- (void)acceptInvitation:(NSIndexPath*)indexPath;
 
+//传拒绝邀请的行为
+- (void)rejectInvitation:(NSIndexPath*)indexPath;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -30,6 +30,9 @@
 		A626534826CE41220084050F /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A626534726CE41220084050F /* AddViewController.m */; };
 		A626534B26DD1C720084050F /* SearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A626534A26DD1C720084050F /* SearchResultCell.m */; };
 		A626535126DE6BD10084050F /* SearchInfomationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A626535026DE6BD10084050F /* SearchInfomationController.m */; };
+		A626535426DF99200084050F /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A626535326DF99200084050F /* ContactCell.m */; };
+		A626535726E0769C0084050F /* FriendInvitationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A626535626E0769C0084050F /* FriendInvitationViewController.m */; };
+		A626535A26E079670084050F /* FriendInvitationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A626535926E079670084050F /* FriendInvitationCell.m */; };
 		A654FE0526C17DAC00DCE37C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = A654FE0426C17DAC00DCE37C /* User.m */; };
 		D896ADF420D3A0455DCA96A1 /* Pods_xxChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E2D4B3588605E9F2AA7F96 /* Pods_xxChatTests.framework */; };
 /* End PBXBuildFile section */
@@ -99,6 +102,12 @@
 		A626534A26DD1C720084050F /* SearchResultCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchResultCell.m; sourceTree = "<group>"; };
 		A626534F26DE6BD10084050F /* SearchInfomationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchInfomationController.h; sourceTree = "<group>"; };
 		A626535026DE6BD10084050F /* SearchInfomationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchInfomationController.m; sourceTree = "<group>"; };
+		A626535226DF99200084050F /* ContactCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactCell.h; sourceTree = "<group>"; };
+		A626535326DF99200084050F /* ContactCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactCell.m; sourceTree = "<group>"; };
+		A626535526E0769C0084050F /* FriendInvitationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendInvitationViewController.h; sourceTree = "<group>"; };
+		A626535626E0769C0084050F /* FriendInvitationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendInvitationViewController.m; sourceTree = "<group>"; };
+		A626535826E079670084050F /* FriendInvitationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendInvitationCell.h; sourceTree = "<group>"; };
+		A626535926E079670084050F /* FriendInvitationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendInvitationCell.m; sourceTree = "<group>"; };
 		A654FE0326C17DAC00DCE37C /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		A654FE0426C17DAC00DCE37C /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		A9BFB7ADCDC74788E2CD01FE /* Pods-xxChat-xxChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.release.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -225,6 +234,8 @@
 				A626534726CE41220084050F /* AddViewController.m */,
 				A626534F26DE6BD10084050F /* SearchInfomationController.h */,
 				A626535026DE6BD10084050F /* SearchInfomationController.m */,
+				A626535526E0769C0084050F /* FriendInvitationViewController.h */,
+				A626535626E0769C0084050F /* FriendInvitationViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -268,6 +279,10 @@
 				A626533F26CA88A30084050F /* LoginAndRegisterView.m */,
 				A626534926DD1C720084050F /* SearchResultCell.h */,
 				A626534A26DD1C720084050F /* SearchResultCell.m */,
+				A626535226DF99200084050F /* ContactCell.h */,
+				A626535326DF99200084050F /* ContactCell.m */,
+				A626535826E079670084050F /* FriendInvitationCell.h */,
+				A626535926E079670084050F /* FriendInvitationCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -524,6 +539,7 @@
 				A626534026CA88A30084050F /* LoginAndRegisterView.m in Sources */,
 				A626533D26CA88000084050F /* VisitorViewController.m in Sources */,
 				A654FE0526C17DAC00DCE37C /* User.m in Sources */,
+				A626535726E0769C0084050F /* FriendInvitationViewController.m in Sources */,
 				9B678DB126C157BF00483386 /* ContactsViewController.m in Sources */,
 				A626535126DE6BD10084050F /* SearchInfomationController.m in Sources */,
 				9B678DB426C1595D00483386 /* DiscoverViewController.m in Sources */,
@@ -532,9 +548,11 @@
 				9B678D7D26BEB7DA00483386 /* ChatsViewController.m in Sources */,
 				9B678D7726BEB7DA00483386 /* AppDelegate.m in Sources */,
 				A626534826CE41220084050F /* AddViewController.m in Sources */,
+				A626535426DF99200084050F /* ContactCell.m in Sources */,
 				9B678DC026C2CE9200483386 /* InformationCell.m in Sources */,
 				A626534B26DD1C720084050F /* SearchResultCell.m in Sources */,
 				9B678D8826BEB7DC00483386 /* main.m in Sources */,
+				A626535A26E079670084050F /* FriendInvitationCell.m in Sources */,
 				9B678D7A26BEB7DA00483386 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

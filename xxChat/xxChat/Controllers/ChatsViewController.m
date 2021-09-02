@@ -85,13 +85,10 @@
     AddViewController *addViewController = [[AddViewController alloc]init];
     [self.navigationController pushViewController:addViewController animated:YES];
     self.hidesBottomBarWhenPushed = NO;//back回来又不隐藏了
+    
 }
 
-- (void)onReceiveFriendNotificationEvent:(JMSGFriendNotificationEvent *)event{
-    if (event.eventType==kJMSGEventNotificationReceiveFriendInvitation) {
-        
-    }
-}
+
 
 
 
