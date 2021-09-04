@@ -7,6 +7,7 @@
 
 #import "MessageCell.h"
 #import <AVFoundation/AVFoundation.h>
+#import "MessageButton.h"
 
 @interface MessageCell ()
 
@@ -14,13 +15,10 @@
 @property (nonatomic, strong) UILabel *timeLabel;
 
 //内容
-@property (nonatomic, strong) UIButton *contentBtn;
+@property (nonatomic, strong) MessageButton *contentBtn;
 
 //头像
 @property (nonatomic, strong) UIImageView *iconImgView;
-
-//语音消息的image
-@property (nonatomic, strong) UIImageView *voiceImgView;
 
 @end
 
@@ -39,22 +37,14 @@
         [self.contentView addSubview:_timeLabel];
         
         //内容
-        _contentBtn = [[UIButton alloc] init];
+        _contentBtn = [[MessageButton alloc] init];
         [self.contentView addSubview:_contentBtn];
-        _contentBtn.titleLabel.font = [UIFont systemFontOfSize:17];
-        _contentBtn.titleLabel.numberOfLines = 0;
         [_contentBtn addTarget:self action:@selector(playVoice) forControlEvents:UIControlEventTouchUpInside];
         [_contentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         //设置内边距
         CGFloat edgeInsets = 20;
         _contentBtn.contentEdgeInsets = UIEdgeInsetsMake(edgeInsets, edgeInsets, edgeInsets, edgeInsets);
-        
-        //语音消息的图片
-        _voiceImgView = [[UIImageView alloc] init];
-        _voiceImgView.image = [UIImage imageNamed:@"语音消息"];
-        _voiceImgView.hidden = YES;
-        [self.contentBtn addSubview:_voiceImgView];
-        
+
         //头像
         _iconImgView = [[UIImageView alloc] init];
         _iconImgView.layer.cornerRadius = 5;
@@ -94,13 +84,21 @@
     _contentBtn.frame = messageFrame.contentFrame;
     
     if (message.message.contentType == kJMSGContentTypeVoice) {
-        _voiceImgView.frame = messageFrame.voiceImgFrame;
-        _voiceImgView.hidden = NO;
+        _contentBtn.voiceImgView.frame = messageFrame.voiceImgFrame;
+        _contentBtn.durationLbl.frame = messageFrame.durationLblFrame;
+        _contentBtn.voiceImgView.hidden = NO;
+        _contentBtn.durationLbl.hidden = NO;
     } else {
-        _voiceImgView.hidden = YES;
+        _contentBtn.voiceImgView.hidden = YES;
+        _contentBtn.durationLbl.hidden = YES;
     }
     
-    [_contentBtn setTitle:message.text forState:UIControlStateNormal];
+    if (message.message.contentType == kJMSGContentTypeText) {
+        [_contentBtn setTitle:message.text forState:UIControlStateNormal];
+    } else if (message.message.contentType == kJMSGContentTypeVoice) {
+        _contentBtn.durationLbl.text = [NSString stringWithFormat:@"%d''",message.duration.intValue];
+    }
+ 
 }
 
 

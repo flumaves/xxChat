@@ -35,7 +35,7 @@
     }
     _iconFrame = CGRectMake(iconX, iconY, iconL, iconL);
     
-    if (_message.message.contentType == kJMSGContentTypeText) {
+    if (_message.message.contentType == kJMSGContentTypeText) { ///文本消息
         //文本消息
         //聊天消息最大的尺寸
         CGFloat maxWidth = 200;     //(随便给的)
@@ -61,12 +61,12 @@
         }
         _contentFrame = CGRectMake(textX, textY, textW, textH);
         
-    } else if (_message.message.contentType == kJMSGContentTypeVoice) {
+    } else if (_message.message.contentType == kJMSGContentTypeVoice) { ///语音消息
         //语音消息
         //消息的宽度 （最少20 最多200）根据语音的时长计算宽度
         CGFloat edgeInsets = 20;
         CGFloat voiceWidth = (message.duration.doubleValue / 30) * 200;
-        voiceWidth = MAX(voiceWidth, 20) + 2 * edgeInsets;
+        voiceWidth = MAX(voiceWidth, 50) + 2 * edgeInsets;
         CGFloat voiceHeight = 20 + 2 * edgeInsets;
         CGFloat voiceY = iconY;
         CGFloat voiceX = 0;
@@ -80,10 +80,16 @@
         //语音消息的图片
         CGFloat imgWidth = 20;
         CGFloat imgHeight = 20;
-        CGFloat imgX = (voiceWidth - imgWidth) / 2;
+        CGFloat imgX = (voiceWidth - imgWidth) - 20;
         CGFloat imgY = (voiceHeight - imgHeight) / 2;
         _voiceImgFrame = CGRectMake(imgX, imgY, imgWidth, imgHeight);
         
+        //语音消息的秒数
+        CGFloat durationLblWidth = 20;
+        CGFloat durationLblHeight = 20;
+        CGFloat durationLblX = imgX - durationLblWidth;
+        CGFloat durationLblY = imgY;
+        _durationLblFrame = CGRectMake(durationLblX, durationLblY, durationLblWidth, durationLblHeight);
     }
     
     //cell的高度
