@@ -41,8 +41,10 @@
         if (error) {
             NSLog(@"error");
         }
+        [self.chatTableView reloadData];
     }];
 }
+
 //创建单聊对话
 - (void)addChat {
     [JMSGConversation createSingleConversationWithUsername:@"222222" completionHandler:^(id resultObject, NSError *error) {

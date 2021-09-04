@@ -75,8 +75,15 @@
     //名称
     self.name.text = _conversation.title;
     //聊天记录
-    JMSGTextContent *textContent = (JMSGTextContent *)_conversation.latestMessage.content;
-    self.message.text = textContent.text;
+    if (_conversation.latestMessage.contentType == kJMSGContentTypeText) {
+        JMSGTextContent *textContent = (JMSGTextContent *)_conversation.latestMessage.content;
+        self.message.text = textContent.text;
+        
+    } else if (_conversation.latestMessage.contentType == kJMSGContentTypeVoice) {
+        self.message.text = @"[语音消息]";
+        
+    }
+    
     //时间
     NSTimeInterval timeInterval = [_conversation.latestMsgTime doubleValue] / 1000;
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeInterval];

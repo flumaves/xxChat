@@ -8,11 +8,20 @@
 #import <UIKit/UIKit.h>
 #import "MessageFrame.h"
 #import "Message.h"
+
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol MessageCellDelegate <NSObject>
+
+- (void)playVoice:(NSData *)data;
+
+@end
 
 @interface MessageCell : UITableViewCell
 
 @property (nonatomic, strong) MessageFrame *messageFrame;
+
+@property (nonatomic, weak) id<MessageCellDelegate> delegate;
 
 +(instancetype) cellWithTableView:(UITableView *)tableView;
 

@@ -6,17 +6,21 @@
 //
 
 #import "MessageCell.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface MessageCell ()
 
 //时间
 @property (nonatomic, strong) UILabel *timeLabel;
 
-//正文
-@property (nonatomic, strong) UIButton *textBtn;
+//内容
+@property (nonatomic, strong) UIButton *contentBtn;
 
 //头像
 @property (nonatomic, strong) UIImageView *iconImgView;
+
+//语音消息的image
+@property (nonatomic, strong) UIImageView *voiceImgView;
 
 @end
 
@@ -34,15 +38,22 @@
         _timeLabel.font = [UIFont systemFontOfSize:12];
         [self.contentView addSubview:_timeLabel];
         
-        //正文
-        _textBtn = [[UIButton alloc] init];
-        [self.contentView addSubview:_textBtn];
-        _textBtn.titleLabel.font = [UIFont systemFontOfSize:17];
-        _textBtn.titleLabel.numberOfLines = 0;
-        [_textBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        //内容
+        _contentBtn = [[UIButton alloc] init];
+        [self.contentView addSubview:_contentBtn];
+        _contentBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+        _contentBtn.titleLabel.numberOfLines = 0;
+        [_contentBtn addTarget:self action:@selector(playVoice) forControlEvents:UIControlEventTouchUpInside];
+        [_contentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         //设置内边距
         CGFloat edgeInsets = 20;
-        _textBtn.contentEdgeInsets = UIEdgeInsetsMake(edgeInsets, edgeInsets, edgeInsets, edgeInsets);
+        _contentBtn.contentEdgeInsets = UIEdgeInsetsMake(edgeInsets, edgeInsets, edgeInsets, edgeInsets);
+        
+        //语音消息的图片
+        _voiceImgView = [[UIImageView alloc] init];
+        _voiceImgView.image = [UIImage imageNamed:@"语音消息"];
+        _voiceImgView.hidden = YES;
+        [self.contentBtn addSubview:_voiceImgView];
         
         //头像
         _iconImgView = [[UIImageView alloc] init];
@@ -53,15 +64,6 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
-}
-
-+(instancetype)cellWithTableView:(UITableView *)tableView {
-    static NSString *ID = @"message";
-    MessageCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    if (!cell) {
-        cell = [[MessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-    }
-    return cell;
 }
 
 //在设置frame属性的同时就赋值给各个控件
@@ -79,18 +81,42 @@
         _iconImgView.backgroundColor = [UIColor grayColor];
         //设置聊天框背景
         UIImage *image = [UIImage imageNamed:@"message_send_nor"];
-        [_textBtn setBackgroundImage:[image resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.width / 2.0, image.size.width / 2.0, image.size.height / 2.0, image.size.height / 2.0 + 1)] forState:UIControlStateNormal];
+        [_contentBtn setBackgroundImage:[image resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.width / 2.0, image.size.width / 2.0, image.size.height / 2.0, image.size.height / 2.0 + 1)] forState:UIControlStateNormal];
     } else {
         //头像
         _iconImgView.backgroundColor = [UIColor grayColor];
         //聊天框背景
         UIImage *image = [UIImage imageNamed:@"message_recive_nor"];
-        [_textBtn setBackgroundImage:[image resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.width/2.0, image.size.width/2.0, image.size.height/2.0, image.size.height/2.0 + 1)] forState:UIControlStateNormal];
+        [_contentBtn setBackgroundImage:[image resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.width/2.0, image.size.width/2.0, image.size.height/2.0, image.size.height/2.0 + 1)] forState:UIControlStateNormal];
     }
     
     _iconImgView.frame = messageFrame.iconFrame;
-    _textBtn.frame = messageFrame.textFrame;
-    [_textBtn setTitle:message.text forState:UIControlStateNormal];
+    _contentBtn.frame = messageFrame.contentFrame;
+    
+    if (message.message.contentType == kJMSGContentTypeVoice) {
+        _voiceImgView.frame = messageFrame.voiceImgFrame;
+        _voiceImgView.hidden = NO;
+    } else {
+        _voiceImgView.hidden = YES;
+    }
+    
+    [_contentBtn setTitle:message.text forState:UIControlStateNormal];
 }
 
+
+//播放语音消息
+- (void)playVoice {
+    JMSGMessage *message = _messageFrame.message.message;
+    if (message.contentType == kJMSGContentTypeVoice) {
+        JMSGVoiceContent *voiceContent = (JMSGVoiceContent *)message.content;
+        [voiceContent voiceData:^(NSData *data, NSString *objectId, NSError *error) {
+            if (error) {
+                NSLog(@"%@",error);
+            }
+            if ([self.delegate respondsToSelector:@selector(playVoice:)]) {
+                [self.delegate playVoice:data];
+            }
+        }];
+    }
+}
 @end

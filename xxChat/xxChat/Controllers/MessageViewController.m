@@ -11,12 +11,13 @@
 #import "MessageCell.h"
 #import "InputView.h"
 #import "MessageTableView.h"
+#import <AVFoundation/AVFoundation.h>
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #define INTERVAL 60*3 //3分钟的时间间隔
 
-@interface MessageViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, JMSGMessageDelegate>
+@interface MessageViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, JMSGMessageDelegate, InputViewDelegate, MessageCellDelegate, AVAudioPlayerDelegate>
 
 //显示消息的tableView
 @property (nonatomic, strong) MessageTableView *messageTableView;
@@ -35,8 +36,8 @@
 
 //聊天的群组
 
-//判断是否正在输入文字
-@property (nonatomic, assign, getter=isTyping ) BOOL typing;
+//语音消息的播放器
+@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 
 @end
 
@@ -57,11 +58,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     //添加代理
     [JMessage addDelegate:self withConversation:_conversation];
-    
-    //此时键盘为隐藏
-    self.typing = NO;
     
     //navigationBar添加一个leftButton 只要单独一个箭头
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"返回"] style:UIBarButtonItemStyleDone target:self action:@selector(back)];
@@ -89,6 +88,7 @@
     return _anotherUser;
 }
 
+//消息数组
 - (NSMutableArray *)messagesArray {
     if (_messagesArray == nil) {
         _messagesArray = [[NSMutableArray alloc] init];
@@ -137,12 +137,13 @@
     
     //文本输入框
     self.inputView = [[InputView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.messageTableView.frame), ScreenWidth, 90)];
+    self.inputView.delegate = self;
     [self.view addSubview:_inputView];
     
     self.inputView.inputTextField.delegate = self;
     
     //注册键盘变化的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeKeyBoard:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(KeyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 #pragma mark - 收到消息的回调
@@ -165,7 +166,7 @@
     
     [self.messagesArray insertObject:messageFrame atIndex:0];
     [self.messageTableView reloadData];
-    [self tableViewscrollToBotton];
+    [self.messageTableView scrollsToTop];
 }
 
 
@@ -180,8 +181,8 @@
     Message *newMessage = [[Message alloc] init];
     newMessage.userName = _user.username;
     [newMessage setMessage:message];
-    //获取最新一次消息的模型
-    MessageFrame *lastMessageFrame = self.messagesArray.lastObject;
+    //获取最近一次消息的模型（判断是否隐藏时间）
+    MessageFrame *lastMessageFrame = self.messagesArray.firstObject;
     JMSGMessage *lastMessage = lastMessageFrame.message.message;
     newMessage.timeHidden = [self setTimeHiddenBetweenLastTime:lastMessage andCurrentTime:message];
     
@@ -190,7 +191,7 @@
     
     [self.messagesArray insertObject:messageFrame atIndex:0];
     [self.messageTableView reloadData];
-    [self tableViewscrollToBotton];
+    [self.messageTableView scrollsToTop];
 }
 
 #pragma mark - 比较时间的间隔
@@ -207,61 +208,23 @@
 }
 
 #pragma mark - keyBoard通知的具体操作
-//改变keyboard 判断调用 显示 还是 隐藏 keyboard
-- (void)changeKeyBoard:(NSNotification *)notification {
-    if ([self isTyping]) {
-        //正在打字 接下来改变keyboard就要隐藏
-        [self hideKeyBoard:notification];
-        //重新记录
-        self.typing = NO;
-    } else {
-        [self showKeyBoard:notification];
-        self.typing = YES;
-    }
-}
-
-//显示keyboard
-- (void)showKeyBoard:(NSNotification *)notification {
-    //计算键盘移动的距离
+- (void)KeyboardWillChange:(NSNotification *)notification
+{
     NSDictionary *dict = notification.userInfo;
-    CGRect keyBoardFrame = [[dict objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat keyBoardH = keyBoardFrame.size.height;
-    CGFloat translateY = self.inputView.bounds.origin.y - keyBoardH + 30;
-    //让这个inputView向上腾出键盘的高度 (为了防止空出太多白色 ，再添加20 向下移动一点）
-    
-    CGFloat time = [[dict objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    
-    [UIView animateWithDuration:time animations:^{
-        self.inputView.transform = CGAffineTransformMakeTranslation(0, translateY);
-        
-        //重新设置tableView的frame
-        CGRect frame = self.messageTableView.frame;
-        frame.size.height = frame.size.height - keyBoardH + 30;
-        self.messageTableView.frame = frame;
-    }];
-    
-    if (self.messagesArray.count > 0) {  //有消息记录再让tableview滚动，否则会error
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.messagesArray.count - 1 inSection:0];
-        [self.messageTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }
-}
+    CGRect KeyboardFrame = [dict[UIKeyboardFrameEndUserInfoKey]CGRectValue];
+    CGFloat KeyboardY = KeyboardFrame.origin.y;
+    //获取动画时间
+    CGFloat duration = [dict[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    CGFloat transY = KeyboardY - self.view.frame.size.height + 30;
+    //为了美观将view向下移动30 避免inputview下方空白太大
 
-//隐藏keyboard
-- (void)hideKeyBoard:(NSNotification *)notification {
-    NSDictionary *dict = notification.userInfo;
-    //获取键盘高度
-    CGRect keyBoardFrame = [[dict objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat keyBoardH = keyBoardFrame.size.height;
-    CGFloat time = [[dict objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    if (transY == 30) {
+        transY -= 30;
+    }
     
-    [UIView animateWithDuration:time animations:^{
-        //MakeTranslation是相对最初的位置 ，所以相对最初的位置为0 即可返回原位
-        self.inputView.transform = CGAffineTransformMakeTranslation(0, 0);
-        
-        //重新设置tableView的frame
-        CGRect frame = self.messageTableView.frame;
-        frame.size.height = frame.size.height + keyBoardH - 30;
-        self.messageTableView.frame = frame;
+    //动画
+    [UIView animateWithDuration:duration animations:^{
+        self.view.transform =CGAffineTransformMakeTranslation(0, transY);
     }];
 }
 
@@ -279,12 +242,16 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     //取消编辑状态 会改变keyboard的状态 从而发送通知
     [self.view endEditing:YES];
-    self.typing = NO;
 }
 
 #pragma mark - tableView的 dataSource 和 delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MessageCell *cell = [MessageCell cellWithTableView:tableView];
+    NSString *ID = @"messageCell";
+    MessageCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    if (cell == nil) {
+        cell = [[MessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+        cell.delegate = self;
+    }
     cell.messageFrame = self.messagesArray[indexPath.row];
     return cell;
 }
@@ -303,13 +270,13 @@
 }
 
 
-#pragma mark - 滚动到最后一行
-- (void)tableViewscrollToBotton {
-    if (_messagesArray.count != 0) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_messagesArray.count - 1 inSection:0];
-        [self.messageTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }
-}
+//#pragma mark - 滚动到最后一行
+//- (void)tableViewscrollToBotton {
+//    if (_messagesArray.count != 0) {
+//        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_messagesArray.count - 1 inSection:0];
+//        [self.messageTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+//    }
+//}
 
 
 #pragma mark - textfield的delegate
@@ -322,9 +289,38 @@
     return YES;
 }
 
+
+#pragma mark - inputView的delegate
+//发送语音消息
+- (void)sendMessage:(JMSGVoiceContent *)voiceContent {
+    JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:voiceContent username:self.anotherUser.username];
+    
+    //发送消息
+    [JMSGMessage sendMessage:message];
+}
+
+
+#pragma mark - MessageCell的delegate
+//播放语音消息
+- (void)playVoice:(NSData *)data {
+    _audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:nil];
+    _audioPlayer.numberOfLoops = 1;
+    _audioPlayer.delegate = self;
+    [_audioPlayer play];
+}
+
 #pragma mark - leftBarButtonItem的方法
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
+#pragma mark - audioPlayer的delegate
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    if (flag) {
+        NSLog(@"successfully");
+    } else {
+        NSLog(@"unsuccessfully");
+    }
+}
 @end

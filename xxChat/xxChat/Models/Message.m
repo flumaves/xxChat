@@ -15,8 +15,15 @@
     _message = message;
     
     //判断消息的类型
-    JMSGTextContent *textContent =  (JMSGTextContent *)message.content;
-    _text = textContent.text;
+    if (message.contentType == kJMSGContentTypeText) {
+        JMSGTextContent *textContent =  (JMSGTextContent *)message.content;
+        _text = textContent.text;
+    }
+    if (message.contentType == kJMSGContentTypeVoice) {
+        JMSGVoiceContent *voiceContent = (JMSGVoiceContent *)message.content;
+        _duration = voiceContent.duration;
+    }
+    
     //判断是谁发送的消息
     JMSGUser *user = message.target;    //获取消息发送的对象
     if (_userName != user.username) {
@@ -25,6 +32,7 @@
     } else {
         _type = MessageType_Other;
     }
+    
     //时间
     NSNumber *timer = message.timestamp;
     NSTimeInterval interval = [timer doubleValue] / 1000;
