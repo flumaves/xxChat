@@ -2,7 +2,7 @@
 //  ContactCell.h
 //  xxChat
 //
-//  Created by 谢恩平 on 2021/9/1.
+//  Created by 谢恩平 on 2021/9/2.
 //
 
 #import <UIKit/UIKit.h>

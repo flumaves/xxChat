@@ -2,7 +2,7 @@
 //  SearchInfomationController.m
 //  xxChat
 //
-//  Created by 谢恩平 on 2021/8/31.
+//  Created by 谢恩平 on 2021/9/3.
 //
 
 #import "SearchInfomationController.h"

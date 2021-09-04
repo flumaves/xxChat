@@ -2,7 +2,7 @@
 //  AddViewController.m
 //  xxChat
 //
-//  Created by 谢恩平 on 2021/8/19.
+//  Created by 谢恩平 on 2021/9/3.
 //
 
 #import "AddViewController.h"
@@ -73,8 +73,6 @@
     self.searchField.leftView = view;
     self.searchField.delegate = self;
     
-    self.searchField.text = @"111111";//测试用 记得删
-    
     [self.view addSubview:_searchField];
     
     //搜索按钮
@@ -90,6 +88,7 @@
     self.searchTableView = [[UITableView alloc]init];
     self.searchTableView.dataSource = self;
     self.searchTableView.delegate = self;
+    self.searchTableView.tableFooterView = [[UIView alloc]init];//去掉多余的线
     [self.view addSubview:_searchTableView];
     
     

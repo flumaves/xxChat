@@ -2,7 +2,7 @@
 //  FriendInvitationViewController.m
 //  xxChat
 //
-//  Created by 谢恩平 on 2021/9/2.
+//  Created by 谢恩平 on 2021/9/3.
 //
 
 #import "FriendInvitationViewController.h"
@@ -36,6 +36,7 @@
         _friendInvtationTableView = [[UITableView alloc] initWithFrame:self.view.frame];
         _friendInvtationTableView.delegate = self;
         _friendInvtationTableView.dataSource = self;
+        _friendInvtationTableView.tableFooterView = [[UIView alloc]init];//去掉多余的线
     }
     return _friendInvtationTableView;
 }

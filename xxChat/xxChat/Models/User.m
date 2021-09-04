@@ -42,7 +42,6 @@
     [tempDic setValue:user.account forKey:@"account"];
     [tempDic setValue:user.password forKey:@"password"];
     [tempDic setValue:user.nickname forKey:@"nickName"];
-    [tempDic setValue:user.avatarData forKey:@"avatarData"];
     [tempDic setValue:user.birthday forKey:@"birthday"];
 
     //将可变字典转成普通字典返回

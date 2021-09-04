@@ -16,9 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) NSString* password;
 ///用户名
 @property (nonatomic,copy) NSString* userName;
-///头像URLString
-@property (nonatomic,copy) NSString* profilePicURLStr;
-
+///昵称
+@property (nonatomic,copy) NSString* nickname;
+///头像数据
+@property (nonatomic,copy) NSString* birthday;
 
 ///字典转模型方法
 + (instancetype)userWithDic: (NSDictionary*)dic;

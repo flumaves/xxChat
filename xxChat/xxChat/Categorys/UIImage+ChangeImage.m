@@ -1,11 +1,11 @@
 //
-//  UIImage.m
+//  UIImage+ChangeImage.m
 //  xxChat
 //
-//  Created by little_Fking_cute on 2021/8/21.
+//  Created by 谢恩平 on 2021/9/4.
 //
 
-#import "UIImage+ChangeImage .h"
+#import "UIImage+ChangeImage.h"
 
 @implementation UIImage (ChangeImage)
 

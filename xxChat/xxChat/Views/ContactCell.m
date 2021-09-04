@@ -2,7 +2,7 @@
 //  ContactCell.m
 //  xxChat
 //
-//  Created by 谢恩平 on 2021/9/1.
+//  Created by 谢恩平 on 2021/9/2.
 //
 
 #import "ContactCell.h"
@@ -57,5 +57,6 @@
 
     // Configure the view for the selected state
 }
+
 
 @end

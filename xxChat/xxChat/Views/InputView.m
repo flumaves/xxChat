@@ -6,8 +6,7 @@
 //
 
 #import "InputView.h"
-#import "UIImage+ChangeImage .h"
-
+#import "UIImage+ChangeImage.h"
 @implementation InputView
 
 - (instancetype)initWithFrame:(CGRect)frame

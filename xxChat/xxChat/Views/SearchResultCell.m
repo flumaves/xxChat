@@ -2,7 +2,7 @@
 //  SearchResultCell.m
 //  xxChat
 //
-//  Created by 谢恩平 on 2021/8/30.
+//  Created by 谢恩平 on 2021/9/3.
 //
 
 #import "SearchResultCell.h"

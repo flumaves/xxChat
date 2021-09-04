@@ -28,6 +28,7 @@
     [self.view addSubview:self.contactsTableView];
     [self layoutView];
 }
+#pragma mark - 懒加载
 - (NSMutableArray*)invitedReasonArray{
     if (_invitedReasonArray==nil) {
         _invitedReasonArray = [[NSMutableArray alloc]init];
@@ -52,6 +53,7 @@
         _contactsTableView = [[UITableView alloc] initWithFrame:self.view.frame];
         _contactsTableView.delegate = self;
         _contactsTableView.dataSource = self;
+        _contactsTableView.tableFooterView = [[UIView alloc]init];//去掉下面多余的线
     }
     return _contactsTableView;
 }
@@ -91,7 +93,7 @@
     }else{
         JMSGUser *user = self.friendsListArray[indexPath.row];
         
-        //头像还没设先设一个名字
+        //头像还没设,先设一个名字
         cell.name.text = user.nickname;
         
     }
