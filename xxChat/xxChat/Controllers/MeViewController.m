@@ -15,6 +15,9 @@
 //加载个人列表的tableView
 @property (nonatomic, strong)UITableView *meTableView;
 
+//登陆的人的用户模型
+@property (nonatomic, strong)JMSGUser *user;
+
 @end
 
 @implementation MeViewController
@@ -26,6 +29,8 @@
  */
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.hidden = YES;
+    //加载页面时 重新获取user数据
+    _user = [JMSGUser myInfo];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -44,12 +49,23 @@
 - (UITableView *)meTableView {
     if (_meTableView == nil) {
         _meTableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+        _meTableView.backgroundColor = [UIColor colorWithRed:243/255.0 green:243/255.0 blue:243/255.0 alpha:1];
         _meTableView.delegate = self;
         _meTableView.dataSource = self;
+        _meTableView.scrollEnabled = NO;
         
         _meTableView.tableFooterView = [[UIView alloc] init];
     }
     return _meTableView;
+}
+
+#pragma mark - 懒加载
+- (JMSGUser *)user {
+    if (_user == nil) {
+        JMSGUser *userInfo = [JMSGUser myInfo];
+        _user = userInfo;
+    }
+    return _user;
 }
 
 #pragma mark -tableView的 dataSource 和 delegate
@@ -66,6 +82,8 @@
     if (indexPath.section == 0) {
         ///个人信息
         InformationCell *cell = [[InformationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        //给cell传用户信息
+        cell.userInfo = self.user;
         //右侧小箭头
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         //选中不改变颜色
@@ -125,6 +143,11 @@
         //点击 设定
     } else if (indexPath.section == 2) {
         //点击 退出登录
+        [JMSGUser logout:^(id resultObject, NSError *error) {
+                    NSLog(@"-%@-",error);
+        }];
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"FinishLogout" object:self];
     }
 }
 

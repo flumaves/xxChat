@@ -7,6 +7,13 @@
 
 #import "ChatCell.h"
 
+@interface ChatCell ()
+
+//记录是否已经对控件进行赋值
+@property (nonatomic, assign) BOOL haveConversation;
+
+@end
+
 @implementation ChatCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -30,7 +37,6 @@
         CGFloat nameH = 20;
         self.name = [[UILabel alloc] initWithFrame:CGRectMake(nameX, nameY, nameW, nameH)];
         self.name.font = [UIFont systemFontOfSize:18];
-        self.name.text = @"这是一个名字";
         [self addSubview:_name];
         
         //聊天记录
@@ -39,7 +45,6 @@
         CGFloat messageW = nameW;
         CGFloat messageH = 15;
         self.message = [[UILabel alloc] initWithFrame:CGRectMake(messageX, messageY, messageW, messageH)];
-        self.message.text = @"这是一条消息";
         self.message.font = [UIFont systemFontOfSize:15];
         self.message.textColor = [UIColor grayColor];
         [self addSubview:_message];
@@ -50,7 +55,6 @@
         CGFloat timeH = 20;
         CGFloat timeY = nameY;
         self.time = [[UILabel alloc] initWithFrame:CGRectMake(timeX, timeY, timeW, timeH)];
-        self.time.text = @"2021/7/9";
         self.time.font = [UIFont systemFontOfSize:13];
         self.time.textColor = [UIColor grayColor];
         //设置为右对齐
@@ -62,6 +66,32 @@
     return self;
 }
 
+//在设置conversation顺带赋值
+- (void)setConversation:(JMSGConversation *)conversation {
+    if (conversation == nil) {
+        return;
+    }
+    _conversation = conversation;
+    //名称
+    self.name.text = _conversation.title;
+    //聊天记录
+    if (_conversation.latestMessage.contentType == kJMSGContentTypeText) {
+        JMSGTextContent *textContent = (JMSGTextContent *)_conversation.latestMessage.content;
+        self.message.text = textContent.text;
+        
+    } else if (_conversation.latestMessage.contentType == kJMSGContentTypeVoice) {
+        self.message.text = @"[语音消息]";
+        
+    }
+    
+    //时间
+    NSTimeInterval timeInterval = [_conversation.latestMsgTime doubleValue] / 1000;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeInterval];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"HH:mm";
+    self.time.text = [dateFormatter stringFromDate:date];
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
@@ -69,8 +99,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+    
 }
 
 @end

@@ -6,8 +6,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <JMessage/JMessage.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate,JMessageDelegate>
 
 
 @end

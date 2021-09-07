@@ -37,18 +37,26 @@
 
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
+   
+    //设置监听中心，添加观察者
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(finishLogin:) name:@"FinishLogin" object:nil];
+    [center addObserver:self selector:@selector(finishLogout:) name:@"FinishLogout" object:nil];
+    
     UIWindowScene *windowScene = (UIWindowScene *)scene;
     self.window = [[UIWindow alloc] initWithWindowScene:windowScene];
+    self.window.backgroundColor = [UIColor colorWithRed:251/255.0 green:251/255.0 blue:251/255.0 alpha:1];
     //加载tabBarController和childViewController
     [self loadViewControllers];
     
     [self.window makeKeyAndVisible];
+    
 }
 
 ///加载页面的方法的简单封装
 - (void)loadViewControllers {
     //判断是否登陆
-    if (_didLogin){
+    if (!_didLogin){
         //创建最外层的 tabBarController
         UITabBarController *tabBarController = [[UITabBarController alloc] init];
         //把每个界面控制器添加到 tabBarController 中
@@ -97,6 +105,34 @@
     viewController.tabBarItem.image = [UIImage imageNamed:imageName];
     
     [tabBarController addChildViewController:nav];
+}
+
+#pragma mark - 观察者响应方法
+//登陆
+- (void)finishLogin: (NSNotification*)notification{
+    //创建最外层的 tabBarController
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    //把每个界面控制器添加到 tabBarController 中
+    [self addChildControllersToTabBarController:tabBarController];
+    //tabBar渲染的颜色
+    tabBarController.tabBar.tintColor = [UIColor colorWithRed:50 /255.0 green:205 /255.0 blue:50 / 255.0 alpha:1];
+    //设置根控制器
+    self.window.rootViewController = tabBarController;
+    
+    
+    //登陆状态调节为yes
+    self.didLogin = YES;
+}
+//登出
+- (void)finishLogout: (NSNotification*)notification{
+    VisitorViewController *visitorViewController = [[VisitorViewController alloc]init];
+    
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:visitorViewController];
+    
+    self.window.rootViewController = nav;
+
+    //登陆状态改为no
+    self.didLogin = NO;
 }
 
 @end

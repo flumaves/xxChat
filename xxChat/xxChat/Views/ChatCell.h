@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <JMessage/JMessage.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,6 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 //行高
 @property (nonatomic, assign)CGFloat rowHeight;
+
+//数据
+@property (nonatomic, strong)JMSGConversation *conversation;
+
 @end
 
 NS_ASSUME_NONNULL_END

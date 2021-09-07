@@ -23,10 +23,27 @@
 		9B678DC026C2CE9200483386 /* InformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678DBF26C2CE9200483386 /* InformationCell.m */; };
 		9B678DC626C3C1EF00483386 /* SelfInformationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */; };
 		9B678DC926C3D97C00483386 /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678DC826C3D97C00483386 /* ChatCell.m */; };
+		9B84E79F26E7A966006BDCCB /* MoreFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E79E26E7A966006BDCCB /* MoreFunctionView.m */; };
+		9B84E7A226E7A9F2006BDCCB /* MoreFunctionSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E7A126E7A9F2006BDCCB /* MoreFunctionSubView.m */; };
+		9B84E7A526E7AA3F006BDCCB /* MessageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E7A426E7AA3F006BDCCB /* MessageButton.m */; };
+		9BD29D7626CBF8F7002F7114 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7526CBF8F7002F7114 /* MessageViewController.m */; };
+		9BD29D7926CBF949002F7114 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7826CBF949002F7114 /* Message.m */; };
+		9BD29D7C26CBF985002F7114 /* MessageFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7B26CBF985002F7114 /* MessageFrame.m */; };
+		9BD29D7F26CBFA2B002F7114 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7E26CBFA2B002F7114 /* MessageCell.m */; };
+		9BD29D8226CBFA6B002F7114 /* InputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D8126CBFA6B002F7114 /* InputView.m */; };
 		A5EB6BAAED9F4D3A27992041 /* Pods_xxChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFA0A68199639277E7A4574 /* Pods_xxChat.framework */; };
 		A626533D26CA88000084050F /* VisitorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A626533C26CA88000084050F /* VisitorViewController.m */; };
 		A626534026CA88A30084050F /* LoginAndRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = A626533F26CA88A30084050F /* LoginAndRegisterView.m */; };
 		A626534226CA89060084050F /* SDAutoLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A626534126CA89060084050F /* SDAutoLayout.framework */; };
+		A626535D26E12C480084050F /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A626535C26E12C480084050F /* ContactCell.m */; };
+		A626536026E12C860084050F /* FriendInvitationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A626535F26E12C860084050F /* FriendInvitationCell.m */; };
+		A626536326E12CB50084050F /* SearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A626536226E12CB50084050F /* SearchResultCell.m */; };
+		A626536626E12CF30084050F /* MessageTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A626536526E12CF30084050F /* MessageTableView.m */; };
+		A626536926E130280084050F /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A626536826E130280084050F /* AddViewController.m */; };
+		A626536C26E130570084050F /* ChangeInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A626536B26E130570084050F /* ChangeInfoViewController.m */; };
+		A626536F26E130870084050F /* FriendInvitationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A626536E26E130870084050F /* FriendInvitationViewController.m */; };
+		A626537226E130C60084050F /* SearchInfomationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A626537126E130C60084050F /* SearchInfomationController.m */; };
+		A626537626E337560084050F /* UIImage+ChangeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = A626537526E337560084050F /* UIImage+ChangeImage.m */; };
 		A654FE0526C17DAC00DCE37C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = A654FE0426C17DAC00DCE37C /* User.m */; };
 		D896ADF420D3A0455DCA96A1 /* Pods_xxChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E2D4B3588605E9F2AA7F96 /* Pods_xxChatTests.framework */; };
 /* End PBXBuildFile section */
@@ -84,12 +101,46 @@
 		9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelfInformationTableViewController.m; sourceTree = "<group>"; };
 		9B678DC726C3D97C00483386 /* ChatCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
 		9B678DC826C3D97C00483386 /* ChatCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatCell.m; sourceTree = "<group>"; };
+		9B84E79D26E7A966006BDCCB /* MoreFunctionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoreFunctionView.h; sourceTree = "<group>"; };
+		9B84E79E26E7A966006BDCCB /* MoreFunctionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoreFunctionView.m; sourceTree = "<group>"; };
+		9B84E7A026E7A9F2006BDCCB /* MoreFunctionSubView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoreFunctionSubView.h; sourceTree = "<group>"; };
+		9B84E7A126E7A9F2006BDCCB /* MoreFunctionSubView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoreFunctionSubView.m; sourceTree = "<group>"; };
+		9B84E7A326E7AA3F006BDCCB /* MessageButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageButton.h; sourceTree = "<group>"; };
+		9B84E7A426E7AA3F006BDCCB /* MessageButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageButton.m; sourceTree = "<group>"; };
+		9BD29D7426CBF8F7002F7114 /* MessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		9BD29D7526CBF8F7002F7114 /* MessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
+		9BD29D7726CBF949002F7114 /* Message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		9BD29D7826CBF949002F7114 /* Message.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		9BD29D7A26CBF985002F7114 /* MessageFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageFrame.h; sourceTree = "<group>"; };
+		9BD29D7B26CBF985002F7114 /* MessageFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageFrame.m; sourceTree = "<group>"; };
+		9BD29D7D26CBFA2B002F7114 /* MessageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
+		9BD29D7E26CBFA2B002F7114 /* MessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
+		9BD29D8026CBFA6B002F7114 /* InputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InputView.h; sourceTree = "<group>"; };
+		9BD29D8126CBFA6B002F7114 /* InputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InputView.m; sourceTree = "<group>"; };
 		A626533B26CA88000084050F /* VisitorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VisitorViewController.h; sourceTree = "<group>"; };
 		A626533C26CA88000084050F /* VisitorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VisitorViewController.m; sourceTree = "<group>"; };
 		A626533E26CA88A30084050F /* LoginAndRegisterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginAndRegisterView.h; sourceTree = "<group>"; };
 		A626533F26CA88A30084050F /* LoginAndRegisterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginAndRegisterView.m; sourceTree = "<group>"; };
 		A626534126CA89060084050F /* SDAutoLayout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SDAutoLayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A626534526CAAEB30084050F /* xxChatDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xxChatDelegate.h; sourceTree = "<group>"; };
+		A626535B26E12C480084050F /* ContactCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactCell.h; sourceTree = "<group>"; };
+		A626535C26E12C480084050F /* ContactCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactCell.m; sourceTree = "<group>"; };
+		A626535E26E12C860084050F /* FriendInvitationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendInvitationCell.h; sourceTree = "<group>"; };
+		A626535F26E12C860084050F /* FriendInvitationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendInvitationCell.m; sourceTree = "<group>"; };
+		A626536126E12CB50084050F /* SearchResultCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchResultCell.h; sourceTree = "<group>"; };
+		A626536226E12CB50084050F /* SearchResultCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchResultCell.m; sourceTree = "<group>"; };
+		A626536426E12CF30084050F /* MessageTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageTableView.h; sourceTree = "<group>"; };
+		A626536526E12CF30084050F /* MessageTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageTableView.m; sourceTree = "<group>"; };
+		A626536726E130280084050F /* AddViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddViewController.h; sourceTree = "<group>"; };
+		A626536826E130280084050F /* AddViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
+		A626536A26E130570084050F /* ChangeInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangeInfoViewController.h; sourceTree = "<group>"; };
+		A626536B26E130570084050F /* ChangeInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangeInfoViewController.m; sourceTree = "<group>"; };
+		A626536D26E130870084050F /* FriendInvitationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendInvitationViewController.h; sourceTree = "<group>"; };
+		A626536E26E130870084050F /* FriendInvitationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendInvitationViewController.m; sourceTree = "<group>"; };
+		A626537026E130C60084050F /* SearchInfomationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchInfomationController.h; sourceTree = "<group>"; };
+		A626537126E130C60084050F /* SearchInfomationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchInfomationController.m; sourceTree = "<group>"; };
+		A626537426E337560084050F /* UIImage+ChangeImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+ChangeImage.h"; sourceTree = "<group>"; };
+		A626537526E337560084050F /* UIImage+ChangeImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ChangeImage.m"; sourceTree = "<group>"; };
 		A654FE0326C17DAC00DCE37C /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		A654FE0426C17DAC00DCE37C /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		A9BFB7ADCDC74788E2CD01FE /* Pods-xxChat-xxChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.release.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -165,6 +216,7 @@
 		9B678D7426BEB7DA00483386 /* xxChat */ = {
 			isa = PBXGroup;
 			children = (
+				A626537326E135150084050F /* Categorys */,
 				A626534426CAAE720084050F /* Protocols */,
 				A654FE0226C17D5400DCE37C /* Views */,
 				9B678DAC26C155EB00483386 /* Others */,
@@ -202,6 +254,8 @@
 			children = (
 				9B678D7B26BEB7DA00483386 /* ChatsViewController.h */,
 				9B678D7C26BEB7DA00483386 /* ChatsViewController.m */,
+				9BD29D7426CBF8F7002F7114 /* MessageViewController.h */,
+				9BD29D7526CBF8F7002F7114 /* MessageViewController.m */,
 				9B678DAF26C157BF00483386 /* ContactsViewController.h */,
 				9B678DB026C157BF00483386 /* ContactsViewController.m */,
 				9B678DB226C1595D00483386 /* DiscoverViewController.h */,
@@ -212,6 +266,14 @@
 				9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */,
 				A626533B26CA88000084050F /* VisitorViewController.h */,
 				A626533C26CA88000084050F /* VisitorViewController.m */,
+				A626536726E130280084050F /* AddViewController.h */,
+				A626536826E130280084050F /* AddViewController.m */,
+				A626536A26E130570084050F /* ChangeInfoViewController.h */,
+				A626536B26E130570084050F /* ChangeInfoViewController.m */,
+				A626536D26E130870084050F /* FriendInvitationViewController.h */,
+				A626536E26E130870084050F /* FriendInvitationViewController.m */,
+				A626537026E130C60084050F /* SearchInfomationController.h */,
+				A626537126E130C60084050F /* SearchInfomationController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -235,11 +297,24 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		A626537326E135150084050F /* Categorys */ = {
+			isa = PBXGroup;
+			children = (
+				A626537426E337560084050F /* UIImage+ChangeImage.h */,
+				A626537526E337560084050F /* UIImage+ChangeImage.m */,
+			);
+			path = Categorys;
+			sourceTree = "<group>";
+		};
 		A654FE0126C17D3F00DCE37C /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				A654FE0326C17DAC00DCE37C /* User.h */,
 				A654FE0426C17DAC00DCE37C /* User.m */,
+				9BD29D7726CBF949002F7114 /* Message.h */,
+				9BD29D7826CBF949002F7114 /* Message.m */,
+				9BD29D7A26CBF985002F7114 /* MessageFrame.h */,
+				9BD29D7B26CBF985002F7114 /* MessageFrame.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -253,6 +328,24 @@
 				9B678DC826C3D97C00483386 /* ChatCell.m */,
 				A626533E26CA88A30084050F /* LoginAndRegisterView.h */,
 				A626533F26CA88A30084050F /* LoginAndRegisterView.m */,
+				A626536426E12CF30084050F /* MessageTableView.h */,
+				A626536526E12CF30084050F /* MessageTableView.m */,
+				9BD29D7D26CBFA2B002F7114 /* MessageCell.h */,
+				9BD29D7E26CBFA2B002F7114 /* MessageCell.m */,
+				9B84E7A326E7AA3F006BDCCB /* MessageButton.h */,
+				9B84E7A426E7AA3F006BDCCB /* MessageButton.m */,
+				9BD29D8026CBFA6B002F7114 /* InputView.h */,
+				9BD29D8126CBFA6B002F7114 /* InputView.m */,
+				9B84E79D26E7A966006BDCCB /* MoreFunctionView.h */,
+				9B84E79E26E7A966006BDCCB /* MoreFunctionView.m */,
+				9B84E7A026E7A9F2006BDCCB /* MoreFunctionSubView.h */,
+				9B84E7A126E7A9F2006BDCCB /* MoreFunctionSubView.m */,
+				A626535B26E12C480084050F /* ContactCell.h */,
+				A626535C26E12C480084050F /* ContactCell.m */,
+				A626535E26E12C860084050F /* FriendInvitationCell.h */,
+				A626535F26E12C860084050F /* FriendInvitationCell.m */,
+				A626536126E12CB50084050F /* SearchResultCell.h */,
+				A626536226E12CB50084050F /* SearchResultCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -506,16 +599,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B678DC626C3C1EF00483386 /* SelfInformationTableViewController.m in Sources */,
+				A626537226E130C60084050F /* SearchInfomationController.m in Sources */,
 				A626534026CA88A30084050F /* LoginAndRegisterView.m in Sources */,
+				9B84E7A226E7A9F2006BDCCB /* MoreFunctionSubView.m in Sources */,
 				A626533D26CA88000084050F /* VisitorViewController.m in Sources */,
+				9BD29D8226CBFA6B002F7114 /* InputView.m in Sources */,
 				A654FE0526C17DAC00DCE37C /* User.m in Sources */,
+				A626536F26E130870084050F /* FriendInvitationViewController.m in Sources */,
 				9B678DB126C157BF00483386 /* ContactsViewController.m in Sources */,
+				A626536C26E130570084050F /* ChangeInfoViewController.m in Sources */,
+				A626536026E12C860084050F /* FriendInvitationCell.m in Sources */,
 				9B678DB426C1595D00483386 /* DiscoverViewController.m in Sources */,
+				A626535D26E12C480084050F /* ContactCell.m in Sources */,
+				9B84E7A526E7AA3F006BDCCB /* MessageButton.m in Sources */,
+				A626536926E130280084050F /* AddViewController.m in Sources */,
+				A626537626E337560084050F /* UIImage+ChangeImage.m in Sources */,
+				A626536626E12CF30084050F /* MessageTableView.m in Sources */,
+				9BD29D7626CBF8F7002F7114 /* MessageViewController.m in Sources */,
+				9BD29D7926CBF949002F7114 /* Message.m in Sources */,
 				9B678DB726C1596600483386 /* MeViewController.m in Sources */,
+				A626536326E12CB50084050F /* SearchResultCell.m in Sources */,
+				9BD29D7C26CBF985002F7114 /* MessageFrame.m in Sources */,
 				9B678DC926C3D97C00483386 /* ChatCell.m in Sources */,
 				9B678D7D26BEB7DA00483386 /* ChatsViewController.m in Sources */,
 				9B678D7726BEB7DA00483386 /* AppDelegate.m in Sources */,
+				9BD29D7F26CBFA2B002F7114 /* MessageCell.m in Sources */,
 				9B678DC026C2CE9200483386 /* InformationCell.m in Sources */,
+				9B84E79F26E7A966006BDCCB /* MoreFunctionView.m in Sources */,
 				9B678D8826BEB7DC00483386 /* main.m in Sources */,
 				9B678D7A26BEB7DA00483386 /* SceneDelegate.m in Sources */,
 			);
