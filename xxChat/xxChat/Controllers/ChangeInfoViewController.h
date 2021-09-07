@@ -2,7 +2,7 @@
 //  ChangeInfoViewController.h
 //  xxChat
 //
-//  Created by little_Fking_cute on 2021/8/18.
+//  Created by 谢恩平 on 2021/9/3.
 //
 
 #import <UIKit/UIKit.h>

@@ -6,7 +6,6 @@
  ******************************************************/
 
 #import <Foundation/Foundation.h>
-#import <JMessage/JMessage.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,16 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) NSString* account;
 ///密码
 @property (nonatomic,copy) NSString* password;
-
-//============================================  下面的可通过JMSUserInfo获取
-
 ///用户名
-@property (nonatomic, strong) NSString* nickname;
-///头像
-@property (nonatomic, strong) NSData * avatarData;
-///生日
-@property (nonatomic, strong) NSNumber *birthday;
-
+@property (nonatomic,copy) NSString* userName;
+///昵称
+@property (nonatomic,copy) NSString* nickname;
+///头像数据
+@property (nonatomic,copy) NSString* birthday;
 
 ///字典转模型方法
 + (instancetype)userWithDic: (NSDictionary*)dic;
@@ -33,7 +28,16 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary*)dicWithUser: (User*)user;
 
 ///字典数组转模型数组方法
-+ (NSArray*)usersArrayWithDictionaryArray: (NSArray*)dicArray;
++ (NSMutableArray*)usersArrayWithDictionaryArray: (NSMutableArray*)dicArray;
+
+///模型数组转字典数组方法
++ (NSMutableArray*)dicsArrayWithUserArray: (NSMutableArray*)userArray;
+
+///写入本地
++ (void) writeToFileWithUsersDicArray:(NSMutableArray*)mutArray AndFileName:(NSString*)name;
+
+///在本地取出
++ (NSMutableArray*)getDictionaryFromPlistWithFileName:(NSString*)name;
 
 @end
 

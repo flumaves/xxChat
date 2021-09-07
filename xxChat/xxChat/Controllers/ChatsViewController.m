@@ -9,7 +9,7 @@
 #import "ChatCell.h"
 #import "MessageViewController.h"
 
-@interface ChatsViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface ChatsViewController () <UITableViewDataSource, UITableViewDelegate,JMessageDelegate>
 
 //加载会话列表的tableView
 @property (nonatomic, strong)UITableView *chatTableView;
@@ -23,28 +23,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
     self.chatTableView.tableFooterView = [[UIView alloc] init];
     [self.view addSubview:self.chatTableView];
+    [self layoutView];
     
-    //测试用
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"login" style:UIBarButtonItemStyleDone target:self action:@selector(login)];
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"addChat" style:UIBarButtonItemStyleDone target:self action:@selector(addChat)];
 }
-
-///测试用
-//登陆账号
-- (void)login {
-    [JMSGUser loginWithUsername:@"111111" password:@"111111" completionHandler:^(id resultObject, NSError *error) {
-        if (error) {
-            NSLog(@"error");
-        }
-        [self.chatTableView reloadData];
-    }];
-}
-
 //创建单聊对话
 - (void)addChat {
     [JMSGConversation createSingleConversationWithUsername:@"222222" completionHandler:^(id resultObject, NSError *error) {
@@ -55,7 +40,6 @@
         }
     }];
 }
-
 - (UITableView *)chatTableView {
     if (_chatTableView == nil) {
         _chatTableView = [[UITableView alloc] initWithFrame:self.view.frame];
@@ -119,4 +103,39 @@
     controller.conversation = cell.conversation;
     [self.navigationController pushViewController:controller animated:YES];
 }
+
+#pragma mark -
+- (void)layoutView{
+    //右上角的添加button
+    UIBarButtonItem *addBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(openAddController)];
+    addBtnItem.tintColor = MainColor;
+    
+    UIBarButtonItem *searchBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(openSearchController)];
+    searchBtnItem.tintColor = MainColor;
+    NSArray *btnArray = [NSArray arrayWithObjects:addBtnItem,searchBtnItem, nil];
+    [self.navigationItem setRightBarButtonItems:btnArray];
+    //左上角的button
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"addChat" style:UIBarButtonItemStyleDone target:self action:@selector(addChat)];
+    
+    
+}
+//打开搜索页面
+- (void)openSearchController{
+}
+
+
+//打开添加页面
+- (void)openAddController{
+    self.hidesBottomBarWhenPushed = YES;//隐藏tabar
+    AddViewController *addViewController = [[AddViewController alloc]init];
+    [self.navigationController pushViewController:addViewController animated:YES];
+    self.hidesBottomBarWhenPushed = NO;//back回来又不隐藏了
+    
+}
+
+
+
+
+
+
 @end

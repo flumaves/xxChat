@@ -57,6 +57,7 @@
     self.regiAccount.layer.borderWidth = 0.5;//设置边框宽度
     self.regiAccount.layer.borderColor = [MainColor CGColor];//边框颜色
     self.regiAccount.leftViewMode = UITextFieldViewModeAlways;//设置左侧view一直存在
+    self.regiAccount.clearButtonMode = UITextFieldViewModeWhileEditing;//设置一键清除按钮
     UIImageView *view_1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
     view_1.backgroundColor = [UIColor clearColor];
     view_1.image = [UIImage imageNamed:@"账号"];
@@ -73,6 +74,7 @@
     self.regiPassword_1.layer.borderWidth = 0.5;//设置边框宽度
     self.regiPassword_1.layer.borderColor = [MainColor CGColor];//边框颜色
     self.regiPassword_1.leftViewMode = UITextFieldViewModeAlways;
+    self.regiPassword_1.clearButtonMode = UITextFieldViewModeWhileEditing;//设置一键清除按钮
     UIImageView *view_2 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
     view_2.backgroundColor = [UIColor clearColor];
     view_2.image = [UIImage imageNamed:@"密码"];
@@ -88,6 +90,7 @@
     self.regiPassword_2.layer.borderWidth = 0.5;//设置边框宽度
     self.regiPassword_2.layer.borderColor = [MainColor CGColor];//边框颜色
     self.regiPassword_2.leftViewMode = UITextFieldViewModeAlways;
+    self.regiPassword_2.clearButtonMode = UITextFieldViewModeWhileEditing;//设置一键清除按钮
     UIImageView *view_3 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
     view_3.backgroundColor = [UIColor clearColor];
     view_3.image = [UIImage imageNamed:@"密码"];
@@ -102,6 +105,7 @@
     [self.loginAccount setFrame:CGRectMake(ScreenWidth/12, 0, 0, 0)];//设置初始位置
     self.loginAccount.placeholder = @"请输入账号";
     self.loginAccount.leftViewMode = UITextFieldViewModeAlways;
+    self.loginAccount.clearButtonMode = UITextFieldViewModeWhileEditing;//设置一键清除按钮
     UIImageView *view_4 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
     view_4.backgroundColor = [UIColor clearColor];
     view_4.image = [UIImage imageNamed:@"账号"];
@@ -120,6 +124,7 @@
     self.loginPassword.placeholder = @"请输入密码";
     self.loginPassword.secureTextEntry = YES;
     self.loginPassword.leftViewMode = UITextFieldViewModeAlways;
+    self.loginPassword.clearButtonMode = UITextFieldViewModeWhileEditing;//设置一键清除按钮
     UIImageView *view_5 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
     view_5.backgroundColor = [UIColor clearColor];
     view_5.image = [UIImage imageNamed:@"密码"];
@@ -213,7 +218,10 @@
     heightIs(0.5).leftEqualToView(_loginAccount);
     
     //确认按钮
-    _confirmButton.sd_layout.topSpaceToView(self.loginPassword, 50).centerXEqualToView(self).widthRatioToView(self, 0.6).autoHeightRatio(0.2);
+    _confirmButton.sd_layout.
+    topSpaceToView(self.loginPassword, 50).
+    centerXEqualToView(self).widthRatioToView(self, 0.6).
+    autoHeightRatio(0.2);
     _confirmButton.sd_cornerRadiusFromHeightRatio = [NSNumber numberWithFloat:0.5];
     
     
@@ -235,7 +243,6 @@
         self.regiAccount.text = @"";
         self.regiPassword_1.text = @"";
         self.regiPassword_2.text = @"";
-
     }
 
     //动画
