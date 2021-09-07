@@ -83,14 +83,17 @@
     _iconImgView.frame = messageFrame.iconFrame;
     _contentBtn.frame = messageFrame.contentFrame;
     
-    if (message.message.contentType == kJMSGContentTypeVoice) {
+    if (message.message.contentType == kJMSGContentTypeVoice) { //语音消息
         _contentBtn.voiceImgView.frame = messageFrame.voiceImgFrame;
         _contentBtn.durationLbl.frame = messageFrame.durationLblFrame;
         _contentBtn.voiceImgView.hidden = NO;
         _contentBtn.durationLbl.hidden = NO;
+        //设置为titlabel透明颜色 防止复用时出现bug （设置hidden属性不起作用）
+        [_contentBtn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
     } else {
         _contentBtn.voiceImgView.hidden = YES;
         _contentBtn.durationLbl.hidden = YES;
+        [_contentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     
     if (message.message.contentType == kJMSGContentTypeText) {

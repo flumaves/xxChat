@@ -9,11 +9,7 @@
 #import "UIImage+ChangeImage.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface InputView ()
-
-//记录录音还是打字状态
-@property (nonatomic, assign, getter = isTyping) BOOL typing;
-
+@interface InputView () <UITextFieldDelegate>
 //录音机
 @property (nonatomic, strong) AVAudioRecorder *audioRecorder;
 
@@ -66,8 +62,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _typing = YES;
-        
+        _fromStatus = InputViewStatusNothing;
+        _toStatus = InputViewStatusNothing;
         self.backgroundColor = [UIColor colorWithRed:251/255.0 green:251/255.0 blue:251/255.0 alpha:1];
         
         ///一条细细的分割线
@@ -84,19 +80,15 @@
         //录音
         CGFloat recordBtnX = space;
         _recordBtn = [[UIButton alloc] initWithFrame:CGRectMake(recordBtnX, y, BtnWidth, BtnWidth)];
-        UIImage *recordImg = [UIImage imageNamed:@"录音"];
-        recordImg = [recordImg scaleToSize:CGSizeMake(30, 30)];
-        [_recordBtn setImage:recordImg forState:UIControlStateNormal];
+        [_recordBtn setImage:[UIImage imageNamed:@"录音"] forState:UIControlStateNormal];
         [_recordBtn addTarget:self action:@selector(recordBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_recordBtn];
         
         //更多
         CGFloat moreBtnX = screenWidth - space - BtnWidth;
         _moreBtn = [[UIButton alloc] initWithFrame:CGRectMake(moreBtnX, y, BtnWidth, BtnWidth)];
-        UIImage *moreImage = [UIImage imageNamed:@"更多"];
         [_moreBtn addTarget:self action:@selector(moreBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        moreImage = [moreImage scaleToSize:CGSizeMake(35, 35)];
-        [_moreBtn setImage:moreImage forState:UIControlStateNormal];
+        [_moreBtn setImage:[UIImage imageNamed:@"更多"] forState:UIControlStateNormal];
         [self addSubview:_moreBtn];
         
         //表情
@@ -188,33 +180,79 @@
 
 //点击录音按钮的方法
 - (void)recordBtnClick {
-    if ([self isTyping]) {
-        UIImage *recordImg = [UIImage imageNamed:@"键盘"];
-        recordImg = [recordImg scaleToSize:CGSizeMake(30, 30)];
-        [_recordBtn setImage:recordImg forState:UIControlStateNormal];
-        
-        _typing = NO;
-        _beginRecordBtn.hidden = NO;
-        _inputTextField.hidden = YES;
-    } else {
-        UIImage *recordImg = [UIImage imageNamed:@"录音"];
-        recordImg = [recordImg scaleToSize:CGSizeMake(36, 36)];
-        [_recordBtn setImage:recordImg forState:UIControlStateNormal];
-        
-        _typing = YES;
+    if (_toStatus == InputViewStatusShowVoice) {
+        //已经在录音状态 点击recordBtn后展示键盘
+        [self.recordBtn setImage:[UIImage imageNamed:@"录音"] forState:UIControlStateNormal];
+        _fromStatus = _toStatus;
+        _toStatus = InputViewStatusShowKeyboard;
         _beginRecordBtn.hidden = YES;
         _inputTextField.hidden = NO;
+        [self.inputTextField becomeFirstResponder];
+    } else {
+        //点击recordBtn后变成录音状态
+        [self.recordBtn setImage:[UIImage imageNamed:@"键盘"] forState:UIControlStateNormal];
+        //当此时正在展示表情包的时候 把emojiBtn的键盘Image 变成 表情Image
+        if (_toStatus == InputViewStatusShowEmoji) {
+            [_emojiBtn setImage:[UIImage imageNamed:@"表情"] forState:UIControlStateNormal];
+        }
+        _fromStatus = _toStatus;
+        _toStatus = InputViewStatusShowVoice;
+        _beginRecordBtn.hidden = NO;
+        _inputTextField.hidden = YES;
+    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(changeInputViewFromStatus:ToStatus:)]) {
+        [self.delegate changeInputViewFromStatus:_fromStatus ToStatus:_toStatus];
     }
 }
 
 //点击表情按钮的方法
 - (void)emojiBtnClick {
-    
+    if (_toStatus == InputViewStatusShowEmoji) {
+        //此时正在显示表情包 点击emojiBtn后展示键盘
+        [self.emojiBtn setImage:[UIImage imageNamed:@"表情"] forState:UIControlStateNormal];
+        [self.inputTextField becomeFirstResponder];
+        _fromStatus = _toStatus;
+        _toStatus = InputViewStatusShowKeyboard;
+    } else {
+        //点击emojiBtn 后显示表情包
+        [self.emojiBtn setImage:[UIImage imageNamed:@"键盘"] forState:UIControlStateNormal];
+        //当此时正在录音的时候 把recordBtn的 键盘Image 变成 录音Image
+        if (_toStatus == InputViewStatusShowVoice) {
+            [_recordBtn setImage:[UIImage imageNamed:@"录音"] forState:UIControlStateNormal];
+            _beginRecordBtn.hidden = YES;
+            _inputTextField.hidden = NO;
+        }
+        _fromStatus = _toStatus;
+        _toStatus = InputViewStatusShowEmoji;
+    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(changeInputViewFromStatus:ToStatus:)]) {
+        [self.delegate changeInputViewFromStatus:_fromStatus ToStatus:_toStatus];
+    }
 }
 
 //点击更多按钮的方法
 - (void)moreBtnClick {
-    
+    if (_toStatus == InputViewStatusShowMore) {
+        //此时已经显示moreFunctionView 点击后展示键盘
+        _fromStatus = _toStatus;
+        _toStatus = InputViewStatusShowKeyboard;
+        [self.inputTextField becomeFirstResponder];
+    } else {
+        //点击moreBtn后 显示moreFunctionView
+        //此时在 录音状态 或 表情包状态 都重新设置他们的图片
+        if (_toStatus == InputViewStatusShowEmoji) {
+            [_emojiBtn setImage:[UIImage imageNamed:@"表情"] forState:UIControlStateNormal];
+        } else if (_toStatus == InputViewStatusShowVoice) {
+            [_recordBtn setImage:[UIImage imageNamed:@"录音"] forState:UIControlStateNormal];
+            _beginRecordBtn.hidden = YES;
+            _inputTextField.hidden = NO;
+        }
+        _fromStatus = _toStatus;
+        _toStatus = InputViewStatusShowMore;
+    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(changeInputViewFromStatus:ToStatus:)]) {
+        [self.delegate changeInputViewFromStatus:_fromStatus ToStatus:_toStatus];
+    }
 }
 
 @end
