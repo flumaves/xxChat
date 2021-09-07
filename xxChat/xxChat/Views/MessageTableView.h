@@ -5,6 +5,8 @@
 //  Created by little_Fking_cute on 2021/8/24.
 //
 
+///该tableView封装用于聊天界面的tableview的使用
+
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN

@@ -5,6 +5,8 @@
 //  Created by little_Fking_cute on 2021/9/4.
 //
 
+///该uibutton的封装用于聊天界面中每个cell中具体的聊天内容的加载和显示
+
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN

@@ -12,18 +12,31 @@
 #import "InputView.h"
 #import "MessageTableView.h"
 #import <AVFoundation/AVFoundation.h>
+#import "MoreFunctionView.h"
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #define INTERVAL 60*3 //3分钟的时间间隔
 
 @interface MessageViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, JMSGMessageDelegate, InputViewDelegate, MessageCellDelegate, AVAudioPlayerDelegate>
+//navigationBar后面的背景的view
+@property (nonatomic, strong) UIView *backgroundView;
 
 //显示消息的tableView
 @property (nonatomic, strong) MessageTableView *messageTableView;
 
 //底部输入文字的视图
 @property (nonatomic, strong) InputView *inputView;
+
+//inputView的编辑状态
+@property (nonatomic, assign) InputViewStatus fromStatus;
+@property (nonatomic, assign) InputViewStatus toStatus;
+
+//moreFunctionView
+@property (nonatomic, strong) MoreFunctionView *moreFunctionView;
+
+//表情包
+@property (nonatomic, strong) UIView *emojiView;
 
 //消息数组
 @property (nonatomic, strong) NSMutableArray *messagesArray;
@@ -49,13 +62,19 @@
  */
 - (void)viewWillAppear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = YES;
+    
+    //添加通知的监听
+    [self addObservers];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = NO;
+    
+    //注销通知的监听
+    [self removeObservers];
 }
 
-
+#pragma mark - viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -69,6 +88,18 @@
     
     [self creatTableView];
 }
+
+#pragma mark - 添加监听
+//添加监听
+- (void)addObservers {
+    
+}
+
+//注销监听
+- (void)removeObservers {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 #pragma mark - 懒加载
 //“我”用户
@@ -126,14 +157,16 @@
     CGFloat navigationBarMAXY = CGRectGetMaxY(self.navigationController.navigationBar.frame);
     //tableView
     self.messageTableView = [[MessageTableView alloc] initWithFrame:CGRectMake(0, navigationBarMAXY, ScreenWidth, ScreenHeight - 90 - navigationBarMAXY)];
+    //取消tableView自动更改内边距
+    self.messageTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     self.messageTableView.dataSource = self;
     self.messageTableView.delegate = self;
     [self.view addSubview:self.messageTableView];
     
     //navigationBar后面添加一个view解决透明度引起的颜色问题
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, navigationBarMAXY)];
-    view.backgroundColor = self.messageTableView.backgroundColor;
-    [self.view addSubview:view];
+    _backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, navigationBarMAXY)];
+    _backgroundView.backgroundColor = self.messageTableView.backgroundColor;
+    [self.view addSubview:_backgroundView];
     
     //文本输入框
     self.inputView = [[InputView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.messageTableView.frame), ScreenWidth, 90)];
@@ -141,6 +174,19 @@
     [self.view addSubview:_inputView];
     
     self.inputView.inputTextField.delegate = self;
+    
+    //moreFunctionView
+    CGFloat moreFunctionViewHeight = 250;
+    self.moreFunctionView = [[MoreFunctionView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, moreFunctionViewHeight)];
+    _moreFunctionView.hidden = YES;
+    [self.view addSubview:_moreFunctionView];
+    
+    //emojiView
+    CGRect emojiViewFrame = _moreFunctionView.frame;
+    self.emojiView = [[UIView alloc] initWithFrame:emojiViewFrame];
+    _emojiView.backgroundColor = [UIColor systemTealColor];
+    _emojiView.hidden = YES;
+    [self.view addSubview:_emojiView];
     
     //注册键盘变化的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(KeyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
@@ -210,21 +256,29 @@
 #pragma mark - keyBoard通知的具体操作
 - (void)KeyboardWillChange:(NSNotification *)notification
 {
+    _moreFunctionView.hidden = YES;
+    _emojiView.hidden = YES;
+    
     NSDictionary *dict = notification.userInfo;
-    CGRect KeyboardFrame = [dict[UIKeyboardFrameEndUserInfoKey]CGRectValue];
+    CGRect KeyboardFrame = [dict[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGFloat KeyboardY = KeyboardFrame.origin.y;
-    //获取动画时间
-    CGFloat duration = [dict[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
-    CGFloat transY = KeyboardY - self.view.frame.size.height + 30;
     //为了美观将view向下移动30 避免inputview下方空白太大
-
-    if (transY == 30) {
-        transY -= 30;
+    CGRect inputViewFrame = _inputView.frame;
+    inputViewFrame.origin.y = KeyboardY - inputViewFrame.size.height + 30;
+    if (KeyboardY == ScreenHeight) {    //当键盘缩回时 重新将额外移动的30像素还原
+        inputViewFrame.origin.y -= 30;
+    }
+    //tableView的frame
+    CGRect tableViewFrame = _messageTableView.frame;
+    tableViewFrame.origin.y = inputViewFrame.origin.y - tableViewFrame.size.height;
+    
+    if (_fromStatus == InputViewStatusShowKeyboard && (_toStatus == InputViewStatusShowEmoji || _toStatus == InputViewStatusShowMore)) {
+        return;
     }
     
-    //动画
-    [UIView animateWithDuration:duration animations:^{
-        self.view.transform =CGAffineTransformMakeTranslation(0, transY);
+    [UIView animateWithDuration:0.3 animations:^{
+        self.inputView.frame = inputViewFrame;
+        self.messageTableView.frame = tableViewFrame;
     }];
 }
 
@@ -240,8 +294,18 @@
 
 ///拖动屏幕的操作
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    //取消编辑状态 会改变keyboard的状态 从而发送通知
-    [self.view endEditing:YES];
+    if (_toStatus == InputViewStatusShowKeyboard) {
+        //取消编辑状态 会改变keyboard的状态 从而发送通知
+        [self.view endEditing:YES];
+        self.moreFunctionView.hidden = YES;
+        self.emojiView.hidden = YES;
+    } else if (_toStatus != InputViewStatusNothing) {
+        //改成默认状态
+        self.inputView.fromStatus = _toStatus;
+        self.inputView.toStatus = InputViewStatusNothing;
+        [self changeInputViewFromStatus:_toStatus ToStatus:InputViewStatusNothing];
+    }
+    
 }
 
 #pragma mark - tableView的 dataSource 和 delegate
@@ -280,6 +344,19 @@
 
 
 #pragma mark - textfield的delegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (_messagesArray.count != 0) {
+        [self.messageTableView scrollsToTop];
+        
+        [self.inputView.emojiBtn setImage:[UIImage imageNamed:@"表情"] forState:UIControlStateNormal];
+        [self.inputView.moreBtn setImage:[UIImage imageNamed:@"更多"] forState:UIControlStateNormal];
+        self.inputView.fromStatus = _toStatus;
+        _fromStatus = _toStatus;
+        self.inputView.toStatus = InputViewStatusShowKeyboard;
+        _toStatus = InputViewStatusShowKeyboard;
+    }
+}
+
 //当按下回车键的时候
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     //模型数据的处理
@@ -290,13 +367,179 @@
 }
 
 
-#pragma mark - inputView的delegate
+#pragma mark - inputView的 delegate 和 通知
 //发送语音消息
 - (void)sendMessage:(JMSGVoiceContent *)voiceContent {
     JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:voiceContent username:self.anotherUser.username];
     
     //发送消息
     [JMSGMessage sendMessage:message];
+}
+
+//更新inputview的状态
+- (void)changeInputViewFromStatus:(InputViewStatus)fromStatus ToStatus:(InputViewStatus)toStatus {
+    _fromStatus = fromStatus;
+    _toStatus = toStatus;
+    self.moreFunctionView.hidden = YES;
+    self.emojiView.hidden = YES;
+    
+    if (toStatus == InputViewStatusShowKeyboard) {
+    ///要展示键盘
+        return;
+    }
+    
+    if (toStatus == InputViewStatusShowMore || toStatus == InputViewStatusShowEmoji) {
+    ///展示moreFunctionView 或是 表情包
+        if (toStatus == InputViewStatusShowMore) {  //显示moreFunctionView
+            self.moreFunctionView.hidden = NO;
+            [self.view bringSubviewToFront:self.moreFunctionView];
+            //重新移动到屏幕的底部
+            CGRect frame = _moreFunctionView.frame;
+            frame.origin.y = ScreenHeight;
+            _moreFunctionView.frame = frame;
+        } else if (toStatus == InputViewStatusShowEmoji) {  //显示表情包
+            self.emojiView.hidden = NO;
+            [self.view bringSubviewToFront:self.emojiView];
+            //重新移动到屏幕的底部
+            CGRect frame = _emojiView.frame;
+            frame.origin.y = ScreenHeight;
+            _emojiView.frame = frame;
+        }
+        if (fromStatus == InputViewStatusShowEmoji || fromStatus == InputViewStatusShowMore) {
+            //原本是表情包状态或moreFunctionView 则InputView不需要动画
+            if (toStatus == InputViewStatusShowMore) {
+                [UIView animateWithDuration:0.3 animations:^{
+                    CGRect frame = self.moreFunctionView.frame;
+                    frame.origin.y -= frame.size.height;
+                    self.moreFunctionView.frame = frame;
+                }];
+            } else {
+                [UIView animateWithDuration:0.3 animations:^{
+                    CGRect frame = self.emojiView.frame;
+                    frame.origin.y -= frame.size.height;
+                    self.emojiView.frame = frame;
+                }];
+            }
+            return;
+        } else if (fromStatus == InputViewStatusShowVoice ||
+                   fromStatus == InputViewStatusNothing) {
+            //原本是录音状态
+            [UIView animateWithDuration:0.3 animations:^{
+                //inputview的位置改变
+                CGRect inputViewFrame = self.inputView.frame;
+                CGFloat transY = self.inputView.frame.origin.y - self.moreFunctionView.frame.size.height + 30;
+                inputViewFrame.origin.y = transY;
+                self.inputView.frame = inputViewFrame;
+                
+                if (toStatus == InputViewStatusShowEmoji) {
+                    //emojiView的位置改变
+                    CGRect frame = self.emojiView.frame;
+                    frame.origin.y = frame.origin.y - self.emojiView.frame.size.height;
+                    self.emojiView.frame = frame;
+                } else {
+                    //moreFunctionView的位置改变
+                    CGRect frame = self.moreFunctionView.frame;
+                    frame.origin.y = frame.origin.y - self.moreFunctionView.frame.size.height;
+                    self.moreFunctionView.frame = frame;
+                }
+                //tableView的位置改变
+                CGRect tableViewFrame = self.messageTableView.frame;
+                tableViewFrame.origin.y = inputViewFrame.origin.y - tableViewFrame.size.height;
+                self.messageTableView.frame = tableViewFrame;
+            }];
+        } else if (fromStatus == InputViewStatusShowKeyboard) {
+            [_inputView.inputTextField resignFirstResponder];
+            
+            //原本是显示键盘
+            if (toStatus == InputViewStatusShowMore) {
+                [UIView animateWithDuration:0.2 animations:^{
+                    CGRect frame = self.moreFunctionView.frame;
+                    frame.origin.y -= frame.size.height;
+                    self.moreFunctionView.frame = frame;
+                    
+                    CGRect inputViewFrame = self.inputView.frame;
+                    inputViewFrame.origin.y = frame.origin.y - inputViewFrame.size.height + 30;
+                    self.inputView.frame = inputViewFrame;
+                    
+                    CGRect tableViewFrame = self.messageTableView.frame;
+                    tableViewFrame.origin.y = inputViewFrame.origin.y - tableViewFrame.size.height;
+                    self.messageTableView.frame = tableViewFrame;
+                }];
+            } else {
+                [UIView animateWithDuration:0.3 animations:^{
+                    CGRect frame = self.emojiView.frame;
+                    frame.origin.y -= frame.size.height;
+                    self.emojiView.frame = frame;
+                    
+                    CGRect inputViewFrame = self.inputView.frame;
+                    inputViewFrame.origin.y = frame.origin.y - inputViewFrame.size.height + 30;
+                    self.inputView.frame = inputViewFrame;
+                    
+                    CGRect tableViewFrame = self.messageTableView.frame;
+                    tableViewFrame.origin.y = inputViewFrame.origin.y - tableViewFrame.size.height;
+                    self.messageTableView.frame = tableViewFrame;
+                }];
+            }
+        }
+    }
+    
+    if (toStatus == InputViewStatusShowVoice) {
+    ///显示录音
+        if (fromStatus == InputViewStatusShowMore || fromStatus == InputViewStatusShowEmoji) {
+            [UIView animateWithDuration:0.3 animations:^{
+                //emojiView和moreFunctionView
+                CGRect frame = self.emojiView.frame;
+                frame.origin.y = ScreenHeight;
+                self.emojiView.frame = frame;
+                self.moreFunctionView.frame = frame;
+                //inputview
+                CGRect inputViewFrame = self.inputView.frame;
+                inputViewFrame.origin.y = frame.origin.y - inputViewFrame.size.height;
+                self.inputView.frame = inputViewFrame;
+                //tableView
+                CGRect tableViewFrame = self.messageTableView.frame;
+                tableViewFrame.origin.y = inputViewFrame.origin.y - tableViewFrame.size.height;
+                self.messageTableView.frame = tableViewFrame;
+            }];
+        }
+        if (fromStatus == InputViewStatusShowKeyboard) {
+            [_inputView.inputTextField resignFirstResponder];
+        }
+    }
+    
+    if (toStatus == InputViewStatusNothing) {
+    ///显示最初的默认状态
+        if (fromStatus == InputViewStatusShowMore || fromStatus == InputViewStatusShowEmoji) {
+            [UIView animateWithDuration:0.3 animations:^{
+                //emojiView和moreFunctionView
+                CGRect frame = self.emojiView.frame;
+                frame.origin.y = ScreenHeight;
+                self.emojiView.frame = frame;
+                self.moreFunctionView.frame = frame;
+                //inputview
+                CGRect inputViewFrame = self.inputView.frame;
+                inputViewFrame.origin.y = frame.origin.y - inputViewFrame.size.height;
+                self.inputView.frame = inputViewFrame;
+                //tableView
+                CGRect tableViewFrame = self.messageTableView.frame;
+                tableViewFrame.origin.y = inputViewFrame.origin.y - tableViewFrame.size.height;
+                self.messageTableView.frame = tableViewFrame;
+                
+                if (fromStatus == InputViewStatusShowEmoji) {
+                    [self.inputView.emojiBtn setImage:[UIImage imageNamed:@"表情"] forState:UIControlStateNormal];
+                }
+                if (fromStatus == InputViewStatusShowMore) {
+                    [self.inputView.moreBtn setImage:[UIImage imageNamed:@"更多"] forState:UIControlStateNormal];
+                }
+            }];
+        }
+    }
+}
+
+
+#pragma mark - moreFunctionView的delegate
+- (void)moreFunctionSubViewClick:(NSNotification *)notification {
+
 }
 
 
