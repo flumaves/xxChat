@@ -25,8 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
 //头像frame
 @property (nonatomic, assign)CGRect iconFrame;
 
-//正文frame
-@property (nonatomic, assign)CGRect textFrame;
+//聊天内容frame
+@property (nonatomic, assign)CGRect contentFrame;
+
+//语音消息的img的frame
+@property (nonatomic, assign)CGRect voiceImgFrame;
+
+//语音时长的lbl的frame
+@property (nonatomic, assign)CGRect durationLblFrame;
 
 //cell的高度
 @property (nonatomic, assign)CGFloat rowHeight;

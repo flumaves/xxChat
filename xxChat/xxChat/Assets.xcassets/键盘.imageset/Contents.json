@@ -1,15 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "jianpan.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "ToolViewKeyboard@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "ToolViewKeyboard@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

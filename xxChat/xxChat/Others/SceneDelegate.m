@@ -45,6 +45,7 @@
     
     UIWindowScene *windowScene = (UIWindowScene *)scene;
     self.window = [[UIWindow alloc] initWithWindowScene:windowScene];
+    self.window.backgroundColor = [UIColor colorWithRed:251/255.0 green:251/255.0 blue:251/255.0 alpha:1];
     //加载tabBarController和childViewController
     [self loadViewControllers];
     
