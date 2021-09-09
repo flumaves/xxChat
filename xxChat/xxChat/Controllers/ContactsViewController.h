@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 //判定是否有新的好友请求
 @property (nonatomic) BOOL isReceiveInvitation;
+//判定是否有新的群组通知，例如有人申请入群，有人退群等。
+@property (nonatomic) BOOL isReceiveGroupEvent;
 
 @end
 

@@ -7,7 +7,7 @@
 
 #import "SearchInfomationController.h"
 
-@interface SearchInfomationController ()
+@interface SearchInfomationController ()<UITextViewDelegate>
 
 @end
 
@@ -23,14 +23,23 @@
     self.title = @"用户信息";
     //navigationBar添加一个leftButton 只要单独一个箭头
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"返回"] style:UIBarButtonItemStyleDone target:self action:@selector(back)];
-    //设置button颜色为黑色
+    //设置button颜色为主色调
     self.navigationController.navigationBar.tintColor = MainColor;
     
     self.tableView.backgroundColor = [UIColor colorWithRed:225/255.0 green:225/255.0 blue:226/255.0 alpha:1];
     //去掉多余的cell之间的分割线
     self.tableView.tableFooterView = [[UIView alloc] init];
     
-    self.addButton = [[UIButton alloc]initWithFrame:CGRectMake(15,400, ScreenWidth-30, 50)];
+    //留言框
+    self.reasonTextView = [[UITextView alloc]initWithFrame:CGRectMake(15, 340, ScreenWidth-30, 200)];
+    self.reasonTextView.delegate = self;
+    self.reasonTextView.font = [UIFont systemFontOfSize:16];
+    self.reasonTextView.textColor = [UIColor lightGrayColor];
+    self.reasonTextView.text = @"给对方留言：";
+    [self.tableView addSubview:self.reasonTextView];
+    
+    //添加button
+    self.addButton = [[UIButton alloc]initWithFrame:CGRectMake(15,550, ScreenWidth-30, 50)];
     [self.addButton setBackgroundColor:MainColor];
     [self.addButton setTitle:@"加好友" forState:UIControlStateNormal];
     self.addButton.titleLabel.font = [UIFont systemFontOfSize:15];
@@ -178,8 +187,14 @@
 #pragma mark - 加好友方法
 - (void)addFriend{
     NSString* userName = self.User.username;
+    NSString* reason = self.reasonTextView.text;
+    if ([reason isEqualToString:@"给对方留言："]) {
+        reason = @"";
+    }
+    
+    
     //发送好友请求方法
-    [JMSGFriendManager sendInvitationRequestWithUsername:userName appKey:JMESSAGE_APPKEY reason:nil completionHandler:^(id resultObject, NSError *error) {
+    [JMSGFriendManager sendInvitationRequestWithUsername:userName appKey:JMESSAGE_APPKEY reason:reason completionHandler:^(id resultObject, NSError *error) {
             if (!error) {
                 [self showAlertViewWithMessage:@"已发送好友请求"];
             }else{
@@ -200,5 +215,20 @@
 
   [alertController addAction:cancelAction];
   [self presentViewController:alertController animated:YES completion:nil];
+}
+
+
+#pragma mark - textview delegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    
+    if([_reasonTextView.text isEqualToString:@"给对方留言："]){
+        _reasonTextView.text = @"";
+    }
+}
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    if([_reasonTextView.text isEqualToString:@""]){
+        _reasonTextView.text = @"给对方留言：";
+    }
 }
 @end
