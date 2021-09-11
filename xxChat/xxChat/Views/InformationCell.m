@@ -19,6 +19,7 @@
         self.iconImgView = [[UIImageView alloc] initWithFrame:CGRectMake(iconX, iconY, iconL, iconL)];
         self.iconImgView.backgroundColor = [UIColor grayColor];
         self.iconImgView.layer.cornerRadius = 10;
+        self.iconImgView.clipsToBounds = YES;
         [self addSubview:_iconImgView];
         
         //用户名
@@ -45,6 +46,10 @@
 
 - (void)setUserInfo:(JMSGUser *)userInfo {
     _userInfo = userInfo;
+    //头像
+    [_userInfo thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+        self.iconImgView.image = [UIImage imageWithData:data];
+    }];
     //账号
     self.accountLbl.text = _userInfo.nickname;
     //用户名

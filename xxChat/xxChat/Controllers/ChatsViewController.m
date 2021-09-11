@@ -9,13 +9,13 @@
 #import "ChatCell.h"
 #import "MessageViewController.h"
 
-@interface ChatsViewController () <UITableViewDataSource, UITableViewDelegate,JMessageDelegate>
+@interface ChatsViewController () <UITableViewDataSource, UITableViewDelegate,JMessageDelegate,JMSGConversationDelegate>
 
 //加载会话列表的tableView
 @property (nonatomic, strong)UITableView *chatTableView;
 
 //储存会话列表 （array中是 JMSGConversation）
-@property (nonatomic, strong)NSMutableArray *chatsArray;
+@property (nonatomic, strong)NSMutableArray *conversationsArray;
 
 @end
 
@@ -23,23 +23,53 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [JMessage addDelegate:self withConversation:nil];
 
     self.view.backgroundColor = [UIColor whiteColor];
     self.chatTableView.tableFooterView = [[UIView alloc] init];
     [self.view addSubview:self.chatTableView];
     [self layoutView];
+    [self loadData];
     
 }
-//创建单聊对话
-- (void)addChat {
-    [JMSGConversation createSingleConversationWithUsername:@"222222" completionHandler:^(id resultObject, NSError *error) {
+
+
+#pragma mark - 加载数据
+- (void)loadData {
+    [JMSGConversation allConversations:^(id resultObject, NSError *error) {
         if (error) {
             NSLog(@"%@",error);
         } else {
-            [self.chatsArray addObject:resultObject];
+            //正常返回时 resultObject里面为NSArray 成员类型为 JMSGConversation
+            self.conversationsArray = resultObject;
+            //该方法是异步加载 需要重新刷新一下tableview
+            [self.chatTableView reloadData];
         }
     }];
 }
+
+//创建单聊对话
+- (void)addChat {
+    [JMSGConversation createSingleConversationWithUsername:@"222222" completionHandler:^(id resultObject, NSError *error) {
+        JMSGConversation *conversations = (JMSGConversation *)resultObject;
+        if (error) {
+            NSLog(@"%@",error);
+            return;
+        } else {
+            //查看是否已经是存在的对话
+            for (JMSGConversation *conversation in self.conversationsArray) {
+                if (conversation.title == conversations.title) {
+                    return;
+                }
+            }
+            [self.conversationsArray addObject:conversations];
+            [self.chatTableView reloadData];
+        }
+    }];
+}
+
+
 - (UITableView *)chatTableView {
     if (_chatTableView == nil) {
         _chatTableView = [[UITableView alloc] initWithFrame:self.view.frame];
@@ -50,20 +80,21 @@
 }
 
 #pragma mark - 懒加载
-- (NSArray *)chatsArray {
-    if (_chatsArray == nil) {
-        [JMSGConversation allConversations:^(id resultObject, NSError *error) {
-            if (error) {
-                NSLog(@"%@",error);
-            } else {
-                //正常返回时 resultObject里面为NSArray 成员类型为 JMSGConversation
-                self.chatsArray = resultObject;
-                //该方法是异步加载 需要重新刷新一下tableview
-                [self.chatTableView reloadData];
-            }
-        }];
+- (NSArray *)conversationsArray {
+    if (_conversationsArray == nil) {
+        NSMutableArray *array = [NSMutableArray array];
+        _conversationsArray = array;
     }
-    return _chatsArray;
+    return _conversationsArray;
+}
+
+
+#pragma mark - JMSGMessageDelegate
+- (void)onReceiveMessage:(JMSGMessage *)message error:(NSError *)error {
+    [JMSGConversation allConversations:^(id resultObject, NSError *error) {
+        self.conversationsArray = resultObject;
+        [self.chatTableView reloadData];    
+    }];
 }
 
 #pragma mark -tableView的 dataSource 和 delegate
@@ -72,7 +103,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.chatsArray.count;
+    return self.conversationsArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -86,14 +117,19 @@
     }
     
     //传入数据 JMSGConversation
-    JMSGConversation *conversation = _chatsArray[indexPath.row];
+    JMSGConversation *conversation = _conversationsArray[indexPath.row];
     [cell setConversation:conversation];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 70;
+    ChatCell *cell = [self.chatTableView cellForRowAtIndexPath:indexPath];
+    if (!cell.rowHeight) {
+        return 80;
+    } else {
+        return cell.rowHeight;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

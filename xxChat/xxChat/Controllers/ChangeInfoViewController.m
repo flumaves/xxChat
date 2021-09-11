@@ -70,13 +70,17 @@
     ///头像
     if ([_infoType isEqual:@"头像"]) {
         //修改view的背景颜色
-        self.view.backgroundColor = [UIColor blackColor];
+        self.view.backgroundColor = [UIColor whiteColor];
         
         CGFloat width = screenWidth;
         CGFloat x = 0;
         CGFloat y = ([UIScreen mainScreen].bounds.size.height - width) / 2;
         _iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(x, y, width, width)];
-        _iconImageView.backgroundColor = [UIColor whiteColor];
+        _iconImageView.backgroundColor = [UIColor blackColor];
+        //获取头像数据
+        [_user largeAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+            self.iconImageView.image = [UIImage imageWithData:data];
+        }];
         [self.view addSubview:_iconImageView];
     
     ///名称
@@ -162,17 +166,17 @@
     }
 }
 
-///签名的textView的delegate
+
+#pragma mark - 签名的textView的delegate
 - (void)textViewDidChange:(UITextView *)textView {
     //剩余可输入字数
     NSUInteger lbl = MAXSIGNLENGTH - _textView.text.length;
     _countLbl.text = [NSString stringWithFormat:@"%lu",lbl];
 }
 
-///生日的datePick 的监听方法
+#pragma mark - 生日的datePick 的监听方法
 - (void)dateChange:(UIDatePicker *)datePicker {
     NSDate *birthday = _datePicker.date;
-    
     //判断数据的合理性
     //超过了现在的时间
     NSDate *now = [NSDate date];
@@ -182,7 +186,7 @@
     }
 }
 
-///性别的tableview 的delegate 和datasource
+#pragma mark - 性别的tableview 的delegate 和datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -231,21 +235,27 @@
 - (void)changeImage {
     UIAlertController *actionSheet = [[UIAlertController alloc] init];
     //添加按钮
-    UIAlertAction *action_1 = [UIAlertAction actionWithTitle:@"从相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-        imagePicker.delegate = self;
-        imagePicker.allowsEditing = YES;
-        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:imagePicker animated:YES completion:nil];
+    UIAlertAction *action_1 = [UIAlertAction actionWithTitle:@"从相册选择(未开放)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+//        imagePicker.delegate = self;
+//        imagePicker.allowsEditing = YES;
+//        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//        [self presentViewController:imagePicker animated:YES completion:nil];
+
+        
+    ///由于选择相片过程中 NSURL为nil 设置默认的头像
+        UIImage *image = [UIImage imageNamed:@"头像素材01"];
+        NSData *imageData = UIImageJPEGRepresentation(image,1.0f);
+        [self updataAvatarWithData:imageData];
     }];
     [actionSheet addAction:action_1];
     
-    UIAlertAction *action_2 = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-        imagePicker.delegate = self;
-        imagePicker.allowsEditing = YES;
-        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:imagePicker animated:YES completion:nil];
+    UIAlertAction *action_2 = [UIAlertAction actionWithTitle:@"拍照（未开放）" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+//        imagePicker.delegate = self;
+//        imagePicker.allowsEditing = YES;
+//        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+//        [self presentViewController:imagePicker animated:YES completion:nil];
     }];
     [actionSheet addAction:action_2];
     
@@ -258,10 +268,11 @@
 }
 
 
-///imagePicker 的delegate
+#pragma mark - imagePicker 的delegate
 //选完照片
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *)info {
-    NSString *type = [info objectForKey:UIImagePickerControllerEditedImage];
+    NSLog(@"选完照片了");
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
     if ([type isEqual:@"public.image"]) {
         UIImage *image = info[UIImagePickerControllerEditedImage];
         _iconImageView.image = image;
@@ -276,7 +287,7 @@
 }
 
 
-#pragma mark - 修改个人信息
+#pragma mark - 修改个人信息 (不包括头像)
 - (void)changeInfomation {
     [self.view endEditing:YES];
     
@@ -328,6 +339,23 @@
             [self presentViewController:alertController animated:YES completion:nil];
         }
     }];
+}
+
+
+#pragma mark - 更新头像
+- (void)updataAvatarWithData:(NSData *)avatarData {
+    [JMSGUser updateMyAvatarWithData:avatarData avatarFormat:@"" completionHandler:^(id resultObject, NSError *error) {
+        if (error) {
+            NSLog(@"%@",error);
+        }
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle:nil message:error ? @"修改失败" : @"修改成功" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        [alertController addAction:cancelAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }];
+    self.iconImageView.image = [UIImage imageWithData:avatarData];
 }
 
 

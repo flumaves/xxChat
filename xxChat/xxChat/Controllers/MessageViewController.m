@@ -97,7 +97,7 @@
 
 //注销监听
 - (void)removeObservers {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 
@@ -198,6 +198,11 @@
         NSLog(@"%@",error);
         return;
     }
+    if (![self.conversation isMessageForThisConversation:message]) {
+        //判断消息是否属于该会话
+        return;
+    }
+    
     //创建模型储存
     Message *newMessage = [[Message alloc] init];
     newMessage.userName = _user.username;

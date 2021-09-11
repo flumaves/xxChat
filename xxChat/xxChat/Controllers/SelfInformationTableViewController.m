@@ -25,6 +25,7 @@
     self.tabBarController.tabBar.hidden = YES;
     //加载页面重新获取user模型 使得在更改用户信息后能及时更新
     _user = [JMSGUser myInfo];
+    [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -76,6 +77,14 @@
         UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(iconX, iconY, iconL, iconL)];
         iconView.backgroundColor = [UIColor grayColor];
         iconView.layer.cornerRadius = 10;
+        iconView.clipsToBounds = YES;
+        [_user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+            if (error) {
+                NSLog(@"%@",error);
+                return;
+            }
+            iconView.image = [UIImage imageWithData:data];
+        }];
         [cell addSubview:iconView];
         
         cell.textLabel.text = @"头像";

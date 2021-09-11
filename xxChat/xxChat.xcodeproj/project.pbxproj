@@ -26,6 +26,7 @@
 		9B84E79F26E7A966006BDCCB /* MoreFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E79E26E7A966006BDCCB /* MoreFunctionView.m */; };
 		9B84E7A226E7A9F2006BDCCB /* MoreFunctionSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E7A126E7A9F2006BDCCB /* MoreFunctionSubView.m */; };
 		9B84E7A526E7AA3F006BDCCB /* MessageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E7A426E7AA3F006BDCCB /* MessageButton.m */; };
+		9B84E7F326ECB65F006BDCCB /* UnreadRedPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E7F226ECB65F006BDCCB /* UnreadRedPointView.m */; };
 		9BD29D7626CBF8F7002F7114 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7526CBF8F7002F7114 /* MessageViewController.m */; };
 		9BD29D7926CBF949002F7114 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7826CBF949002F7114 /* Message.m */; };
 		9BD29D7C26CBF985002F7114 /* MessageFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7B26CBF985002F7114 /* MessageFrame.m */; };
@@ -107,6 +108,8 @@
 		9B84E7A126E7A9F2006BDCCB /* MoreFunctionSubView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoreFunctionSubView.m; sourceTree = "<group>"; };
 		9B84E7A326E7AA3F006BDCCB /* MessageButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageButton.h; sourceTree = "<group>"; };
 		9B84E7A426E7AA3F006BDCCB /* MessageButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageButton.m; sourceTree = "<group>"; };
+		9B84E7F126ECB65F006BDCCB /* UnreadRedPointView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnreadRedPointView.h; sourceTree = "<group>"; };
+		9B84E7F226ECB65F006BDCCB /* UnreadRedPointView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnreadRedPointView.m; sourceTree = "<group>"; };
 		9BD29D7426CBF8F7002F7114 /* MessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
 		9BD29D7526CBF8F7002F7114 /* MessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		9BD29D7726CBF949002F7114 /* Message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
@@ -223,6 +226,7 @@
 				9B678DAB26C155DE00483386 /* Controllers */,
 				A654FE0126C17D3F00DCE37C /* Models */,
 				9B678D8126BEB7DC00483386 /* Assets.xcassets */,
+				9B84E7A826E89CB8006BDCCB /* 头像素材 */,
 				9B678D8626BEB7DC00483386 /* Info.plist */,
 				9B678D8726BEB7DC00483386 /* main.m */,
 				9B678DB826C1622300483386 /* LaunchScreen.storyboard */,
@@ -264,12 +268,12 @@
 				9B678DB626C1596600483386 /* MeViewController.m */,
 				9B678DC426C3C1EF00483386 /* SelfInformationTableViewController.h */,
 				9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */,
+				A626536A26E130570084050F /* ChangeInfoViewController.h */,
+				A626536B26E130570084050F /* ChangeInfoViewController.m */,
 				A626533B26CA88000084050F /* VisitorViewController.h */,
 				A626533C26CA88000084050F /* VisitorViewController.m */,
 				A626536726E130280084050F /* AddViewController.h */,
 				A626536826E130280084050F /* AddViewController.m */,
-				A626536A26E130570084050F /* ChangeInfoViewController.h */,
-				A626536B26E130570084050F /* ChangeInfoViewController.m */,
 				A626536D26E130870084050F /* FriendInvitationViewController.h */,
 				A626536E26E130870084050F /* FriendInvitationViewController.m */,
 				A626537026E130C60084050F /* SearchInfomationController.h */,
@@ -287,6 +291,50 @@
 				9B678D7926BEB7DA00483386 /* SceneDelegate.m */,
 			);
 			path = Others;
+			sourceTree = "<group>";
+		};
+		9B84E7A626E85A2E006BDCCB /* InputView */ = {
+			isa = PBXGroup;
+			children = (
+				9BD29D8026CBFA6B002F7114 /* InputView.h */,
+				9BD29D8126CBFA6B002F7114 /* InputView.m */,
+				9B84E79D26E7A966006BDCCB /* MoreFunctionView.h */,
+				9B84E79E26E7A966006BDCCB /* MoreFunctionView.m */,
+				9B84E7A026E7A9F2006BDCCB /* MoreFunctionSubView.h */,
+				9B84E7A126E7A9F2006BDCCB /* MoreFunctionSubView.m */,
+			);
+			path = InputView;
+			sourceTree = "<group>";
+		};
+		9B84E7A726E85A6B006BDCCB /* MessageTable */ = {
+			isa = PBXGroup;
+			children = (
+				A626536426E12CF30084050F /* MessageTableView.h */,
+				A626536526E12CF30084050F /* MessageTableView.m */,
+				9BD29D7D26CBFA2B002F7114 /* MessageCell.h */,
+				9BD29D7E26CBFA2B002F7114 /* MessageCell.m */,
+				9B84E7A326E7AA3F006BDCCB /* MessageButton.h */,
+				9B84E7A426E7AA3F006BDCCB /* MessageButton.m */,
+			);
+			path = MessageTable;
+			sourceTree = "<group>";
+		};
+		9B84E7A826E89CB8006BDCCB /* 头像素材 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "头像素材";
+			sourceTree = "<group>";
+		};
+		9B84E7F426ECB665006BDCCB /* ChatTable */ = {
+			isa = PBXGroup;
+			children = (
+				9B678DC726C3D97C00483386 /* ChatCell.h */,
+				9B678DC826C3D97C00483386 /* ChatCell.m */,
+				9B84E7F126ECB65F006BDCCB /* UnreadRedPointView.h */,
+				9B84E7F226ECB65F006BDCCB /* UnreadRedPointView.m */,
+			);
+			path = ChatTable;
 			sourceTree = "<group>";
 		};
 		A626534426CAAE720084050F /* Protocols */ = {
@@ -322,24 +370,13 @@
 		A654FE0226C17D5400DCE37C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9B84E7F426ECB665006BDCCB /* ChatTable */,
+				9B84E7A726E85A6B006BDCCB /* MessageTable */,
+				9B84E7A626E85A2E006BDCCB /* InputView */,
 				9B678DBE26C2CE9200483386 /* InformationCell.h */,
 				9B678DBF26C2CE9200483386 /* InformationCell.m */,
-				9B678DC726C3D97C00483386 /* ChatCell.h */,
-				9B678DC826C3D97C00483386 /* ChatCell.m */,
 				A626533E26CA88A30084050F /* LoginAndRegisterView.h */,
 				A626533F26CA88A30084050F /* LoginAndRegisterView.m */,
-				A626536426E12CF30084050F /* MessageTableView.h */,
-				A626536526E12CF30084050F /* MessageTableView.m */,
-				9BD29D7D26CBFA2B002F7114 /* MessageCell.h */,
-				9BD29D7E26CBFA2B002F7114 /* MessageCell.m */,
-				9B84E7A326E7AA3F006BDCCB /* MessageButton.h */,
-				9B84E7A426E7AA3F006BDCCB /* MessageButton.m */,
-				9BD29D8026CBFA6B002F7114 /* InputView.h */,
-				9BD29D8126CBFA6B002F7114 /* InputView.m */,
-				9B84E79D26E7A966006BDCCB /* MoreFunctionView.h */,
-				9B84E79E26E7A966006BDCCB /* MoreFunctionView.m */,
-				9B84E7A026E7A9F2006BDCCB /* MoreFunctionSubView.h */,
-				9B84E7A126E7A9F2006BDCCB /* MoreFunctionSubView.m */,
 				A626535B26E12C480084050F /* ContactCell.h */,
 				A626535C26E12C480084050F /* ContactCell.m */,
 				A626535E26E12C860084050F /* FriendInvitationCell.h */,
@@ -600,6 +637,7 @@
 			files = (
 				9B678DC626C3C1EF00483386 /* SelfInformationTableViewController.m in Sources */,
 				A626537226E130C60084050F /* SearchInfomationController.m in Sources */,
+				9B84E7F326ECB65F006BDCCB /* UnreadRedPointView.m in Sources */,
 				A626534026CA88A30084050F /* LoginAndRegisterView.m in Sources */,
 				9B84E7A226E7A9F2006BDCCB /* MoreFunctionSubView.m in Sources */,
 				A626533D26CA88000084050F /* VisitorViewController.m in Sources */,
