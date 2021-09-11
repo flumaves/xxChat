@@ -10,7 +10,7 @@
 @interface ChatCell ()
 
 //记录是否已经对控件进行赋值
-@property (nonatomic, assign) BOOL haveConversation;
+//@property (nonatomic, assign) BOOL haveConversation;
 
 @end
 
@@ -23,12 +23,22 @@
         
         //头像
         CGFloat iconX = space;
-        CGFloat iconY = 5;
+        CGFloat iconY = space;
         CGFloat iconL = 60;
         self.icon = [[UIImageView alloc] initWithFrame:CGRectMake(iconX, iconY, iconL, iconL)];
         self.icon.backgroundColor = [UIColor grayColor];
         self.icon.layer.cornerRadius = 10;
+        self.icon.clipsToBounds= YES;
         [self addSubview:_icon];
+        
+        //头像右上方的红点
+        CGFloat redPointWidth = 20;
+        CGFloat redPointHeight = 20;
+        CGFloat redPointX = CGRectGetMaxX(_icon.frame) - redPointWidth / 2;
+        CGFloat redPointY = _icon.frame.origin.y  - redPointHeight / 2;
+        self.redPoint = [[UnreadRedPointView alloc] initWithFrame:CGRectMake(redPointX, redPointY, redPointWidth, redPointHeight)];
+        _redPoint.hidden = YES;
+        [self addSubview:_redPoint];
         
         //名称
         CGFloat nameX = CGRectGetMaxX(_icon.frame) + space;
@@ -53,7 +63,7 @@
         CGFloat timeW = 100;
         CGFloat timeX = [UIScreen mainScreen].bounds.size.width - timeW - space;
         CGFloat timeH = 20;
-        CGFloat timeY = nameY;
+        CGFloat timeY = redPointY;
         self.time = [[UILabel alloc] initWithFrame:CGRectMake(timeX, timeY, timeW, timeH)];
         self.time.font = [UIFont systemFontOfSize:13];
         self.time.textColor = [UIColor grayColor];
@@ -61,7 +71,7 @@
         self.time.textAlignment = NSTextAlignmentRight;
         [self addSubview:_time];
         
-        self.rowHeight = CGRectGetMaxY(_icon.frame) + space;
+        self.rowHeight = CGRectGetMaxY(_icon.frame) + 5;
     }
     return self;
 }
@@ -78,11 +88,16 @@
     if (_conversation.latestMessage.contentType == kJMSGContentTypeText) {
         JMSGTextContent *textContent = (JMSGTextContent *)_conversation.latestMessage.content;
         self.message.text = textContent.text;
-        
+
     } else if (_conversation.latestMessage.contentType == kJMSGContentTypeVoice) {
         self.message.text = @"[语音消息]";
-        
+
+    } else if (_conversation.latestMessage.contentType == kJMSGContentTypeVideo) {
+        self.message.text = @"[视频]";
     }
+    
+    //头像
+    self.icon.image = [UIImage imageWithContentsOfFile:_conversation.avatarLocalPath];
     
     //时间
     NSTimeInterval timeInterval = [_conversation.latestMsgTime doubleValue] / 1000;

@@ -31,6 +31,7 @@
     self.navigationController.navigationBar.hidden = YES;
     //加载页面时 重新获取user数据
     _user = [JMSGUser myInfo];
+    [self.meTableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

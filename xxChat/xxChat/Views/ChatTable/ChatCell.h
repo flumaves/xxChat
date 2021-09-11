@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <JMessage/JMessage.h>
+#import "UnreadRedPointView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 //头像
 @property (nonatomic, strong)UIImageView *icon;
+
+//头像右上方的红点
+@property (nonatomic, strong)UnreadRedPointView *redPoint;
 
 //名称
 @property (nonatomic, strong)UILabel *name;
