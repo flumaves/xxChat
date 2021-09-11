@@ -37,9 +37,9 @@
     [self addSubview:_loginButton];
     
     //滑块的灰色背景
-    UIView *sliderBackground = [[UIView alloc]init];
-    sliderBackground.backgroundColor = [UIColor lightGrayColor];
-    [self addSubview:sliderBackground];
+    self.sliderBackground = [[UIView alloc]init];
+    _sliderBackground.backgroundColor = [UIColor lightGrayColor];
+    [self addSubview:_sliderBackground];
     
     //按钮下的滑块
     self.slider = [[UIView alloc]init];
@@ -136,6 +136,15 @@
     self.line_2.backgroundColor = MainColor;
     [self addSubview:_line_2];
     
+    //修改密码button
+    self.changePasswordBtn = [[UIButton alloc]init];
+    [self.changePasswordBtn setBackgroundColor:[UIColor whiteColor]];
+    [self.changePasswordBtn setTitleColor:MainColor forState:UIControlStateNormal];
+    [self.changePasswordBtn setTitle:@"修改密码" forState:UIControlStateNormal];
+    self.changePasswordBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [self.changePasswordBtn addTarget:self action:@selector(clickChangePasswordBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.changePasswordBtn];
+    
     //设置确认按钮
     self.confirmButton = [[UIButton alloc]init];
     [self.confirmButton setBackgroundColor:MainColor];
@@ -173,6 +182,12 @@
     topSpaceToView(_registerButton, 0).
     heightIs(1).
     widthIs(ScreenWidth/2);
+    
+    //滑块背景布局
+    _sliderBackground.sd_layout.
+    topEqualToView(_slider).
+    heightIs(0.5).
+    widthIs(ScreenWidth);
     
     //注册账号框和注册密码1，注册密码2
     _regiAccount.sd_layout.
@@ -216,6 +231,13 @@
     topSpaceToView(_loginPassword, 5).
     widthRatioToView(_loginAccount, 1).
     heightIs(0.5).leftEqualToView(_loginAccount);
+    
+    //修改密码button
+    _changePasswordBtn.sd_layout.
+    topSpaceToView(_line_2, 5).
+    widthIs(80).
+    rightSpaceToView(self, 15).
+    heightIs(20);
     
     //确认按钮
     _confirmButton.sd_layout.
@@ -266,6 +288,7 @@
             CGPoint center_6 = self.confirmButton.center;
             CGPoint center_7 = self.line_1.center;
             CGPoint center_8 = self.line_2.center;
+            CGPoint center_9 = self.changePasswordBtn.center;
             center_1.x -= ScreenWidth;
             center_2.x -= ScreenWidth;
             center_3.x -= ScreenWidth;
@@ -274,6 +297,7 @@
             center_6.y -= 40;
             center_7.x -= ScreenWidth;
             center_8.x -= ScreenWidth;
+            center_9.x -= ScreenWidth;
             self.regiAccount.center = center_1;
             self.regiPassword_1.center = center_2;
             self.regiPassword_2.center = center_3;
@@ -282,6 +306,7 @@
             self.confirmButton.center = center_6;
             self.line_1.center = center_7;
             self.line_2.center = center_8;
+            self.changePasswordBtn.center = center_9;
 
             
             ///如果button是注册按钮，而且滑块不在注册按钮下面
@@ -296,6 +321,7 @@
             CGPoint center_6 = self.confirmButton.center;
             CGPoint center_7 = self.line_1.center;
             CGPoint center_8 = self.line_2.center;
+            CGPoint center_9 = self.changePasswordBtn.center;
             center_1.x += ScreenWidth;
             center_2.x += ScreenWidth;
             center_3.x += ScreenWidth;
@@ -304,6 +330,7 @@
             center_6.y += 40;
             center_7.x += ScreenWidth;
             center_8.x += ScreenWidth;
+            center_9.x += ScreenWidth;
             self.regiAccount.center = center_1;
             self.regiPassword_1.center = center_2;
             self.regiPassword_2.center = center_3;
@@ -312,6 +339,7 @@
             self.confirmButton.center = center_6;
             self.line_1.center = center_7;
             self.line_2.center = center_8;
+            self.changePasswordBtn.center = center_9;
 
         }
        
@@ -359,6 +387,10 @@
     
 
   
+}
+//点击修改密码btn
+- (void)clickChangePasswordBtn:(UIButton*)button{
+    
 }
 
 @end

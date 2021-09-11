@@ -30,7 +30,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor lightGrayColor];
     [self getFriendsList];
     [self.view addSubview:self.contactsTableView];
     [self layoutView];
@@ -115,9 +115,25 @@
     return cell;
 }
 
-//行高
+//每个cell的高
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 55;
+}
+//每个section的
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section != 0) {
+        return 10;
+    }
+    return 0;
+}
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section != 0 ) {
+        UIView *headerView = [[UIView alloc]init];
+        headerView.backgroundColor = [UIColor colorWithRed:230.0/255 green:230.0/255 blue:230.0/255 alpha:1];
+        return headerView;
+    }
+    return nil;
+    
 }
 
 //cell被点击

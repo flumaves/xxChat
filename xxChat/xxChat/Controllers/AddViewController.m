@@ -89,6 +89,9 @@
     self.searchTableView.dataSource = self;
     self.searchTableView.delegate = self;
     self.searchTableView.tableFooterView = [[UIView alloc]init];//去掉多余的线
+    UIView* headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
+    headerView.backgroundColor = [UIColor colorWithRed:230.0/255 green:230.0/255 blue:230.0/255 alpha:1];
+    self.searchTableView.tableHeaderView = headerView;
     [self.view addSubview:_searchTableView];
     
     
