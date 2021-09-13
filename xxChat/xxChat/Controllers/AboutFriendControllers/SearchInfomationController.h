@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SearchInfomationController : UITableViewController
 //用户信息
-@property (nonatomic,strong) JMSGUser* User;
+@property (nonatomic,strong) JMSGUser* user;
 //群组信息
 @property (nonatomic,strong) JMSGGroup* group;
 //申请留言框

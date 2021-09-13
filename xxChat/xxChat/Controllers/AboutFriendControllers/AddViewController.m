@@ -177,8 +177,33 @@
     //获取搜索得到的user或group，赋值ID和昵称
     if (!_inFindGroup) {
         JMSGUser* user = self.userAndGroupArray[0];
+        
+        //id
         cell.ID.text = user.username;
+        
+        //昵称
         cell.name.text = user.nickname;
+        
+        //头像
+        if (user.avatar != nil) {
+            
+            [user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+                if (!error) {
+                    
+                    cell.icon.image = [UIImage imageWithData:data];
+
+                } else {
+                    
+                    NSLog(@"搜索结果的cell获取头像出现错误：%@",error);
+                    
+                }
+            }];
+            
+        } else {
+            
+            cell.icon.image = nil;
+            
+        }
     }else{
         JMSGGroup* group = self.userAndGroupArray[0];
         cell.ID.text = group.gid;
@@ -196,7 +221,7 @@
     SearchInfomationController* searchInfoVC = [[SearchInfomationController alloc]init];
     //传入数据
     if (!_inFindGroup) {
-        searchInfoVC.User = self.userAndGroupArray[0];
+        searchInfoVC.user = self.userAndGroupArray[0];
     }else{
         searchInfoVC.group = self.userAndGroupArray[0];
     }

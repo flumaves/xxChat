@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FriendInfomationViewController : UIViewController
 
 //用户信息
-@property (nonatomic,strong) JMSGUser* User;
+@property (nonatomic,strong) JMSGUser* user;
 
 //tableview
 @property (nonatomic,strong) UITableView* tableView;

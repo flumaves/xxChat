@@ -16,7 +16,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setAllViews];
     
+}
+
+- (void)setAllViews {
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @"群组列表";
 }
 
 

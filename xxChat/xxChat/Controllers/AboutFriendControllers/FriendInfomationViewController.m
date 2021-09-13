@@ -77,7 +77,7 @@
 //    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     //选中不改变状态
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if (self.User) {
+    if (self.user) {
         if (indexPath.section == 0) {
             //第一个cell 用来显示头像 需要单独添加一个UIImageView 不单独封装
             CGFloat iconX = cell.bounds.size.width - 30;
@@ -85,7 +85,29 @@
             CGFloat iconL = 60;
             UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(iconX, iconY, iconL, iconL)];
             iconView.backgroundColor = [UIColor grayColor];
+            
             iconView.layer.cornerRadius = 10;
+            
+            //头像图片
+            if (self.user.avatar != nil) {
+                
+                [self.user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+                    if (!error) {
+                        
+                        iconView.image = [UIImage imageWithData:data];
+
+                    } else {
+                        
+                        NSLog(@"好友申请的cell获取头像出现错误：%@",error);
+                        
+                    }
+                }];
+                
+            } else {
+                
+                iconView.image = nil;
+                
+            }
             [cell addSubview:iconView];
             
             cell.textLabel.text = @"头像";
@@ -97,7 +119,7 @@
             
             //展示数据
             
-            NSArray *array_2 = [self getInfoFromUser:self.User];
+            NSArray *array_2 = [self getInfoFromUser:self.user];
             cell.detailTextLabel.text = array_2[indexPath.section - 1];
             cell.detailTextLabel.textColor = [UIColor grayColor];
         }
@@ -158,6 +180,8 @@
     }else{
         gender = @"女";
     }
+    
+    
     //按顺序排好，昵称，账号，性别，地址，签名
     NSArray* array = [NSArray arrayWithObjects:nickName,userName,gender,birthday,address,signature, nil];
     return array;

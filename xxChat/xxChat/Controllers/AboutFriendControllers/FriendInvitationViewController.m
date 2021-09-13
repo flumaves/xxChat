@@ -93,12 +93,41 @@
         cell.delegate = self;
         //传入indexPath
         cell.indexPath = indexPath;
+        
         //信息设置
         JMSGUser* user = self.friendInvitationArray[indexPath.row];
+        
+        //头像
+        if (user.avatar != nil) {
+            
+            [user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+                if (!error) {
+                    
+                    cell.icon.image = [UIImage imageWithData:data];
+
+                } else {
+                    
+                    NSLog(@"好友申请的cell获取头像出现错误：%@",error);
+                    
+                }
+            }];
+            
+        } else {
+            
+            cell.icon.image = nil;
+            
+        }
+        //昵称
         cell.name.text = user.nickname;
+        
+        //id
         cell.xxChatID.text = user.username;
+        
+        //留言
         NSString* reason = [NSString stringWithFormat:@"对方留言：%@",self.invitedReasonArray[indexPath.row]];
         cell.reason.text = reason;
+        
+        
         return cell;
     }
     

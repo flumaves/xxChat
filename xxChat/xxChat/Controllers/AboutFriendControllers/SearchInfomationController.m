@@ -56,7 +56,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     //如果user信息被传进来了
-    if (self.User) {
+    if (self.user) {
         return 7;
     }else{
         return 3;
@@ -73,7 +73,7 @@
 //    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     //选中不改变状态
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if (self.User) {
+    if (self.user) {
         if (indexPath.section == 0) {
             //第一个cell 用来显示头像 需要单独添加一个UIImageView 不单独封装
             CGFloat iconX = cell.bounds.size.width - 30;
@@ -82,9 +82,24 @@
             UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(iconX, iconY, iconL, iconL)];
             iconView.backgroundColor = [UIColor grayColor];
             iconView.layer.cornerRadius = 10;
-            [cell addSubview:iconView];
+            [cell.contentView addSubview:iconView];
+            
+            //头像图片
+            [self.user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+                if (!error) {
+                    
+                    iconView.image = [UIImage imageWithData:data];
+
+                } else {
+                    
+                    iconView.image = nil;
+                    NSLog(@"好友申请的cell获取头像出现错误：%@",error);
+                    
+                }
+            }];
             
             cell.textLabel.text = @"头像";
+            
         } else {
             //按顺序显示 昵称 账号 性别 生日 地区 个性签名
             NSArray *array = [NSArray arrayWithObjects:
@@ -93,7 +108,7 @@
             
             //展示数据
             
-            NSArray *array_2 = [self getInfoFromUser:self.User];
+            NSArray *array_2 = [self getInfoFromUser:self.user];
             cell.detailTextLabel.text = array_2[indexPath.section - 1];
             cell.detailTextLabel.textColor = [UIColor grayColor];
         }
@@ -195,7 +210,7 @@
 #pragma mark - 加好友方法
 - (void)addFriend {
     
-    NSString* userName = self.User.username;
+    NSString* userName = self.user.username;
     NSString* reason = self.reasonTextView.text;
     
     if ([reason isEqualToString:@"给对方留言："]) {

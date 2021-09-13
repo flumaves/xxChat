@@ -110,6 +110,26 @@
         
         //头像还没设,先设一个名字
         cell.name.text = user.nickname;
+        //头像
+        if (user.avatar != nil) {
+            
+            [user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+                if (!error) {
+                    
+                    cell.icon.image = [UIImage imageWithData:data];
+
+                } else {
+                    
+                    NSLog(@"联系人列表的cell获取头像出现错误：%@",error);
+                    
+                }
+            }];
+            
+        } else {
+            
+            cell.icon.image = nil;
+            
+        }
         
     }
     return cell;
@@ -167,15 +187,16 @@
             
         }else if (indexPath.row == 1) {
             //打开群组列表
+            self.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:[[GroupViewController alloc]init] animated:YES];
-            
+            self.hidesBottomBarWhenPushed = NO;
         }
         
     } else {//好友被点击出现好友信息
         
         FriendInfomationViewController* friendInfoVC = [[FriendInfomationViewController alloc]init];
         //传user信息。
-        friendInfoVC.User = _friendsListArray[indexPath.row];
+        friendInfoVC.user = _friendsListArray[indexPath.row];
         
         friendInfoVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:friendInfoVC animated:YES];

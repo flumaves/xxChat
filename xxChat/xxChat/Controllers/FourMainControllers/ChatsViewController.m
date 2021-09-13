@@ -23,13 +23,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
+    //添加代理
     [JMessage addDelegate:self withConversation:nil];
 
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.chatTableView.tableFooterView = [[UIView alloc] init];
-    [self.view addSubview:self.chatTableView];
     [self layoutView];
     [self loadData];
     
@@ -142,7 +138,10 @@
 }
 
 #pragma mark -
-- (void)layoutView{
+- (void)layoutView {
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.chatTableView.tableFooterView = [[UIView alloc] init];
+    [self.view addSubview:self.chatTableView];
     //右上角的添加button
     UIBarButtonItem *addBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(openAddController)];
     addBtnItem.tintColor = MainColor;
@@ -157,12 +156,13 @@
     
 }
 //打开搜索页面
-- (void)openSearchController{
+- (void)openSearchController {
 }
 
 
 //打开添加页面
-- (void)openAddController{
+- (void)openAddController {
+    
     self.hidesBottomBarWhenPushed = YES;//隐藏tabar
     AddViewController *addViewController = [[AddViewController alloc]init];
     [self.navigationController pushViewController:addViewController animated:YES];
