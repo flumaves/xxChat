@@ -10,6 +10,8 @@
 #import "AddViewController.h"
 #import "ContactCell.h"
 #import "FriendInvitationViewController.h"
+#import "FriendInfomationViewController.h"
+#import "GroupViewController.h"
 
 #define MainColor [UIColor colorWithRed:130/255.0 green:151/255.0 blue:206/255.0 alpha:1]
 

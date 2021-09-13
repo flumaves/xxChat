@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UITextField *aNewPassword;
 //确认按钮
 @property (nonatomic,strong) UIButton *confirmButton;
+
 @end
 
 NS_ASSUME_NONNULL_END

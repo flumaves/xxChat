@@ -24,6 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
     [JMessage addDelegate:self withConversation:nil];
 
     self.view.backgroundColor = [UIColor whiteColor];

@@ -119,17 +119,26 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 55;
 }
-//每个section的
+
+//每个section的headerView高度
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section != 0) {
-        return 10;
+        return 20;
     }
     return 0;
 }
+
+//每个section的headerView样式
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (section != 0 ) {
-        UIView *headerView = [[UIView alloc]init];
-        headerView.backgroundColor = [UIColor colorWithRed:230.0/255 green:230.0/255 blue:230.0/255 alpha:1];
+        
+        UILabel* headerView = [[UILabel alloc]init];
+        headerView.backgroundColor =[UIColor colorWithRed:230.0/255 green:230.0/255 blue:230.0/255 alpha:1];
+        headerView.font = [UIFont systemFontOfSize:13];
+        headerView.textAlignment = NSTextAlignmentLeft;
+        headerView.text = @"       A";
+        
+        
         return headerView;
     }
     return nil;
@@ -139,7 +148,7 @@
 //cell被点击
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if(indexPath.section==0){
+    if (indexPath.section == 0) {
         //新的朋友 这个cell被点击时
         if (indexPath.row == 0) {
             //将小红点去掉
@@ -156,16 +165,28 @@
             [self.navigationController pushViewController:friendInvitationVC animated:YES];
             self.hidesBottomBarWhenPushed = NO;
             
-        }else if(indexPath.row == 1){
+        }else if (indexPath.row == 1) {
             //打开群组列表
+            [self.navigationController pushViewController:[[GroupViewController alloc]init] animated:YES];
             
         }
+        
+    } else {//好友被点击出现好友信息
+        
+        FriendInfomationViewController* friendInfoVC = [[FriendInfomationViewController alloc]init];
+        //传user信息。
+        friendInfoVC.User = _friendsListArray[indexPath.row];
+        
+        friendInfoVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:friendInfoVC animated:YES];
+        friendInfoVC.hidesBottomBarWhenPushed = NO;
+        
         
     }
 }
 // cell右滑删除，问就是左滑不行
 - (nullable UISwipeActionsConfiguration *)tableView:(UITableView *)tableView leadingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath API_AVAILABLE(ios(11.0)) API_UNAVAILABLE(tvos){
-    if (indexPath.section!=0) {
+    if (indexPath.section != 0) {
         //创建Action,然后在里面实现删除方法
         UIContextualAction *deleteRowAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:@"删除" handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
             //获取相应信息，删除好友
@@ -192,12 +213,14 @@
     return nil;
 }
 
-- (void)layoutView{
+- (void)layoutView {
     //右上角的添加button
     UIBarButtonItem *addBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(openAddController)];
+    
     addBtnItem.tintColor = MainColor;
     
     UIBarButtonItem *searchBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(openSearchController)];
+    
     searchBtnItem.tintColor = MainColor;
     NSArray *btnArray = [NSArray arrayWithObjects:addBtnItem,searchBtnItem, nil];
     
@@ -206,12 +229,12 @@
 }
 
 //打开搜索页面
-- (void)openSearchController{
+- (void)openSearchController {
 }
 
 
 //打开添加页面
-- (void)openAddController{
+- (void)openAddController {
     self.hidesBottomBarWhenPushed = YES;//隐藏tabar
     AddViewController *addViewController = [[AddViewController alloc]init];
     [self.navigationController pushViewController:addViewController animated:YES];

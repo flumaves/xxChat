@@ -1,24 +1,33 @@
 //
-//  SearchInfomationController.m
+//  FriendInfomationViewController.m
 //  xxChat
 //
-//  Created by 谢恩平 on 2021/9/3.
+//  Created by 谢恩平 on 2021/9/13.
 //
 
-#import "SearchInfomationController.h"
+#import "FriendInfomationViewController.h"
 
-@interface SearchInfomationController ()<UITextViewDelegate>
+@interface FriendInfomationViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
 
-@implementation SearchInfomationController
+@implementation FriendInfomationViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setAllViews];
-
+    
 }
+#pragma mark - 懒加载
+- (UITableView*)tableView {
+    if (_tableView == nil) {
+        _tableView = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    }
+    return _tableView;
+}
+
 //基本设置
-- (void)setAllViews{
+- (void)setAllViews {
     //navigationBar的title
     self.title = @"用户信息";
     //navigationBar添加一个leftButton 只要单独一个箭头
@@ -30,21 +39,18 @@
     //去掉多余的cell之间的分割线
     self.tableView.tableFooterView = [[UIView alloc] init];
     
-    //留言框
-    self.reasonTextView = [[UITextView alloc]initWithFrame:CGRectMake(15, 390, ScreenWidth-30, 200)];
-    self.reasonTextView.delegate = self;
-    self.reasonTextView.font = [UIFont systemFontOfSize:16];
-    self.reasonTextView.textColor = [UIColor lightGrayColor];
-    self.reasonTextView.text = @"给对方留言：";
-    [self.tableView addSubview:self.reasonTextView];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
     
-    //添加button
-    self.addButton = [[UIButton alloc]initWithFrame:CGRectMake(15,600, ScreenWidth-30, 50)];
-    [self.addButton setBackgroundColor:MainColor];
-    [self.addButton setTitle:@"加好友" forState:UIControlStateNormal];
-    self.addButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [self.addButton addTarget:self action:@selector(addFriend) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:self.addButton];
+    [self.view addSubview:_tableView];
+    
+    self.chatButton = [[UIButton alloc]initWithFrame:CGRectMake(15,500, ScreenWidth-30, 50)];
+    [self.chatButton setBackgroundColor:MainColor];
+    [self.chatButton setTitle:@"发消息" forState:UIControlStateNormal];
+    self.chatButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    [self.chatButton addTarget:self action:@selector(touchUpInsideChatButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.chatButton];
+    
 }
 
 #pragma mark - leftBarButtonItem的方法
@@ -52,22 +58,20 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    //如果user信息被传进来了
-    if (self.User) {
-        return 7;
-    }else{
-        return 3;
-    }
+    return 7;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 1;
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
     //右侧的小箭头
 //    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -86,7 +90,7 @@
             
             cell.textLabel.text = @"头像";
         } else {
-            //按顺序显示 昵称 账号 性别 生日 地区 个性签名
+            //按顺序显示 昵称 账号 性别 地区 个性签名
             NSArray *array = [NSArray arrayWithObjects:
                               @"名字",@"xxChat ID",@"性别",@"生日",@"地区",@"个性签名",nil];
             cell.textLabel.text = array[indexPath.section - 1];
@@ -97,31 +101,6 @@
             cell.detailTextLabel.text = array_2[indexPath.section - 1];
             cell.detailTextLabel.textColor = [UIColor grayColor];
         }
-    }else if (self.group) {
-        if (indexPath.section == 0) {
-            //第一个cell 用来显示头像 需要单独添加一个UIImageView 不单独封装
-            CGFloat iconX = cell.bounds.size.width - 30;
-            CGFloat iconY = 10;
-            CGFloat iconL = 60;
-            UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(iconX, iconY, iconL, iconL)];
-            iconView.backgroundColor = [UIColor grayColor];
-            iconView.layer.cornerRadius = 10;
-            [cell addSubview:iconView];
-            
-            cell.textLabel.text = @"头像";
-        } else {
-            //按顺序显示 群名 群号
-            NSArray *array = [NSArray arrayWithObjects:
-                              @"群名",@"xxChat GroupID",nil];
-            cell.textLabel.text = array[indexPath.section - 1];
-            
-            //展示数据
-            NSArray *array_2 = [self getInfoFromGroup:self.group];
-            cell.detailTextLabel.text = array_2[indexPath.section - 1];
-            cell.detailTextLabel.textColor = [UIColor grayColor];
-        }
-    } else {
-        NSLog(@"点击搜索出来的对象时，即没有好友传入，也没有群组传入");
     }
     
     return cell;
@@ -184,43 +163,11 @@
     return array;
 }
 
-//获取群信息方法
-- (NSArray*)getInfoFromGroup: (JMSGGroup*)group {
-    NSString* name = group.name;
-    NSString* gid = group.gid;
-    NSArray* array = [NSArray arrayWithObjects:name,gid,nil];
-    return array;
-}
 
-#pragma mark - 加好友方法
-- (void)addFriend {
-    
-    NSString* userName = self.User.username;
-    NSString* reason = self.reasonTextView.text;
-    
-    if ([reason isEqualToString:@"给对方留言："]) {
+
+
         
-        reason = @"";
-        
-    }
-    
-    
-    //发送好友请求方法
-    [JMSGFriendManager sendInvitationRequestWithUsername:userName appKey:JMESSAGE_APPKEY reason:reason completionHandler:^(id resultObject, NSError *error) {
-        
-            if (!error) {
-                
-                [self showAlertViewWithMessage:@"已发送好友请求"];
-                
-            }else{
-                
-                [self showAlertViewWithMessage:@"发送好友请求失败"];
-                NSLog(@"-发送好友请求失败：%@-",error);
-                
-            }
-        
-    }];
-}
+
 
 #pragma mark -展示提示框
 //展示提示框
@@ -236,21 +183,14 @@
     
 }
 
-
-#pragma mark - textview delegate
-
-- (void)textViewDidBeginEditing:(UITextView *)textView {
+#pragma mark - 发消息按钮点击
+- (void)touchUpInsideChatButton:(UIButton*)button {
     
-    if ([_reasonTextView.text isEqualToString:@"给对方留言："]) {
-        _reasonTextView.text = @"";
-    }
-}
-- (void)textViewDidEndEditing:(UITextView *)textView {
     
-    if ([_reasonTextView.text isEqualToString:@""]) {
-        
-        _reasonTextView.text = @"给对方留言：";
-        
-    }
 }
+
+
+
+
 @end
+
