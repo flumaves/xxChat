@@ -388,9 +388,11 @@
 
   
 }
+
+
 //点击修改密码btn
 - (void)clickChangePasswordBtn:(UIButton*)button{
-    
+    [self.delegate changePassword];
 }
 
 @end

@@ -46,6 +46,8 @@
 		A626537226E130C60084050F /* SearchInfomationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A626537126E130C60084050F /* SearchInfomationController.m */; };
 		A626537626E337560084050F /* UIImage+ChangeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = A626537526E337560084050F /* UIImage+ChangeImage.m */; };
 		A654FE0526C17DAC00DCE37C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = A654FE0426C17DAC00DCE37C /* User.m */; };
+		A6C18C0F26ECD787005D5C63 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C0E26ECD787005D5C63 /* ChangePasswordViewController.m */; };
+		A6C18C1326EF4773005D5C63 /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C1226EF4773005D5C63 /* GroupViewController.m */; };
 		D896ADF420D3A0455DCA96A1 /* Pods_xxChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E2D4B3588605E9F2AA7F96 /* Pods_xxChatTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -146,6 +148,10 @@
 		A626537526E337560084050F /* UIImage+ChangeImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ChangeImage.m"; sourceTree = "<group>"; };
 		A654FE0326C17DAC00DCE37C /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		A654FE0426C17DAC00DCE37C /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		A6C18C0D26ECD787005D5C63 /* ChangePasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		A6C18C0E26ECD787005D5C63 /* ChangePasswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
+		A6C18C1126EF4773005D5C63 /* GroupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
+		A6C18C1226EF4773005D5C63 /* GroupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
 		A9BFB7ADCDC74788E2CD01FE /* Pods-xxChat-xxChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.release.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.release.xcconfig"; sourceTree = "<group>"; };
 		BED5FCBB519A9BE3680A35D3 /* Pods-xxChat-xxChatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.debug.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CA19132E76973E48485A7738 /* Pods-xxChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChatTests.debug.xcconfig"; path = "Target Support Files/Pods-xxChatTests/Pods-xxChatTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -226,7 +232,6 @@
 				9B678DAB26C155DE00483386 /* Controllers */,
 				A654FE0126C17D3F00DCE37C /* Models */,
 				9B678D8126BEB7DC00483386 /* Assets.xcassets */,
-				9B84E7A826E89CB8006BDCCB /* 头像素材 */,
 				9B678D8626BEB7DC00483386 /* Info.plist */,
 				9B678D8726BEB7DC00483386 /* main.m */,
 				9B678DB826C1622300483386 /* LaunchScreen.storyboard */,
@@ -256,28 +261,19 @@
 		9B678DAB26C155DE00483386 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9B678D7B26BEB7DA00483386 /* ChatsViewController.h */,
-				9B678D7C26BEB7DA00483386 /* ChatsViewController.m */,
+				A6C18C1526EF479F005D5C63 /* AboutFriendControllers */,
+				A6C18C1426EF477A005D5C63 /* AboutGroupControllers */,
+				A6C18C0C26ECD6D2005D5C63 /* FourMainControllers */,
 				9BD29D7426CBF8F7002F7114 /* MessageViewController.h */,
 				9BD29D7526CBF8F7002F7114 /* MessageViewController.m */,
-				9B678DAF26C157BF00483386 /* ContactsViewController.h */,
-				9B678DB026C157BF00483386 /* ContactsViewController.m */,
-				9B678DB226C1595D00483386 /* DiscoverViewController.h */,
-				9B678DB326C1595D00483386 /* DiscoverViewController.m */,
-				9B678DB526C1596600483386 /* MeViewController.h */,
-				9B678DB626C1596600483386 /* MeViewController.m */,
 				9B678DC426C3C1EF00483386 /* SelfInformationTableViewController.h */,
 				9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */,
 				A626536A26E130570084050F /* ChangeInfoViewController.h */,
 				A626536B26E130570084050F /* ChangeInfoViewController.m */,
 				A626533B26CA88000084050F /* VisitorViewController.h */,
 				A626533C26CA88000084050F /* VisitorViewController.m */,
-				A626536726E130280084050F /* AddViewController.h */,
-				A626536826E130280084050F /* AddViewController.m */,
-				A626536D26E130870084050F /* FriendInvitationViewController.h */,
-				A626536E26E130870084050F /* FriendInvitationViewController.m */,
-				A626537026E130C60084050F /* SearchInfomationController.h */,
-				A626537126E130C60084050F /* SearchInfomationController.m */,
+				A6C18C0D26ECD787005D5C63 /* ChangePasswordViewController.h */,
+				A6C18C0E26ECD787005D5C63 /* ChangePasswordViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -317,13 +313,6 @@
 				9B84E7A426E7AA3F006BDCCB /* MessageButton.m */,
 			);
 			path = MessageTable;
-			sourceTree = "<group>";
-		};
-		9B84E7A826E89CB8006BDCCB /* 头像素材 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "头像素材";
 			sourceTree = "<group>";
 		};
 		9B84E7F426ECB665006BDCCB /* ChatTable */ = {
@@ -385,6 +374,43 @@
 				A626536226E12CB50084050F /* SearchResultCell.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A6C18C0C26ECD6D2005D5C63 /* FourMainControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9B678D7B26BEB7DA00483386 /* ChatsViewController.h */,
+				9B678D7C26BEB7DA00483386 /* ChatsViewController.m */,
+				9B678DAF26C157BF00483386 /* ContactsViewController.h */,
+				9B678DB026C157BF00483386 /* ContactsViewController.m */,
+				9B678DB226C1595D00483386 /* DiscoverViewController.h */,
+				9B678DB326C1595D00483386 /* DiscoverViewController.m */,
+				9B678DB526C1596600483386 /* MeViewController.h */,
+				9B678DB626C1596600483386 /* MeViewController.m */,
+			);
+			path = FourMainControllers;
+			sourceTree = "<group>";
+		};
+		A6C18C1426EF477A005D5C63 /* AboutGroupControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A6C18C1126EF4773005D5C63 /* GroupViewController.h */,
+				A6C18C1226EF4773005D5C63 /* GroupViewController.m */,
+			);
+			path = AboutGroupControllers;
+			sourceTree = "<group>";
+		};
+		A6C18C1526EF479F005D5C63 /* AboutFriendControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A626536726E130280084050F /* AddViewController.h */,
+				A626536826E130280084050F /* AddViewController.m */,
+				A626536D26E130870084050F /* FriendInvitationViewController.h */,
+				A626536E26E130870084050F /* FriendInvitationViewController.m */,
+				A626537026E130C60084050F /* SearchInfomationController.h */,
+				A626537126E130C60084050F /* SearchInfomationController.m */,
+			);
+			path = AboutFriendControllers;
 			sourceTree = "<group>";
 		};
 		D74B04689037BD42BFACAA24 /* Frameworks */ = {
@@ -644,6 +670,7 @@
 				9BD29D8226CBFA6B002F7114 /* InputView.m in Sources */,
 				A654FE0526C17DAC00DCE37C /* User.m in Sources */,
 				A626536F26E130870084050F /* FriendInvitationViewController.m in Sources */,
+				A6C18C1326EF4773005D5C63 /* GroupViewController.m in Sources */,
 				9B678DB126C157BF00483386 /* ContactsViewController.m in Sources */,
 				A626536C26E130570084050F /* ChangeInfoViewController.m in Sources */,
 				A626536026E12C860084050F /* FriendInvitationCell.m in Sources */,
@@ -652,6 +679,7 @@
 				9B84E7A526E7AA3F006BDCCB /* MessageButton.m in Sources */,
 				A626536926E130280084050F /* AddViewController.m in Sources */,
 				A626537626E337560084050F /* UIImage+ChangeImage.m in Sources */,
+				A6C18C0F26ECD787005D5C63 /* ChangePasswordViewController.m in Sources */,
 				A626536626E12CF30084050F /* MessageTableView.m in Sources */,
 				9BD29D7626CBF8F7002F7114 /* MessageViewController.m in Sources */,
 				9BD29D7926CBF949002F7114 /* Message.m in Sources */,
