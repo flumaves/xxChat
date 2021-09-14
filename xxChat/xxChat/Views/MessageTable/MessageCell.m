@@ -48,6 +48,8 @@
         //头像
         _iconImgView = [[UIImageView alloc] init];
         _iconImgView.layer.cornerRadius = 5;
+        self.iconImgView.backgroundColor = [UIColor grayColor];
+        _iconImgView.clipsToBounds = YES;
         [self.contentView addSubview:_iconImgView];
         
         self.backgroundColor = [UIColor clearColor];
@@ -65,16 +67,25 @@
     _timeLabel.frame = messageFrame.timeFrame;
     _timeLabel.text = message.time;
     
+    //设置头像
+    JMSGUser *fromUser = message.message.fromUser;
+    [fromUser thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+        if (error) {
+            NSLog(@"messageCell设置头像错误：%@",error);
+            self.iconImgView.image = nil;
+            return;
+        }
+        if (data) {
+            self.iconImgView.image = [UIImage imageWithData:data];
+        }
+    }];
+    
     //判断MessageType
     if (message.type == MessageType_ME) {
-        //设置头像
-        _iconImgView.backgroundColor = [UIColor grayColor];
         //设置聊天框背景
         UIImage *image = [UIImage imageNamed:@"message_send_nor"];
         [_contentBtn setBackgroundImage:[image resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.width / 2.0, image.size.width / 2.0, image.size.height / 2.0, image.size.height / 2.0 + 1)] forState:UIControlStateNormal];
     } else {
-        //头像
-        _iconImgView.backgroundColor = [UIColor grayColor];
         //聊天框背景
         UIImage *image = [UIImage imageNamed:@"message_recive_nor"];
         [_contentBtn setBackgroundImage:[image resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.width/2.0, image.size.width/2.0, image.size.height/2.0, image.size.height/2.0 + 1)] forState:UIControlStateNormal];

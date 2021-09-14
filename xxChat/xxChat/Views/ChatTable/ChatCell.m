@@ -101,10 +101,10 @@
     //头像
     [conversation avatarData:^(NSData *data, NSString *objectId, NSError *error) {
         if (error) {
-            NSLog(@"%@", error);
+            NSLog(@"chatCell头像设置错误：%@", error);
             return;
         }
-        if (!data) {
+        if (data) {
             self.icon.image = [UIImage imageWithData:data];
         }
     }];

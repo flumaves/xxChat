@@ -360,7 +360,7 @@
     if ([collectionView isEqual:self.picker.imageCollectionView]) {
         ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
         //加载图片素材
-        NSString *imageName = [@"图片素材" stringByAppendingFormat:@"%ld", (long)indexPath.item];
+        NSString *imageName = [@"图片素材" stringByAppendingFormat:@"%ld", (long)indexPath.item + 1];
         NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"jpg"];
 
         cell.imageView.image = [UIImage imageWithContentsOfFile:imagePath];
@@ -368,7 +368,7 @@
     } else {
         EmojiCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"emojiCell" forIndexPath:indexPath];
         //加载表情包素材
-        NSString *imageName = [@"图片素材" stringByAppendingFormat:@"%ld", (long)indexPath.item + 1];
+        NSString *imageName = [@"表情包素材" stringByAppendingFormat:@"%ld", (long)indexPath.item + 1];
         NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"jpg"];
 
         cell.emojiImageView.image = [UIImage imageWithContentsOfFile:imagePath];
@@ -393,7 +393,15 @@
             self.picker.frame = imagePickerFrame;
             self.navigationController.navigationBar.hidden = NO;
         }];
-    } else {
+    } else if ([collectionView isEqual:_emojiView.emojiCollectionView]) {
+        //获取图片data
+        EmojiCollectionViewCell *cell = (EmojiCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        NSData *data = UIImagePNGRepresentation(cell.emojiImageView.image);
+        //创建消息
+        JMSGImageContent *content = [[JMSGImageContent alloc] initWithImageData:data];
+        JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:content username:self.anotherUser.username];
+        //发送消息
+        [JMSGMessage sendMessage:message];
     }
 }
 

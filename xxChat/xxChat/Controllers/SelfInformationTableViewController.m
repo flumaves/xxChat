@@ -80,10 +80,12 @@
         iconView.clipsToBounds = YES;
         [_user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
             if (error) {
-                NSLog(@"%@",error);
+                NSLog(@"informationTableView头像设置错误：%@",error);
                 return;
             }
-            iconView.image = [UIImage imageWithData:data];
+            if (data) {
+                iconView.image = [UIImage imageWithData:data];
+            }
         }];
         [cell addSubview:iconView];
         

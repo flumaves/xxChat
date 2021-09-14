@@ -48,7 +48,12 @@
     _userInfo = userInfo;
     //头像
     [_userInfo thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
-        self.iconImgView.image = [UIImage imageWithData:data];
+        if (error) {
+            NSLog(@"informationCell头像设置错误：%@",error);
+        }
+        if (data) {
+            self.iconImgView.image = [UIImage imageWithData:data];
+        }
     }];
     //账号
     self.accountLbl.text = _userInfo.nickname;

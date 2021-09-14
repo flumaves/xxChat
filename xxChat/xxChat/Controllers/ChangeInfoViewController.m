@@ -182,9 +182,7 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
     //加载图片素材
-    static int imageNumber = 1;
-    NSString *imageName = [@"图片素材" stringByAppendingFormat:@"%d", imageNumber];
-    imageNumber++;
+    NSString *imageName = [@"图片素材" stringByAppendingFormat:@"%ld", (long)indexPath.item + 1];
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"jpg"];
 
     cell.imageView.image = [UIImage imageWithContentsOfFile:imagePath];
@@ -288,7 +286,7 @@
 - (void)changeImage {
     UIAlertController *actionSheet = [[UIAlertController alloc] init];
     //添加按钮
-    UIAlertAction *action_1 = [UIAlertAction actionWithTitle:@"从相册选择(未开放)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *action_1 = [UIAlertAction actionWithTitle:@"从相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         ImagePicker *imagePicker = [[ImagePicker alloc] initWithFrame:
                                     CGRectMake(0,
                                                [UIScreen mainScreen].bounds.size.height,
@@ -380,18 +378,23 @@
 
 #pragma mark - 更新头像
 - (void)updataAvatarWithData:(NSData *)avatarData {
-    [JMSGUser updateMyAvatarWithData:avatarData avatarFormat:@"" completionHandler:^(id resultObject, NSError *error) {
+    self.navigationController.navigationItem.leftBarButtonItem.enabled = NO;
+    [JMSGUser updateMyAvatarWithData:avatarData avatarFormat:@"jpg" completionHandler:^(id resultObject, NSError *error) {
         if (error) {
-            NSLog(@"%@",error);
+            NSLog(@"修改个人头像错误：%@",error);
         }
         UIAlertController* alertController = [UIAlertController alertControllerWithTitle:nil message:error ? @"修改失败" : @"修改成功" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            self.navigationController.navigationItem.leftBarButtonItem.enabled = YES;
             [self.navigationController popViewControllerAnimated:YES];
+        }];
+        JMSGUser *user = (JMSGUser *)resultObject;
+        [user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+            self.iconImageView.image = [UIImage imageWithData:data];
         }];
         [alertController addAction:cancelAction];
         [self presentViewController:alertController animated:YES completion:nil];
     }];
-    self.iconImageView.image = [UIImage imageWithData:avatarData];
 }
 
 

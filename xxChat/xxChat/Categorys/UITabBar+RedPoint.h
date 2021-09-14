@@ -1,8 +1,8 @@
 //
-//  UITableViewController+UITabBar_RedPoint.h
+//  UITabBar+RedPoint.h
 //  xxChat
 //
-//  Created by little_Fking_cute on 2021/9/11.
+//  Created by little_Fking_cute on 2021/9/14.
 //
 
 #import <UIKit/UIKit.h>
