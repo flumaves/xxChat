@@ -23,6 +23,11 @@
         JMSGVoiceContent *voiceContent = (JMSGVoiceContent *)message.content;
         _duration = voiceContent.duration;
     }
+    if (message.contentType == kJMSGContentTypeImage) {
+        JMSGImageContent *imageContent = (JMSGImageContent *)message.content;
+        _imageLink = imageContent.imageLink;
+        _imageSize = imageContent.imageSize;
+    }
     
     //判断是谁发送的消息
     JMSGUser *user = message.target;    //获取消息发送的对象

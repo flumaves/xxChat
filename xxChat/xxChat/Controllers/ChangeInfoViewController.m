@@ -6,10 +6,13 @@
 //
 
 #import "ChangeInfoViewController.h"
+#import "ImagePicker.h"
+#import "ImageCollectionViewCell.h"
 
-@interface ChangeInfoViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface ChangeInfoViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate,UINavigationControllerDelegate,ImagePickerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 ///紧挨一起的表示会在同一个view中出现
 @property (nonatomic, strong)UIImageView *iconImageView;//头像
+@property (nonatomic, weak)  ImagePicker *imagePicker;
 
 @property (nonatomic, strong)UITextField *textField;    //名字
 
@@ -167,6 +170,56 @@
 }
 
 
+#pragma mark - collectionView的delegate
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 20;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
+    //加载图片素材
+    static int imageNumber = 1;
+    NSString *imageName = [@"图片素材" stringByAppendingFormat:@"%d", imageNumber];
+    imageNumber++;
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"jpg"];
+
+    cell.imageView.image = [UIImage imageWithContentsOfFile:imagePath];
+    return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    ImageCollectionViewCell *cell = (ImageCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    NSData *data = UIImagePNGRepresentation(cell.imageView.image);
+    [self updataAvatarWithData:data];
+    
+    //隐藏imagePicker
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect imagePickerFrame = self.imagePicker.frame;
+        imagePickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
+        self.imagePicker.frame = imagePickerFrame;
+        self.navigationController.navigationBar.hidden = NO;
+    }];
+}
+
+#pragma mark - imagePicker的delegate
+- (void)didFinishingPickImage {
+     
+}
+
+- (void)didCancelPickImage {
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect imagePickerFrame = self.imagePicker.frame;
+        imagePickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
+        self.imagePicker.frame = imagePickerFrame;
+        self.navigationController.navigationBar.hidden = NO;
+    }];
+}
+
+
 #pragma mark - 签名的textView的delegate
 - (void)textViewDidChange:(UITextView *)textView {
     //剩余可输入字数
@@ -236,54 +289,37 @@
     UIAlertController *actionSheet = [[UIAlertController alloc] init];
     //添加按钮
     UIAlertAction *action_1 = [UIAlertAction actionWithTitle:@"从相册选择(未开放)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-//        imagePicker.delegate = self;
-//        imagePicker.allowsEditing = YES;
-//        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-//        [self presentViewController:imagePicker animated:YES completion:nil];
-
+        ImagePicker *imagePicker = [[ImagePicker alloc] initWithFrame:
+                                    CGRectMake(0,
+                                               [UIScreen mainScreen].bounds.size.height,
+                                               [UIScreen mainScreen].bounds.size.width,
+                                               [UIScreen mainScreen].bounds.size.height)];
+        imagePicker.delegate = self;
+        imagePicker.imageCollectionView.delegate = self;
+        imagePicker.imageCollectionView.dataSource = self;
+        self.imagePicker = imagePicker;
+        [self.view addSubview:imagePicker];
         
-    ///由于选择相片过程中 NSURL为nil 设置默认的头像
-        UIImage *image = [UIImage imageNamed:@"头像素材01"];
-        NSData *imageData = UIImageJPEGRepresentation(image,1.0f);
-        [self updataAvatarWithData:imageData];
+        [UIView animateWithDuration:0.3 animations:^{
+            CGRect frame = imagePicker.frame;
+            frame.origin.y = 0;
+            imagePicker.frame = frame;
+            self.navigationController.navigationBar.hidden = YES;
+        }];
     }];
     [actionSheet addAction:action_1];
     
     UIAlertAction *action_2 = [UIAlertAction actionWithTitle:@"拍照（未开放）" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-//        imagePicker.delegate = self;
-//        imagePicker.allowsEditing = YES;
-//        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-//        [self presentViewController:imagePicker animated:YES completion:nil];
+        ///
     }];
     [actionSheet addAction:action_2];
     
     UIAlertAction *action_3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
+        ///
     }];
     [actionSheet addAction:action_3];
     
     [self presentViewController:actionSheet animated:YES completion:nil];
-}
-
-
-#pragma mark - imagePicker 的delegate
-//选完照片
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *)info {
-    NSLog(@"选完照片了");
-    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
-    if ([type isEqual:@"public.image"]) {
-        UIImage *image = info[UIImagePickerControllerEditedImage];
-        _iconImageView.image = image;
-        
-        [picker dismissViewControllerAnimated:YES completion:nil];
-    }
-}
-
-//关闭
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 

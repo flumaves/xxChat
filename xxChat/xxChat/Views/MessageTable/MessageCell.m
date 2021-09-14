@@ -86,22 +86,37 @@
     if (message.message.contentType == kJMSGContentTypeVoice) { //语音消息
         _contentBtn.voiceImgView.frame = messageFrame.voiceImgFrame;
         _contentBtn.durationLbl.frame = messageFrame.durationLblFrame;
+        _contentBtn.durationLbl.text = [NSString stringWithFormat:@"%d''",message.duration.intValue];
         _contentBtn.voiceImgView.hidden = NO;
         _contentBtn.durationLbl.hidden = NO;
-        //设置为titlabel透明颜色 防止复用时出现bug （设置hidden属性不起作用）
-        [_contentBtn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
     } else {
         _contentBtn.voiceImgView.hidden = YES;
         _contentBtn.durationLbl.hidden = YES;
-        [_contentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     
-    if (message.message.contentType == kJMSGContentTypeText) {
+    if (message.message.contentType == kJMSGContentTypeText) {  //文本消息
         [_contentBtn setTitle:message.text forState:UIControlStateNormal];
-    } else if (message.message.contentType == kJMSGContentTypeVoice) {
-        _contentBtn.durationLbl.text = [NSString stringWithFormat:@"%d''",message.duration.intValue];
+        [_contentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    } else {
+        //设置为btn的label透明颜色 防止复用时出现bug （设置hidden属性不起作用）
+        [_contentBtn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
     }
- 
+    
+    if (message.message.contentType == kJMSGContentTypeImage) { //图片消息
+        _contentBtn.photoImgView.frame = messageFrame.photoImgFrame;
+        _contentBtn.photoImgView.hidden = NO;
+        //加载图片
+        JMSGImageContent *content = (JMSGImageContent *)message.message.content;
+        [content thumbImageData:^(NSData *data, NSString *objectId, NSError *error) {
+            if (error) {
+                NSLog(@"%@",error);
+                return;
+            }
+            self.contentBtn.photoImgView.image = [UIImage imageWithData:data];
+        }];
+    } else {
+        _contentBtn.photoImgView.hidden = YES;
+    }
 }
 
 

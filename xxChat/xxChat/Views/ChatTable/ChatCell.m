@@ -37,7 +37,6 @@
         CGFloat redPointX = CGRectGetMaxX(_icon.frame) - redPointWidth / 2;
         CGFloat redPointY = _icon.frame.origin.y  - redPointHeight / 2;
         self.redPoint = [[UnreadRedPointView alloc] initWithFrame:CGRectMake(redPointX, redPointY, redPointWidth, redPointHeight)];
-        _redPoint.hidden = YES;
         [self addSubview:_redPoint];
         
         //名称
@@ -94,10 +93,22 @@
 
     } else if (_conversation.latestMessage.contentType == kJMSGContentTypeVideo) {
         self.message.text = @"[视频]";
+    
+    } else if (_conversation.latestMessage.contentType == kJMSGContentTypeImage) {
+        self.message.text = @"[图片]";
     }
     
     //头像
-    self.icon.image = [UIImage imageWithContentsOfFile:_conversation.avatarLocalPath];
+    [conversation avatarData:^(NSData *data, NSString *objectId, NSError *error) {
+        if (error) {
+            NSLog(@"%@", error);
+            return;
+        }
+        if (!data) {
+            self.icon.image = [UIImage imageWithData:data];
+        }
+    }];
+    
     
     //时间
     NSTimeInterval timeInterval = [_conversation.latestMsgTime doubleValue] / 1000;
@@ -105,6 +116,9 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"HH:mm";
     self.time.text = [dateFormatter stringFromDate:date];
+    
+    //未读数
+    _redPoint.unreadCount = [_conversation.unreadCount intValue];
 }
 
 - (void)awakeFromNib {

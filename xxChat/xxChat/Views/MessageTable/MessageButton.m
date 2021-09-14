@@ -24,6 +24,10 @@
         _voiceImgView.image = [UIImage imageNamed:@"语音消息"];
         _voiceImgView.hidden = YES;
         [self addSubview:_voiceImgView];
+        
+        _photoImgView = [[UIImageView alloc] init];
+        _photoImgView.hidden = YES;
+        [self addSubview:_photoImgView];
     }
     return self;
 }

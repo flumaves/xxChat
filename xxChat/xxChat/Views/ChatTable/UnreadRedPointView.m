@@ -15,6 +15,7 @@
     if (self) {
         self.backgroundColor = [UIColor redColor];
         self.layer.cornerRadius = frame.size.width / 2;
+        self.hidden = YES;
         
         CGFloat labelWidth = frame.size.width;
         CGFloat labelHeight = frame.size.height;
@@ -23,7 +24,6 @@
         self.unreadLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, labelWidth, labelHeight)];
         _unreadLabel.font = [UIFont systemFontOfSize:14];
         _unreadLabel.textAlignment = NSTextAlignmentCenter;
-        _unreadLabel.hidden = NO;
         _unreadLabel.textColor = [UIColor whiteColor];
         [self addSubview:_unreadLabel];
     }
@@ -31,16 +31,16 @@
 }
 
 - (void)setUnreadCount:(int)unreadCount {
-    self.unreadCount = unreadCount;
+    _unreadCount = unreadCount;
     if (_unreadCount > 0) {
-        _unreadLabel.hidden = NO;
+        self.hidden = NO;
         if (_unreadCount > 99) {
             _unreadLabel.text = @"...";
         } else {
             _unreadLabel.text = [NSString stringWithFormat:@"%d", _unreadCount];
         }
     } else {
-        _unreadLabel.hidden = YES;
+        self.hidden = YES;
     }
 }
 

@@ -13,12 +13,16 @@
 #import "MessageTableView.h"
 #import <AVFoundation/AVFoundation.h>
 #import "MoreFunctionView.h"
+#import <PhotosUI/PhotosUI.h>
+#import "ImagePicker.h"
+#import "ImageCollectionViewCell.h"
+#import "EmojiView.h"
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #define INTERVAL 60*3 //3分钟的时间间隔
 
-@interface MessageViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, JMSGMessageDelegate, InputViewDelegate, MessageCellDelegate, AVAudioPlayerDelegate>
+@interface MessageViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, JMSGMessageDelegate, InputViewDelegate, MessageCellDelegate, AVAudioPlayerDelegate,ImagePickerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 //navigationBar后面的背景的view
 @property (nonatomic, strong) UIView *backgroundView;
 
@@ -36,7 +40,10 @@
 @property (nonatomic, strong) MoreFunctionView *moreFunctionView;
 
 //表情包
-@property (nonatomic, strong) UIView *emojiView;
+@property (nonatomic, strong) EmojiView *emojiView;
+
+//图片选择器
+@property (nonatomic, weak) ImagePicker *picker;
 
 //消息数组
 @property (nonatomic, strong) NSMutableArray *messagesArray;
@@ -92,12 +99,12 @@
 #pragma mark - 添加监听
 //添加监听
 - (void)addObservers {
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moreFunctionSubViewClick:) name:@"moreFunctionSubViewClick" object:nil];
 }
 
 //注销监听
 - (void)removeObservers {
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"moreFunctionSubViewClick" object:nil];
 }
 
 
@@ -183,8 +190,9 @@
     
     //emojiView
     CGRect emojiViewFrame = _moreFunctionView.frame;
-    self.emojiView = [[UIView alloc] initWithFrame:emojiViewFrame];
-    _emojiView.backgroundColor = [UIColor systemTealColor];
+    self.emojiView = [[EmojiView alloc] initWithFrame:emojiViewFrame];
+    _emojiView.emojiCollectionView.delegate = self;
+    _emojiView.emojiCollectionView.dataSource = self;
     _emojiView.hidden = YES;
     [self.view addSubview:_emojiView];
     
@@ -297,20 +305,21 @@
     [JMSGMessage sendMessage:message];
 }
 
-///拖动屏幕的操作
+#pragma mark - scrollViewBeginDragging
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (_toStatus == InputViewStatusShowKeyboard) {
-        //取消编辑状态 会改变keyboard的状态 从而发送通知
-        [self.view endEditing:YES];
-        self.moreFunctionView.hidden = YES;
-        self.emojiView.hidden = YES;
-    } else if (_toStatus != InputViewStatusNothing) {
-        //改成默认状态
-        self.inputView.fromStatus = _toStatus;
-        self.inputView.toStatus = InputViewStatusNothing;
-        [self changeInputViewFromStatus:_toStatus ToStatus:InputViewStatusNothing];
+    if ([scrollView isEqual:self.messageTableView]) {
+        if (_toStatus == InputViewStatusShowKeyboard) {
+            //取消编辑状态 会改变keyboard的状态 从而发送通知
+            [self.view endEditing:YES];
+            self.moreFunctionView.hidden = YES;
+            self.emojiView.hidden = YES;
+        } else if (_toStatus != InputViewStatusNothing) {
+            //改成默认状态
+            self.inputView.fromStatus = _toStatus;
+            self.inputView.toStatus = InputViewStatusNothing;
+            [self changeInputViewFromStatus:_toStatus ToStatus:InputViewStatusNothing];
+        }
     }
-    
 }
 
 #pragma mark - tableView的 dataSource 和 delegate
@@ -338,14 +347,55 @@
     return frame.rowHeight;
 }
 
+#pragma mark - collectionView的delegate和datasource
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
 
-//#pragma mark - 滚动到最后一行
-//- (void)tableViewscrollToBotton {
-//    if (_messagesArray.count != 0) {
-//        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_messagesArray.count - 1 inSection:0];
-//        [self.messageTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-//    }
-//}
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 20;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([collectionView isEqual:self.picker.imageCollectionView]) {
+        ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
+        //加载图片素材
+        NSString *imageName = [@"图片素材" stringByAppendingFormat:@"%ld", (long)indexPath.item];
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"jpg"];
+
+        cell.imageView.image = [UIImage imageWithContentsOfFile:imagePath];
+        return cell;
+    } else {
+        EmojiCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"emojiCell" forIndexPath:indexPath];
+        //加载表情包素材
+        NSString *imageName = [@"图片素材" stringByAppendingFormat:@"%ld", (long)indexPath.item + 1];
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"jpg"];
+
+        cell.emojiImageView.image = [UIImage imageWithContentsOfFile:imagePath];
+        return cell;
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([collectionView isEqual:_picker.imageCollectionView]) {
+        //获取图片data
+        ImageCollectionViewCell *cell = (ImageCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        NSData *data = UIImagePNGRepresentation(cell.imageView.image);
+        //创建消息
+        JMSGImageContent *content = [[JMSGImageContent alloc] initWithImageData:data];
+        JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:content username:self.anotherUser.username];
+        //发送消息
+        [JMSGMessage sendMessage:message];
+        //隐藏imagePicker
+        [UIView animateWithDuration:0.3 animations:^{
+            CGRect imagePickerFrame = self.picker.frame;
+            imagePickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
+            self.picker.frame = imagePickerFrame;
+            self.navigationController.navigationBar.hidden = NO;
+        }];
+    } else {
+    }
+}
 
 
 #pragma mark - textfield的delegate
@@ -486,6 +536,7 @@
                 }];
             }
         }
+        return;
     }
     
     if (toStatus == InputViewStatusShowVoice) {
@@ -510,6 +561,7 @@
         if (fromStatus == InputViewStatusShowKeyboard) {
             [_inputView.inputTextField resignFirstResponder];
         }
+        return;
     }
     
     if (toStatus == InputViewStatusNothing) {
@@ -538,13 +590,54 @@
                 }
             }];
         }
+        return;
     }
+}
+
+
+#pragma mark - ImagePicker的delegate
+- (void)didFinishingPickImage {
+    
+}
+
+- (void)didCancelPickImage {
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect imagePickerFrame = self.picker.frame;
+        imagePickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
+        self.picker.frame = imagePickerFrame;
+        self.navigationController.navigationBar.hidden = NO;
+    }];
 }
 
 
 #pragma mark - moreFunctionView的delegate
 - (void)moreFunctionSubViewClick:(NSNotification *)notification {
-
+    MoreFunctionSubView *subView = notification.object;
+    NSString *subViewText = subView.lbl.text;
+    if ([subViewText isEqual:@"相片"]) {
+        ImagePicker *imagePicker = [[ImagePicker alloc] initWithFrame:
+                                    CGRectMake(0,
+                                               [UIScreen mainScreen].bounds.size.height,
+                                               [UIScreen mainScreen].bounds.size.width,
+                                               [UIScreen mainScreen].bounds.size.height)];
+        imagePicker.delegate = self;
+        imagePicker.imageCollectionView.delegate = self;
+        imagePicker.imageCollectionView.dataSource = self;
+        self.picker = imagePicker;
+        [self.view addSubview:imagePicker];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            CGRect frame = imagePicker.frame;
+            frame.origin.y = 0;
+            imagePicker.frame = frame;
+            self.navigationController.navigationBar.hidden = YES;
+        }];
+    } else {
+        UIAlertController* alertController = [UIAlertController alertControllerWithTitle:nil message:@"功能未开放" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:cancelAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
 }
 
 

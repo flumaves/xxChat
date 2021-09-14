@@ -16,6 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 //显示语音图片的imageView
 @property (nonatomic, strong) UIImageView *voiceImgView;
+
+//图片消息的imageView
+@property (nonatomic, strong) UIImageView *photoImgView;
+
 @end
 
 NS_ASSUME_NONNULL_END

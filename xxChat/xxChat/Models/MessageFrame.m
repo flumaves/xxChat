@@ -90,6 +90,29 @@
         CGFloat durationLblX = imgX - durationLblWidth;
         CGFloat durationLblY = imgY;
         _durationLblFrame = CGRectMake(durationLblX, durationLblY, durationLblWidth, durationLblHeight);
+        
+    } else if (_message.message.contentType == kJMSGContentTypeImage) { ///图片消息
+        CGSize imageSize = _message.imageSize;
+        //消息的宽度 （最大200 * 200）
+        CGFloat edgeInsets = 20;
+        CGFloat imageWidth = imageSize.width;
+        imageWidth = imageWidth > 200 ? 200 : imageWidth;
+        CGFloat contentWidth = imageWidth + 2 * edgeInsets;
+        CGFloat imageHeight = imageSize.height;
+        imageHeight = imageHeight > 200 ? (imageSize.height / imageSize.width) * imageWidth : imageHeight;
+        CGFloat contentHeight = imageHeight + 2 * edgeInsets;
+        CGFloat contentY = iconY;
+        CGFloat contentX = 0;
+        if (_message.type == MessageType_ME) {
+            contentX = screenWidth - contentWidth - iconL - space * 2;
+        } else {
+            contentX = iconL + 2 * space;
+        }
+        _contentFrame = CGRectMake(contentX, contentY, contentWidth, contentHeight);
+        
+        CGFloat imageX = edgeInsets;
+        CGFloat imageY = edgeInsets;
+        _photoImgFrame = CGRectMake(imageX, imageY, imageWidth, imageHeight);
     }
     
     //cell的高度

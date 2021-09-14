@@ -32,6 +32,10 @@ typedef enum {
 //录音的秒数 (JMSGContentTypeVoice 使用）
 @property (nonatomic, strong) NSNumber *duration;
 
+//图片的数据（JMSGContentTypeImage 使用）
+@property (nonatomic, strong) NSString *imageLink;
+@property (nonatomic, assign) CGSize imageSize;
+
 //发布的时间戳
 @property (nonatomic, strong) NSString *time;
 
