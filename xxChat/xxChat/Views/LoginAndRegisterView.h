@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIButton *registerButton;
 //滑块
 @property (nonatomic,strong) UIView *slider;
+//滑块的背景
+@property (nonatomic,strong) UIView* sliderBackground;
 //注册账号输入框
 @property (nonatomic,strong) UITextField *regiAccount;
 //注册密码输入框1
@@ -34,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UITextField *loginPassword;
 //确认按钮
 @property (nonatomic,strong) UIButton *confirmButton;
+//修改密码button
+@property (nonatomic,strong) UIButton *changePasswordBtn;
 //账号下面的线
 @property (nonatomic,strong) UIView *line_1;
 //密码下面的线

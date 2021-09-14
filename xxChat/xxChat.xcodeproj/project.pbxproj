@@ -8,19 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		895E512A6F2E81418116D248 /* Pods_xxChat_xxChatUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2382D83948623E5AF2F4FE11 /* Pods_xxChat_xxChatUITests.framework */; };
-		9B18464926ECDFE4003C4FA4 /* UITabBar+RedPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B18464826ECDFE4003C4FA4 /* UITabBar+RedPoint.m */; };
-		9B1846D126EDFDC2003C4FA4 /* ImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1846D026EDFDC2003C4FA4 /* ImagePicker.m */; };
-		9B1846D426EDFEDC003C4FA4 /* ImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1846D326EDFEDC003C4FA4 /* ImageCollectionViewCell.m */; };
-		9B1846E226EF527E003C4FA4 /* 图片素材8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B1846DA26EF527E003C4FA4 /* 图片素材8.jpg */; };
-		9B1846E326EF527E003C4FA4 /* 图片素材1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B1846DB26EF527E003C4FA4 /* 图片素材1.jpg */; };
-		9B1846E426EF527E003C4FA4 /* 图片素材2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B1846DC26EF527E003C4FA4 /* 图片素材2.jpg */; };
-		9B1846E526EF527E003C4FA4 /* 图片素材3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B1846DD26EF527E003C4FA4 /* 图片素材3.jpg */; };
-		9B1846E626EF527E003C4FA4 /* 图片素材7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B1846DE26EF527E003C4FA4 /* 图片素材7.jpg */; };
-		9B1846E726EF527E003C4FA4 /* 图片素材6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B1846DF26EF527E003C4FA4 /* 图片素材6.jpg */; };
-		9B1846E826EF527E003C4FA4 /* 图片素材4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B1846E026EF527E003C4FA4 /* 图片素材4.jpg */; };
-		9B1846E926EF527E003C4FA4 /* 图片素材5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B1846E126EF527E003C4FA4 /* 图片素材5.jpg */; };
-		9B18473226F0412A003C4FA4 /* EmojiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B18473126F0412A003C4FA4 /* EmojiView.m */; };
-		9B18473526F042A4003C4FA4 /* EmojiCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B18473426F042A4003C4FA4 /* EmojiCollectionViewCell.m */; };
 		9B678D7726BEB7DA00483386 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7626BEB7DA00483386 /* AppDelegate.m */; };
 		9B678D7A26BEB7DA00483386 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7926BEB7DA00483386 /* SceneDelegate.m */; };
 		9B678D7D26BEB7DA00483386 /* ChatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7C26BEB7DA00483386 /* ChatsViewController.m */; };
@@ -59,6 +46,9 @@
 		A626537226E130C60084050F /* SearchInfomationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A626537126E130C60084050F /* SearchInfomationController.m */; };
 		A626537626E337560084050F /* UIImage+ChangeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = A626537526E337560084050F /* UIImage+ChangeImage.m */; };
 		A654FE0526C17DAC00DCE37C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = A654FE0426C17DAC00DCE37C /* User.m */; };
+		A6C18C0F26ECD787005D5C63 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C0E26ECD787005D5C63 /* ChangePasswordViewController.m */; };
+		A6C18C1326EF4773005D5C63 /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C1226EF4773005D5C63 /* GroupViewController.m */; };
+		A6C18C1826EF53DE005D5C63 /* FriendInfomationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C1726EF53DE005D5C63 /* FriendInfomationViewController.m */; };
 		D896ADF420D3A0455DCA96A1 /* Pods_xxChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E2D4B3588605E9F2AA7F96 /* Pods_xxChatTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -85,24 +75,6 @@
 		43E2D4B3588605E9F2AA7F96 /* Pods_xxChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_xxChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5187AB585ED6EE9660D223F3 /* Pods-xxChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat.release.xcconfig"; path = "Target Support Files/Pods-xxChat/Pods-xxChat.release.xcconfig"; sourceTree = "<group>"; };
 		7AC191896647A878FD5CC96E /* Pods-xxChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat.debug.xcconfig"; path = "Target Support Files/Pods-xxChat/Pods-xxChat.debug.xcconfig"; sourceTree = "<group>"; };
-		9B18464726ECDFE4003C4FA4 /* UITabBar+RedPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITabBar+RedPoint.h"; sourceTree = "<group>"; };
-		9B18464826ECDFE4003C4FA4 /* UITabBar+RedPoint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+RedPoint.m"; sourceTree = "<group>"; };
-		9B1846CF26EDFDC2003C4FA4 /* ImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImagePicker.h; sourceTree = "<group>"; };
-		9B1846D026EDFDC2003C4FA4 /* ImagePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImagePicker.m; sourceTree = "<group>"; };
-		9B1846D226EDFEDC003C4FA4 /* ImageCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCollectionViewCell.h; sourceTree = "<group>"; };
-		9B1846D326EDFEDC003C4FA4 /* ImageCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionViewCell.m; sourceTree = "<group>"; };
-		9B1846DA26EF527E003C4FA4 /* 图片素材8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "图片素材8.jpg"; sourceTree = "<group>"; };
-		9B1846DB26EF527E003C4FA4 /* 图片素材1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "图片素材1.jpg"; sourceTree = "<group>"; };
-		9B1846DC26EF527E003C4FA4 /* 图片素材2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "图片素材2.jpg"; sourceTree = "<group>"; };
-		9B1846DD26EF527E003C4FA4 /* 图片素材3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "图片素材3.jpg"; sourceTree = "<group>"; };
-		9B1846DE26EF527E003C4FA4 /* 图片素材7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "图片素材7.jpg"; sourceTree = "<group>"; };
-		9B1846DF26EF527E003C4FA4 /* 图片素材6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "图片素材6.jpg"; sourceTree = "<group>"; };
-		9B1846E026EF527E003C4FA4 /* 图片素材4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "图片素材4.jpg"; sourceTree = "<group>"; };
-		9B1846E126EF527E003C4FA4 /* 图片素材5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "图片素材5.jpg"; sourceTree = "<group>"; };
-		9B18473026F0412A003C4FA4 /* EmojiView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmojiView.h; sourceTree = "<group>"; };
-		9B18473126F0412A003C4FA4 /* EmojiView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmojiView.m; sourceTree = "<group>"; };
-		9B18473326F042A4003C4FA4 /* EmojiCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmojiCollectionViewCell.h; sourceTree = "<group>"; };
-		9B18473426F042A4003C4FA4 /* EmojiCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmojiCollectionViewCell.m; sourceTree = "<group>"; };
 		9B678D7226BEB7DA00483386 /* xxChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xxChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B678D7526BEB7DA00483386 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9B678D7626BEB7DA00483386 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -177,6 +149,12 @@
 		A626537526E337560084050F /* UIImage+ChangeImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ChangeImage.m"; sourceTree = "<group>"; };
 		A654FE0326C17DAC00DCE37C /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		A654FE0426C17DAC00DCE37C /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		A6C18C0D26ECD787005D5C63 /* ChangePasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		A6C18C0E26ECD787005D5C63 /* ChangePasswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
+		A6C18C1126EF4773005D5C63 /* GroupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
+		A6C18C1226EF4773005D5C63 /* GroupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
+		A6C18C1626EF53DE005D5C63 /* FriendInfomationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendInfomationViewController.h; sourceTree = "<group>"; };
+		A6C18C1726EF53DE005D5C63 /* FriendInfomationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendInfomationViewController.m; sourceTree = "<group>"; };
 		A9BFB7ADCDC74788E2CD01FE /* Pods-xxChat-xxChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.release.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.release.xcconfig"; sourceTree = "<group>"; };
 		BED5FCBB519A9BE3680A35D3 /* Pods-xxChat-xxChatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.debug.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CA19132E76973E48485A7738 /* Pods-xxChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChatTests.debug.xcconfig"; path = "Target Support Files/Pods-xxChatTests/Pods-xxChatTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -225,32 +203,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		9B1846D526EDFEE1003C4FA4 /* ImagePicker */ = {
-			isa = PBXGroup;
-			children = (
-				9B1846CF26EDFDC2003C4FA4 /* ImagePicker.h */,
-				9B1846D026EDFDC2003C4FA4 /* ImagePicker.m */,
-				9B1846D226EDFEDC003C4FA4 /* ImageCollectionViewCell.h */,
-				9B1846D326EDFEDC003C4FA4 /* ImageCollectionViewCell.m */,
-			);
-			path = ImagePicker;
-			sourceTree = "<group>";
-		};
-		9B1846D926EF527E003C4FA4 /* xxChat图片素材 */ = {
-			isa = PBXGroup;
-			children = (
-				9B1846DA26EF527E003C4FA4 /* 图片素材8.jpg */,
-				9B1846DB26EF527E003C4FA4 /* 图片素材1.jpg */,
-				9B1846DC26EF527E003C4FA4 /* 图片素材2.jpg */,
-				9B1846DD26EF527E003C4FA4 /* 图片素材3.jpg */,
-				9B1846DE26EF527E003C4FA4 /* 图片素材7.jpg */,
-				9B1846DF26EF527E003C4FA4 /* 图片素材6.jpg */,
-				9B1846E026EF527E003C4FA4 /* 图片素材4.jpg */,
-				9B1846E126EF527E003C4FA4 /* 图片素材5.jpg */,
-			);
-			path = "xxChat图片素材";
-			sourceTree = "<group>";
-		};
 		9B678D6926BEB7DA00483386 = {
 			isa = PBXGroup;
 			children = (
@@ -276,13 +228,12 @@
 		9B678D7426BEB7DA00483386 /* xxChat */ = {
 			isa = PBXGroup;
 			children = (
-				9B1846D926EF527E003C4FA4 /* xxChat图片素材 */,
 				A626537326E135150084050F /* Categorys */,
 				A626534426CAAE720084050F /* Protocols */,
-				A654FE0126C17D3F00DCE37C /* Models */,
 				A654FE0226C17D5400DCE37C /* Views */,
-				9B678DAB26C155DE00483386 /* Controllers */,
 				9B678DAC26C155EB00483386 /* Others */,
+				9B678DAB26C155DE00483386 /* Controllers */,
+				A654FE0126C17D3F00DCE37C /* Models */,
 				9B678D8126BEB7DC00483386 /* Assets.xcassets */,
 				9B678D8626BEB7DC00483386 /* Info.plist */,
 				9B678D8726BEB7DC00483386 /* main.m */,
@@ -313,28 +264,19 @@
 		9B678DAB26C155DE00483386 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9B678D7B26BEB7DA00483386 /* ChatsViewController.h */,
-				9B678D7C26BEB7DA00483386 /* ChatsViewController.m */,
+				A6C18C1526EF479F005D5C63 /* AboutFriendControllers */,
+				A6C18C1426EF477A005D5C63 /* AboutGroupControllers */,
+				A6C18C0C26ECD6D2005D5C63 /* FourMainControllers */,
 				9BD29D7426CBF8F7002F7114 /* MessageViewController.h */,
 				9BD29D7526CBF8F7002F7114 /* MessageViewController.m */,
-				9B678DAF26C157BF00483386 /* ContactsViewController.h */,
-				9B678DB026C157BF00483386 /* ContactsViewController.m */,
-				9B678DB226C1595D00483386 /* DiscoverViewController.h */,
-				9B678DB326C1595D00483386 /* DiscoverViewController.m */,
-				9B678DB526C1596600483386 /* MeViewController.h */,
-				9B678DB626C1596600483386 /* MeViewController.m */,
 				9B678DC426C3C1EF00483386 /* SelfInformationTableViewController.h */,
 				9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */,
 				A626536A26E130570084050F /* ChangeInfoViewController.h */,
 				A626536B26E130570084050F /* ChangeInfoViewController.m */,
 				A626533B26CA88000084050F /* VisitorViewController.h */,
 				A626533C26CA88000084050F /* VisitorViewController.m */,
-				A626536726E130280084050F /* AddViewController.h */,
-				A626536826E130280084050F /* AddViewController.m */,
-				A626536D26E130870084050F /* FriendInvitationViewController.h */,
-				A626536E26E130870084050F /* FriendInvitationViewController.m */,
-				A626537026E130C60084050F /* SearchInfomationController.h */,
-				A626537126E130C60084050F /* SearchInfomationController.m */,
+				A6C18C0D26ECD787005D5C63 /* ChangePasswordViewController.h */,
+				A6C18C0E26ECD787005D5C63 /* ChangePasswordViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -359,10 +301,6 @@
 				9B84E79E26E7A966006BDCCB /* MoreFunctionView.m */,
 				9B84E7A026E7A9F2006BDCCB /* MoreFunctionSubView.h */,
 				9B84E7A126E7A9F2006BDCCB /* MoreFunctionSubView.m */,
-				9B18473026F0412A003C4FA4 /* EmojiView.h */,
-				9B18473126F0412A003C4FA4 /* EmojiView.m */,
-				9B18473326F042A4003C4FA4 /* EmojiCollectionViewCell.h */,
-				9B18473426F042A4003C4FA4 /* EmojiCollectionViewCell.m */,
 			);
 			path = InputView;
 			sourceTree = "<group>";
@@ -404,8 +342,6 @@
 			children = (
 				A626537426E337560084050F /* UIImage+ChangeImage.h */,
 				A626537526E337560084050F /* UIImage+ChangeImage.m */,
-				9B18464726ECDFE4003C4FA4 /* UITabBar+RedPoint.h */,
-				9B18464826ECDFE4003C4FA4 /* UITabBar+RedPoint.m */,
 			);
 			path = Categorys;
 			sourceTree = "<group>";
@@ -426,7 +362,6 @@
 		A654FE0226C17D5400DCE37C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9B1846D526EDFEE1003C4FA4 /* ImagePicker */,
 				9B84E7F426ECB665006BDCCB /* ChatTable */,
 				9B84E7A726E85A6B006BDCCB /* MessageTable */,
 				9B84E7A626E85A2E006BDCCB /* InputView */,
@@ -442,6 +377,45 @@
 				A626536226E12CB50084050F /* SearchResultCell.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A6C18C0C26ECD6D2005D5C63 /* FourMainControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9B678D7B26BEB7DA00483386 /* ChatsViewController.h */,
+				9B678D7C26BEB7DA00483386 /* ChatsViewController.m */,
+				9B678DAF26C157BF00483386 /* ContactsViewController.h */,
+				9B678DB026C157BF00483386 /* ContactsViewController.m */,
+				9B678DB226C1595D00483386 /* DiscoverViewController.h */,
+				9B678DB326C1595D00483386 /* DiscoverViewController.m */,
+				9B678DB526C1596600483386 /* MeViewController.h */,
+				9B678DB626C1596600483386 /* MeViewController.m */,
+			);
+			path = FourMainControllers;
+			sourceTree = "<group>";
+		};
+		A6C18C1426EF477A005D5C63 /* AboutGroupControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A6C18C1126EF4773005D5C63 /* GroupViewController.h */,
+				A6C18C1226EF4773005D5C63 /* GroupViewController.m */,
+			);
+			path = AboutGroupControllers;
+			sourceTree = "<group>";
+		};
+		A6C18C1526EF479F005D5C63 /* AboutFriendControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A626536726E130280084050F /* AddViewController.h */,
+				A626536826E130280084050F /* AddViewController.m */,
+				A626536D26E130870084050F /* FriendInvitationViewController.h */,
+				A626536E26E130870084050F /* FriendInvitationViewController.m */,
+				A626537026E130C60084050F /* SearchInfomationController.h */,
+				A626537126E130C60084050F /* SearchInfomationController.m */,
+				A6C18C1626EF53DE005D5C63 /* FriendInfomationViewController.h */,
+				A6C18C1726EF53DE005D5C63 /* FriendInfomationViewController.m */,
+			);
+			path = AboutFriendControllers;
 			sourceTree = "<group>";
 		};
 		D74B04689037BD42BFACAA24 /* Frameworks */ = {
@@ -562,16 +536,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B1846E426EF527E003C4FA4 /* 图片素材2.jpg in Resources */,
-				9B1846E926EF527E003C4FA4 /* 图片素材5.jpg in Resources */,
 				9B678D8226BEB7DC00483386 /* Assets.xcassets in Resources */,
-				9B1846E826EF527E003C4FA4 /* 图片素材4.jpg in Resources */,
 				9B678DBD26C162C700483386 /* Main.storyboard in Resources */,
-				9B1846E326EF527E003C4FA4 /* 图片素材1.jpg in Resources */,
-				9B1846E226EF527E003C4FA4 /* 图片素材8.jpg in Resources */,
-				9B1846E726EF527E003C4FA4 /* 图片素材6.jpg in Resources */,
-				9B1846E626EF527E003C4FA4 /* 图片素材7.jpg in Resources */,
-				9B1846E526EF527E003C4FA4 /* 图片素材3.jpg in Resources */,
 				9B678DBA26C1622300483386 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -702,8 +668,7 @@
 			files = (
 				9B678DC626C3C1EF00483386 /* SelfInformationTableViewController.m in Sources */,
 				A626537226E130C60084050F /* SearchInfomationController.m in Sources */,
-				9B18464926ECDFE4003C4FA4 /* UITabBar+RedPoint.m in Sources */,
-				9B18473526F042A4003C4FA4 /* EmojiCollectionViewCell.m in Sources */,
+				A6C18C1826EF53DE005D5C63 /* FriendInfomationViewController.m in Sources */,
 				9B84E7F326ECB65F006BDCCB /* UnreadRedPointView.m in Sources */,
 				A626534026CA88A30084050F /* LoginAndRegisterView.m in Sources */,
 				9B84E7A226E7A9F2006BDCCB /* MoreFunctionSubView.m in Sources */,
@@ -711,6 +676,7 @@
 				9BD29D8226CBFA6B002F7114 /* InputView.m in Sources */,
 				A654FE0526C17DAC00DCE37C /* User.m in Sources */,
 				A626536F26E130870084050F /* FriendInvitationViewController.m in Sources */,
+				A6C18C1326EF4773005D5C63 /* GroupViewController.m in Sources */,
 				9B678DB126C157BF00483386 /* ContactsViewController.m in Sources */,
 				A626536C26E130570084050F /* ChangeInfoViewController.m in Sources */,
 				A626536026E12C860084050F /* FriendInvitationCell.m in Sources */,
@@ -719,6 +685,7 @@
 				9B84E7A526E7AA3F006BDCCB /* MessageButton.m in Sources */,
 				A626536926E130280084050F /* AddViewController.m in Sources */,
 				A626537626E337560084050F /* UIImage+ChangeImage.m in Sources */,
+				A6C18C0F26ECD787005D5C63 /* ChangePasswordViewController.m in Sources */,
 				A626536626E12CF30084050F /* MessageTableView.m in Sources */,
 				9BD29D7626CBF8F7002F7114 /* MessageViewController.m in Sources */,
 				9BD29D7926CBF949002F7114 /* Message.m in Sources */,
@@ -728,11 +695,8 @@
 				9B678DC926C3D97C00483386 /* ChatCell.m in Sources */,
 				9B678D7D26BEB7DA00483386 /* ChatsViewController.m in Sources */,
 				9B678D7726BEB7DA00483386 /* AppDelegate.m in Sources */,
-				9B18473226F0412A003C4FA4 /* EmojiView.m in Sources */,
 				9BD29D7F26CBFA2B002F7114 /* MessageCell.m in Sources */,
 				9B678DC026C2CE9200483386 /* InformationCell.m in Sources */,
-				9B1846D126EDFDC2003C4FA4 /* ImagePicker.m in Sources */,
-				9B1846D426EDFEDC003C4FA4 /* ImageCollectionViewCell.m in Sources */,
 				9B84E79F26E7A966006BDCCB /* MoreFunctionView.m in Sources */,
 				9B678D8826BEB7DC00483386 /* main.m in Sources */,
 				9B678D7A26BEB7DA00483386 /* SceneDelegate.m in Sources */,

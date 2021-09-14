@@ -10,6 +10,8 @@
 #import "AddViewController.h"
 #import "ContactCell.h"
 #import "FriendInvitationViewController.h"
+#import "FriendInfomationViewController.h"
+#import "GroupViewController.h"
 
 #define MainColor [UIColor colorWithRed:130/255.0 green:151/255.0 blue:206/255.0 alpha:1]
 
@@ -27,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 //判定是否有新的好友请求
 @property (nonatomic) BOOL isReceiveInvitation;
+//判定是否有新的群组通知，例如有人申请入群，有人退群等。
+@property (nonatomic) BOOL isReceiveGroupEvent;
 
 @end
 

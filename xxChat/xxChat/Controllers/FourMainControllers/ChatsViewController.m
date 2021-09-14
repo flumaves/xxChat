@@ -8,18 +8,14 @@
 #import "ChatsViewController.h"
 #import "ChatCell.h"
 #import "MessageViewController.h"
-#import "UITabBar+RedPoint.h"
 
 @interface ChatsViewController () <UITableViewDataSource, UITableViewDelegate,JMessageDelegate,JMSGConversationDelegate>
 
 //加载会话列表的tableView
-@property (nonatomic, strong)UITableView *conversationsTableView;
+@property (nonatomic, strong)UITableView *chatTableView;
 
 //储存会话列表 （array中是 JMSGConversation）
 @property (nonatomic, strong)NSMutableArray *conversationsArray;
-
-//总的未读消息数
-@property (nonatomic, assign)int allUnreadCount;
 
 @end
 
@@ -27,12 +23,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    //添加代理
     [JMessage addDelegate:self withConversation:nil];
 
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.conversationsTableView.tableFooterView = [[UIView alloc] init];
-    [self.view addSubview:self.conversationsTableView];
     [self layoutView];
     [self loadData];
     
@@ -46,12 +39,9 @@
             NSLog(@"%@",error);
         } else {
             //正常返回时 resultObject里面为NSArray 成员类型为 JMSGConversation
-            for (JMSGConversation *conversation in resultObject) {
-                self.allUnreadCount += [conversation.unreadCount intValue];
-                [self.conversationsArray addObject:conversation];
-            }
-            [self.conversationsTableView reloadData];
-            [self.tabBarController.tabBar showRedPointAtIndex:0 withUnreadCount:self.allUnreadCount];
+            self.conversationsArray = resultObject;
+            //该方法是异步加载 需要重新刷新一下tableview
+            [self.chatTableView reloadData];
         }
     }];
 }
@@ -71,19 +61,19 @@
                 }
             }
             [self.conversationsArray addObject:conversations];
-            [self.conversationsTableView reloadData];
+            [self.chatTableView reloadData];
         }
     }];
 }
 
 
-- (UITableView *)conversationsTableView {
-    if (_conversationsTableView == nil) {
-        _conversationsTableView = [[UITableView alloc] initWithFrame:self.view.frame];
-        _conversationsTableView.delegate = self;
-        _conversationsTableView.dataSource = self;
+- (UITableView *)chatTableView {
+    if (_chatTableView == nil) {
+        _chatTableView = [[UITableView alloc] initWithFrame:self.view.frame];
+        _chatTableView.delegate = self;
+        _chatTableView.dataSource = self;
     }
-    return _conversationsTableView;
+    return _chatTableView;
 }
 
 #pragma mark - 懒加载
@@ -98,15 +88,9 @@
 
 #pragma mark - JMSGMessageDelegate
 - (void)onReceiveMessage:(JMSGMessage *)message error:(NSError *)error {
-    _allUnreadCount = 0;
-    [self.conversationsArray removeAllObjects];
     [JMSGConversation allConversations:^(id resultObject, NSError *error) {
-        for (JMSGConversation *conversation in resultObject) {
-            self.allUnreadCount += [conversation.unreadCount intValue];
-            [self.conversationsArray addObject:conversation];
-        }
-        [self.conversationsTableView reloadData];
-        [self.tabBarController.tabBar showRedPointAtIndex:0 withUnreadCount:self.allUnreadCount];
+        self.conversationsArray = resultObject;
+        [self.chatTableView reloadData];    
     }];
 }
 
@@ -122,7 +106,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //复用ID为 chat
     NSString *ID = @"chat";
-    ChatCell *cell = [self.conversationsTableView dequeueReusableCellWithIdentifier:ID];
+    ChatCell *cell = [self.chatTableView dequeueReusableCellWithIdentifier:ID];
 
     if (cell == nil) {
         cell = [[ChatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
@@ -131,13 +115,13 @@
     
     //传入数据 JMSGConversation
     JMSGConversation *conversation = _conversationsArray[indexPath.row];
-    cell.conversation = conversation;
+    [cell setConversation:conversation];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ChatCell *cell = [self.conversationsTableView cellForRowAtIndexPath:indexPath];
+    ChatCell *cell = [self.chatTableView cellForRowAtIndexPath:indexPath];
     if (!cell.rowHeight) {
         return 80;
     } else {
@@ -147,12 +131,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ChatCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    //总的未读消息数
-    _allUnreadCount -= [cell.conversation.unreadCount intValue];
-    [self.tabBarController.tabBar showRedPointAtIndex:0 withUnreadCount:_allUnreadCount];
-    //清除未读消息数
-    [cell.conversation clearUnreadCount];
-    cell.redPoint.unreadCount = [cell.conversation.unreadCount intValue];
     MessageViewController *controller = [[MessageViewController alloc] init];
     controller.title = cell.name.text;
     controller.conversation = cell.conversation;
@@ -160,7 +138,10 @@
 }
 
 #pragma mark -
-- (void)layoutView{
+- (void)layoutView {
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.chatTableView.tableFooterView = [[UIView alloc] init];
+    [self.view addSubview:self.chatTableView];
     //右上角的添加button
     UIBarButtonItem *addBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(openAddController)];
     addBtnItem.tintColor = MainColor;
@@ -175,12 +156,13 @@
     
 }
 //打开搜索页面
-- (void)openSearchController{
+- (void)openSearchController {
 }
 
 
 //打开添加页面
-- (void)openAddController{
+- (void)openAddController {
+    
     self.hidesBottomBarWhenPushed = YES;//隐藏tabar
     AddViewController *addViewController = [[AddViewController alloc]init];
     [self.navigationController pushViewController:addViewController animated:YES];

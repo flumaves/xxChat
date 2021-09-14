@@ -95,20 +95,36 @@
 #pragma mark - LARView delegate
 
 - (void)passAccount: (NSString*)account WithPassword: (NSString*)password WithAccountType: (AccountType)type{
-  if (type==Register_Account) {
+  if (type == Register_Account) {
     //注册账号
       [JMSGUser registerWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
-          [self showAlertViewWithMessage:@"注册成功QAQ"];
-          self.LARView.regiAccount.text = @"";
-          self.LARView.regiPassword_2.text = @"";
-          self.LARView.regiPassword_1.text = @"";
+          if (!error) {
+              
+              [self showAlertViewWithMessage:@"注册成功QAQ"];
+              self.LARView.regiAccount.text = @"";
+              self.LARView.regiPassword_2.text = @"";
+              self.LARView.regiPassword_1.text = @"";
+              
+          }else {
+              
+              NSString* errorStr = [NSString stringWithFormat:@"%@",error];
+              
+              if ([errorStr containsString:@"user exist"]){//如果错误里面包含这个字符串
+                  
+                  [self showAlertViewWithMessage:@"用户已存在"];
+                  
+              }
+              NSLog(@"注册账号出现错误：%@",error);
+              
+          }
       }];
       
-  }else if(type==Login_Account){
+  }else if (type == Login_Account) {
       //登陆账号
       [JMSGUser loginWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
-          //如果错误为空，即登陆成功
-          if (error==NULL){
+          
+          if (!error){//如果错误为空，即登陆成功
+              
               //搜索登陆记录，有前科就把它删掉
               [self searchingAndUpdateUserArrayWithAccount:account];
               //记录登陆信息
@@ -116,8 +132,18 @@
 
               //监听已经登陆,让scene delegate跳转页面
               [[NSNotificationCenter defaultCenter]postNotificationName:@"FinishLogin" object:self];
+              
           }else{
-              NSLog(@"error==%@",error);
+              
+              NSString* errorStr = [NSString stringWithFormat:@"%@",error];
+              
+              if ([errorStr containsString:@"invalid password"]){//如果错误里面包含这个字符串
+                  
+                  [self showAlertViewWithMessage:@"账号或密码错误"];
+                  
+              }
+              NSLog(@"登陆失败：%@",error);
+              
           }
       }];
     
@@ -131,6 +157,11 @@
       //密码不相等
       [self showAlertViewWithMessage:@"两次密码不相等QAQ"];
 }
+
+- (void)changePassword{
+    [self.navigationController pushViewController:[[ChangePasswordViewController alloc]init] animated:YES];
+}
+
 #pragma mark - 设置一些一开始的数据
 - (void)setData{
     //设置上次登陆的账号在登陆界面中
