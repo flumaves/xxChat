@@ -2,7 +2,7 @@
 //  ImageCollectionViewCell.h
 //  xxChat
 //
-//  Created by little_Fking_cute on 2021/9/12.
+//  Created by little_Fking_cute on 2021/9/14.
 //
 
 #import <UIKit/UIKit.h>
