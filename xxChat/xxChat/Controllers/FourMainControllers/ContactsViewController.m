@@ -25,6 +25,8 @@
         [center addObserver:self selector:@selector(acceptFriendInvitation:) name:@"AcceptInvitation" object:nil];
         //添加代理，监听事件
         [JMessage addDelegate:self withConversation:nil];
+        
+        [self loadConversations];
     }
     return self;
 }
@@ -36,20 +38,26 @@
     [self layoutView];
 }
 #pragma mark - 懒加载
-- (NSMutableArray*)invitedReasonArray{
-    if (_invitedReasonArray==nil) {
+- (NSMutableArray*)conversationsArray {
+    if (_conversationsArray == nil) {
+        _conversationsArray = [[NSMutableArray alloc]init];
+    }
+    return _conversationsArray;
+}
+- (NSMutableArray*)invitedReasonArray {
+    if (_invitedReasonArray == nil) {
         _invitedReasonArray = [[NSMutableArray alloc]init];
     }
     return _invitedReasonArray;
 }
 - (NSMutableArray*)friendsListArray{
-    if (_friendsListArray==nil) {
+    if (_friendsListArray == nil) {
         _friendsListArray = [[NSMutableArray alloc]init];
     }
     return _friendsListArray;
 }
 - (NSMutableArray*)friendInvitationArray{
-    if (_friendInvitationArray==nil) {
+    if (_friendInvitationArray == nil) {
         _friendInvitationArray = [[NSMutableArray alloc]init];
     }
     return _friendInvitationArray;
@@ -197,11 +205,12 @@
         FriendInfomationViewController* friendInfoVC = [[FriendInfomationViewController alloc]init];
         //传user信息。
         friendInfoVC.user = _friendsListArray[indexPath.row];
+        //传会话数组
+        friendInfoVC.conversationsArray = self.conversationsArray;
         
-        friendInfoVC.hidesBottomBarWhenPushed = YES;
+        self.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:friendInfoVC animated:YES];
-        friendInfoVC.hidesBottomBarWhenPushed = NO;
-        
+        self.hidesBottomBarWhenPushed = NO;
         
     }
 }
@@ -235,16 +244,16 @@
 }
 
 - (void)layoutView {
+    
     //右上角的添加button
     UIBarButtonItem *addBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(openAddController)];
-    
     addBtnItem.tintColor = MainColor;
     
+    //右上角的搜索btn
     UIBarButtonItem *searchBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(openSearchController)];
-    
     searchBtnItem.tintColor = MainColor;
-    NSArray *btnArray = [NSArray arrayWithObjects:addBtnItem,searchBtnItem, nil];
     
+    NSArray *btnArray = [NSArray arrayWithObjects:addBtnItem,searchBtnItem, nil];
     [self.navigationItem setRightBarButtonItems:btnArray];
     
 }
@@ -338,6 +347,19 @@
 
   [alertController addAction:cancelAction];
   [self presentViewController:alertController animated:YES completion:nil];
+}
+
+#pragma mark - 加载会话数据
+- (void)loadConversations {
+    [JMSGConversation allConversations:^(id resultObject, NSError *error) {
+        if (error) {
+            NSLog(@"加载会话数据出错：%@",error);
+        } else {
+            //正常返回时 resultObject里面为NSArray 成员类型为 JMSGConversation
+            self.conversationsArray = resultObject;
+            //该方法是异步加载 需要重新刷新一下tableview
+        }
+    }];
 }
 
 @end

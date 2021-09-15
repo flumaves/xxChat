@@ -29,6 +29,10 @@
     [super viewDidLoad];
     //添加代理
     [JMessage addDelegate:self withConversation:nil];
+    
+    //设置监听中心，添加观察者
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(addChatWithUsername:) name:@"AddChat" object:nil];
 
     [self layoutView];
     [self loadData];
@@ -54,21 +58,33 @@
 }
 
 //创建单聊对话
-- (void)addChat {
-    [JMSGConversation createSingleConversationWithUsername:@"222222" completionHandler:^(id resultObject, NSError *error) {
+- (void)addChatWithUsername:(NSNotification*)notification {
+    
+    //获得通知传过来的消息
+    NSString* username = notification.userInfo[@"username"];
+    
+    //创建新的单聊
+    [JMSGConversation createSingleConversationWithUsername:username completionHandler:^(id resultObject, NSError *error) {
+
         JMSGConversation *conversations = (JMSGConversation *)resultObject;
+        
         if (error) {
-            NSLog(@"%@",error);
+            
+            NSLog(@"创建单聊出现错误：%@",error);
             return;
+            
         } else {
+            
             //查看是否已经是存在的对话
             for (JMSGConversation *conversation in self.conversationsArray) {
                 if (conversation.title == conversations.title) {
                     return;
                 }
             }
+            
             [self.conversationsArray addObject:conversations];
             [self.conversationsTableView reloadData];
+            
         }
     }];
 }
@@ -161,19 +177,21 @@
 
 #pragma mark -
 - (void)layoutView {
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.conversationsTableView.tableFooterView = [[UIView alloc] init];
     [self.view addSubview:self.conversationsTableView];
+    
     //右上角的添加button
     UIBarButtonItem *addBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(openAddController)];
     addBtnItem.tintColor = MainColor;
-    
+    //右上角的搜索按钮
     UIBarButtonItem *searchBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(openSearchController)];
     searchBtnItem.tintColor = MainColor;
+    //加入按钮数组
     NSArray *btnArray = [NSArray arrayWithObjects:addBtnItem,searchBtnItem, nil];
     [self.navigationItem setRightBarButtonItems:btnArray];
-    //左上角的button
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"addChat" style:UIBarButtonItemStyleDone target:self action:@selector(addChat)];
+    
     
     
 }

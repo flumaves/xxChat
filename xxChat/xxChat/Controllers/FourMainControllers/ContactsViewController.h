@@ -27,6 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 //好友申请理由数组
 @property(nonatomic,strong) NSMutableArray* invitedReasonArray;
 
+//储存会话列表 （array中是 JMSGConversation）
+@property (nonatomic, strong)NSMutableArray *conversationsArray;
+
 //判定是否有新的好友请求
 @property (nonatomic) BOOL isReceiveInvitation;
 //判定是否有新的群组通知，例如有人申请入群，有人退群等。
