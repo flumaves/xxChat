@@ -12,6 +12,8 @@
 #import "FriendInvitationViewController.h"
 #import "FriendInfomationViewController.h"
 #import "GroupViewController.h"
+#import "NSString+Pinyin.h"
+
 
 #define MainColor [UIColor colorWithRed:130/255.0 green:151/255.0 blue:206/255.0 alpha:1]
 
@@ -19,16 +21,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ContactsViewController : UIViewController
 //好友列表数组
-@property(nonatomic,strong) NSMutableArray* friendsListArray;
+@property (nonatomic, strong) NSMutableArray* friendsListArray;
 
 //好友申请列表数组
-@property(nonatomic,strong) NSMutableArray* friendInvitationArray;
+@property (nonatomic, strong) NSMutableArray* friendInvitationArray;
 
 //好友申请理由数组
-@property(nonatomic,strong) NSMutableArray* invitedReasonArray;
+@property (nonatomic, strong) NSMutableArray* invitedReasonArray;
 
 //储存会话列表 （array中是 JMSGConversation）
-@property (nonatomic, strong)NSMutableArray *conversationsArray;
+@property (nonatomic, strong) NSMutableArray* conversationsArray;
+
+//联系人分类首字母数组
+@property (nonatomic, strong) NSMutableArray* sectionTitleArray;
+
 
 //判定是否有新的好友请求
 @property (nonatomic) BOOL isReceiveInvitation;

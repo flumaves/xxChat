@@ -68,6 +68,7 @@
 		A6C18C0F26ECD787005D5C63 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C0E26ECD787005D5C63 /* ChangePasswordViewController.m */; };
 		A6C18C1326EF4773005D5C63 /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C1226EF4773005D5C63 /* GroupViewController.m */; };
 		A6C18C1826EF53DE005D5C63 /* FriendInfomationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C1726EF53DE005D5C63 /* FriendInfomationViewController.m */; };
+		A6C18C1B26F212A8005D5C63 /* NSString+Pinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C1A26F212A8005D5C63 /* NSString+Pinyin.m */; };
 		D896ADF420D3A0455DCA96A1 /* Pods_xxChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E2D4B3588605E9F2AA7F96 /* Pods_xxChatTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -198,6 +199,8 @@
 		A6C18C1226EF4773005D5C63 /* GroupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
 		A6C18C1626EF53DE005D5C63 /* FriendInfomationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendInfomationViewController.h; sourceTree = "<group>"; };
 		A6C18C1726EF53DE005D5C63 /* FriendInfomationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendInfomationViewController.m; sourceTree = "<group>"; };
+		A6C18C1926F212A8005D5C63 /* NSString+Pinyin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Pinyin.h"; sourceTree = "<group>"; };
+		A6C18C1A26F212A8005D5C63 /* NSString+Pinyin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Pinyin.m"; sourceTree = "<group>"; };
 		A9BFB7ADCDC74788E2CD01FE /* Pods-xxChat-xxChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.release.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.release.xcconfig"; sourceTree = "<group>"; };
 		BED5FCBB519A9BE3680A35D3 /* Pods-xxChat-xxChatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.debug.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CA19132E76973E48485A7738 /* Pods-xxChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChatTests.debug.xcconfig"; path = "Target Support Files/Pods-xxChatTests/Pods-xxChatTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -440,6 +443,8 @@
 				A626537526E337560084050F /* UIImage+ChangeImage.m */,
 				9B18475526F092C4003C4FA4 /* UITabBar+RedPoint.h */,
 				9B18475626F092C4003C4FA4 /* UITabBar+RedPoint.m */,
+				A6C18C1926F212A8005D5C63 /* NSString+Pinyin.h */,
+				A6C18C1A26F212A8005D5C63 /* NSString+Pinyin.m */,
 			);
 			path = Categorys;
 			sourceTree = "<group>";
@@ -809,6 +814,7 @@
 				A626536326E12CB50084050F /* SearchResultCell.m in Sources */,
 				9B18474226F08E0B003C4FA4 /* ImagePicker.m in Sources */,
 				9BD29D7C26CBF985002F7114 /* MessageFrame.m in Sources */,
+				A6C18C1B26F212A8005D5C63 /* NSString+Pinyin.m in Sources */,
 				9B678DC926C3D97C00483386 /* ChatCell.m in Sources */,
 				9B678D7D26BEB7DA00483386 /* ChatsViewController.m in Sources */,
 				9B678D7726BEB7DA00483386 /* AppDelegate.m in Sources */,

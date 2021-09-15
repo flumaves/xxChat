@@ -141,7 +141,12 @@
                   
                   [self showAlertViewWithMessage:@"账号或密码错误"];
                   
+              }else if ([errorStr containsString:@"request timeout"]) {
+                  
+                  [self showAlertViewWithMessage:@"登陆超时，请检查网络配置"];
+                  
               }
+              
               NSLog(@"登陆失败：%@",error);
               
           }

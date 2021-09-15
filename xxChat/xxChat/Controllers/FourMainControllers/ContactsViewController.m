@@ -38,6 +38,13 @@
     [self layoutView];
 }
 #pragma mark - 懒加载
+- (NSMutableArray*)sectionTitleArray {
+    if (_sectionTitleArray == nil) {
+        _sectionTitleArray = [[NSMutableArray alloc]init];
+    }
+    return _sectionTitleArray;
+}
+
 - (NSMutableArray*)conversationsArray {
     if (_conversationsArray == nil) {
         _conversationsArray = [[NSMutableArray alloc]init];
@@ -74,15 +81,17 @@
 
 #pragma mark -tableView的 dataSource 和 delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    
+    return 1+self.sectionTitleArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section==0){
+    if (section == 0) {
         return 2;
-    }else{
+    } else {
+        NSMutableArray* tempArray = self.friendsListArray[section-1];
         
-        return self.friendsListArray.count;
+        return tempArray.count;
     }
 }
 
@@ -95,8 +104,10 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     //第一模块
-    if(indexPath.section == 0){
+    if (indexPath.section == 0) {
+        
         if (indexPath.row == 0) {
+            
             cell.icon.image = [UIImage imageNamed:@"新的朋友"];
             cell.name.text = @"新的朋友";
             //如果有新的好友请求，就加个红点
@@ -106,17 +117,22 @@
                 cell.redPoint.hidden = YES;
             }
             cell.icon.backgroundColor = [UIColor whiteColor];
-        } else if (indexPath.row == 1){
+            
+        } else if (indexPath.row == 1) {
+            
             cell.icon.image = [UIImage imageNamed:@"群组"];
             cell.name.text = @"群组";
             
             cell.icon.backgroundColor = [UIColor whiteColor];
         }
         
-    }else{
-        JMSGUser *user = self.friendsListArray[indexPath.row];
+    } else {
+        //拿到对应首字母的那一部分user
+        NSMutableArray* tempArray = self.friendsListArray[indexPath.section-1];
         
-        //头像还没设,先设一个名字
+        JMSGUser *user = tempArray[indexPath.row];
+        
+        //设名字
         cell.name.text = user.nickname;
         //头像
         if (user.avatar != nil) {
@@ -159,12 +175,14 @@
 //每个section的headerView样式
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (section != 0 ) {
+        //获取首字母
+        NSString* firstLetter = [NSString stringWithFormat: @"       %@", self.sectionTitleArray[section-1]];
         
         UILabel* headerView = [[UILabel alloc]init];
         headerView.backgroundColor =[UIColor colorWithRed:230.0/255 green:230.0/255 blue:230.0/255 alpha:1];
         headerView.font = [UIFont systemFontOfSize:13];
         headerView.textAlignment = NSTextAlignmentLeft;
-        headerView.text = @"       A";
+        headerView.text = firstLetter;
         
         
         return headerView;
@@ -204,7 +222,8 @@
         
         FriendInfomationViewController* friendInfoVC = [[FriendInfomationViewController alloc]init];
         //传user信息。
-        friendInfoVC.user = _friendsListArray[indexPath.row];
+        NSMutableArray* tempArray = self.friendsListArray[indexPath.section-1];
+        friendInfoVC.user = tempArray[indexPath.row];
         //传会话数组
         friendInfoVC.conversationsArray = self.conversationsArray;
         
@@ -242,6 +261,20 @@
     }
     return nil;
 }
+
+//右侧字母索引数组代理
+- (nullable NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    
+    return self.sectionTitleArray;
+}
+//每个索引字被点击时的方法
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+    
+    [self.contactsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index+1] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    
+    return index;
+}
+
 
 - (void)layoutView {
     
@@ -325,6 +358,7 @@
     [JMSGFriendManager getFriendList:^(id resultObject, NSError *error) {
         if (!error) {
             self.friendsListArray = [NSMutableArray arrayWithArray:resultObject];
+            self.friendsListArray = [self sortingContactsWithArray:self.friendsListArray];
             [self.contactsTableView reloadData];
         }else{
             NSLog(@"获取朋友列表出现错误：%@",error);
@@ -360,6 +394,65 @@
             //该方法是异步加载 需要重新刷新一下tableview
         }
     }];
+}
+
+#pragma mark - 联系人排序
+- (NSMutableArray*)sortingContactsWithArray:(NSMutableArray*)mutArray {
+    //先清空section title数组
+    [self.sectionTitleArray removeAllObjects];
+    
+    NSMutableArray* array = [[NSMutableArray alloc]init];
+    
+    //复制一份mutArray
+    NSMutableArray* tempMutArray = [NSMutableArray arrayWithArray:mutArray];
+    for (int i = 'A'; i <= 'Z'; i++) {
+        
+        NSMutableArray* userForSectionArray = [[NSMutableArray alloc]init];
+        
+        NSString* firstLetter = [NSString stringWithFormat:@"%c", i];
+        
+        
+        for ( JMSGUser* user in mutArray ) {
+            
+            
+            NSString* nickname = [NSString stringWithFormat:@"%@", user.nickname];
+            //将中文转拼音
+            nickname = [nickname getPinyin];
+            //将小写转换成大写
+            nickname = [nickname uppercaseString];
+            //获取首字母 (第一个字符是空格，所以下标取1才能得到首字母)
+            nickname = [nickname substringToIndex:1];
+            
+            //如果字母相等，加进数组中
+            if ([nickname isEqualToString:firstLetter]) {
+                
+                [userForSectionArray addObject:user];
+                //在原数组中删除掉该元素，那么原数组最后就会剩下一些无法识别的名字，再统一加入“#”组
+                [tempMutArray removeObject:user];
+                
+            }
+            
+            
+        }
+        //如果这个数组不为空，那么证明这个首字母有用到，所以将这个首字母加入section title数组
+        //同时将该部分联系人数组，加进总的数组中，形成二维数组。
+        if (userForSectionArray.count != 0) {
+            [self.sectionTitleArray addObject:firstLetter];
+            [array addObject:userForSectionArray];
+        }
+            
+        
+    }
+    
+    //如果原数组不为空，那么必然有无法识别的名字,全部归类于#
+    if (tempMutArray.count != 0) {
+        [array addObject:tempMutArray];
+        [self.sectionTitleArray addObject:@"#"];
+    }
+    
+    
+    
+    return array;
 }
 
 @end
