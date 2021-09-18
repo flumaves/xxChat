@@ -163,7 +163,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     NSUInteger i = self.userAndGroupArray.count;
+    
+    if (i == 0) {
+        return 1;
+    }
+    
     return i;
 }
 
@@ -174,6 +180,16 @@
     if (cell == nil) {
         cell = [[SearchResultCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
+    //如果数组为空
+    if (self.userAndGroupArray.count == 0) {
+        
+        UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.text = @"暂无搜索结果";
+        cell.textLabel.textColor = [UIColor grayColor];
+        return cell;
+    }
+    
     //获取搜索得到的user或group，赋值ID和昵称
     if (!_inFindGroup) {
         JMSGUser* user = self.userAndGroupArray[0];
@@ -248,13 +264,14 @@
             }
             
         }];
-    }else{
+    } else {
         NSString* groupID = self.searchField.text;
         [JMSGGroup groupInfoWithGroupId:groupID completionHandler:^(id resultObject, NSError *error) {
                 if (!error) {
                     JMSGGroup *group = resultObject;
                     [self.userAndGroupArray removeAllObjects];
                     [self.userAndGroupArray addObject:group];
+                    [self.searchTableView reloadData];
                 }else{
                     NSLog(@"-搜索群组出现错误：%@-",error);
                 }

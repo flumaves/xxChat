@@ -223,17 +223,26 @@
     //发送好友请求方法
     [JMSGFriendManager sendInvitationRequestWithUsername:userName appKey:JMESSAGE_APPKEY reason:reason completionHandler:^(id resultObject, NSError *error) {
         
+        NSString* errorStr = [NSString stringWithFormat:@"%@",error];
+        
             if (!error) {
                 
                 [self showAlertViewWithMessage:@"已发送好友请求"];
                 
-            }else{
+            } else if ([errorStr containsString:@"already is friend"]) {
                 
-                [self showAlertViewWithMessage:@"发送好友请求失败"];
+                [self showAlertViewWithMessage:@"对方已经是您的好友了"];
+                
+            } else if ([errorStr containsString:@"you can't send invitation to youself"]) {
+                
+                [self showAlertViewWithMessage:@"不可以添加自己为好友"];
+            } else {
+                
                 NSLog(@"-发送好友请求失败：%@-",error);
                 
             }
         
+
     }];
 }
 

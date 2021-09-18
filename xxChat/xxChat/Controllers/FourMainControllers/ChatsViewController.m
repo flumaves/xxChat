@@ -33,6 +33,7 @@
     //设置监听中心，添加观察者
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(addChatWithUsername:) name:@"AddChat" object:nil];
+    [center addObserver:self selector:@selector(deleteConversation:) name:@"DeletedGroup" object:nil];
 
     [self layoutView];
     [self loadData];
@@ -57,37 +58,7 @@
     }];
 }
 
-//创建单聊对话
-- (void)addChatWithUsername:(NSNotification*)notification {
-    
-    //获得通知传过来的消息
-    NSString* username = notification.userInfo[@"username"];
-    
-    //创建新的单聊
-    [JMSGConversation createSingleConversationWithUsername:username completionHandler:^(id resultObject, NSError *error) {
 
-        JMSGConversation *conversations = (JMSGConversation *)resultObject;
-        
-        if (error) {
-            
-            NSLog(@"创建单聊出现错误：%@",error);
-            return;
-            
-        } else {
-            
-            //查看是否已经是存在的对话
-            for (JMSGConversation *conversation in self.conversationsArray) {
-                if (conversation.title == conversations.title) {
-                    return;
-                }
-            }
-            
-            [self.conversationsArray addObject:conversations];
-            [self.conversationsTableView reloadData];
-            
-        }
-    }];
-}
 
 
 - (UITableView *)conversationsTableView {
@@ -209,8 +180,61 @@
     self.hidesBottomBarWhenPushed = NO;//back回来又不隐藏了
     
 }
+#pragma mark - 观察者响应方法
+//创建单聊对话
+- (void)addChatWithUsername:(NSNotification*)notification {
+    
+    //获得通知传过来的消息
+    NSString* username = notification.userInfo[@"username"];
+    
+    //创建新的单聊
+    [JMSGConversation createSingleConversationWithUsername:username completionHandler:^(id resultObject, NSError *error) {
 
+        JMSGConversation *conversations = (JMSGConversation *)resultObject;
+        
+        if (error) {
+            
+            NSLog(@"创建单聊出现错误：%@",error);
+            return;
+            
+        } else {
+            
+            //查看是否已经是存在的对话
+            for (JMSGConversation *conversation in self.conversationsArray) {
+                if (conversation.title == conversations.title) {
+                    return;
+                }
+            }
+            
+            [self.conversationsArray addObject:conversations];
+            [self.conversationsTableView reloadData];
+            
+        }
+    }];
+}
 
+//删除群组后 删除对应的会话
+- (void)deleteConversation:(NSNotification*)notification {
+    
+    NSString* gid = notification.userInfo[@"gid"];
+    NSString* groupName = notification.userInfo[@"groupName"];
+    
+    [JMSGConversation deleteGroupConversationWithGroupId:gid];
+    
+    for (JMSGConversation* conversation in self.conversationsArray) {
+        
+        if (conversation.conversationType == kJMSGConversationTypeGroup && [conversation.title isEqualToString:groupName]) {
+            
+            [self.conversationsArray removeObject:conversation];
+            [self.conversationsTableView reloadData];
+            break;
+        }
+    }
+    
+    
+    
+    
+}
 
 
 

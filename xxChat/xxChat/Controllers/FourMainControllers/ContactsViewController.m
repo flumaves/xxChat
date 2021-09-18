@@ -96,12 +96,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //复用ID为 chat
+    //复用ID为 contact
     NSString *ID = @"contact";
     ContactCell *cell = [self.contactsTableView dequeueReusableCellWithIdentifier:ID];
     if (cell == nil) {
         cell = [[ContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     //第一模块
     if (indexPath.section == 0) {
@@ -213,8 +213,14 @@
             
         }else if (indexPath.row == 1) {
             //打开群组列表
+            GroupViewController* groupVC = [[GroupViewController alloc]init];
+            //传好友数组
+            groupVC.friendsListArray = self.friendsListArray;
+            //传首字母数组
+            groupVC.sectionTitleArray = self.sectionTitleArray;
+            
             self.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:[[GroupViewController alloc]init] animated:YES];
+            [self.navigationController pushViewController:groupVC animated:YES];
             self.hidesBottomBarWhenPushed = NO;
         }
         

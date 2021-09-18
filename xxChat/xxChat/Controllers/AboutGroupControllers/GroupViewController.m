@@ -7,7 +7,7 @@
 
 #import "GroupViewController.h"
 
-@interface GroupViewController ()
+@interface GroupViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @end
 
@@ -16,15 +16,438 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    //设置监听中心，添加观察者
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(didCreateGroup:) name:@"CreatedGroup" object:nil];
+
     [self setAllViews];
+    [self getGroupsList];
+
     
 }
+#pragma mark - 懒加载
+- (NSMutableArray*)otherGroupArray {
+    if (_otherGroupArray == nil) {
+        _otherGroupArray = [[NSMutableArray alloc]init];
+    }
+    return _otherGroupArray;
+}
+- (NSMutableArray*)myGroupArray {
+    if (_myGroupArray == nil) {
+        _myGroupArray = [[NSMutableArray alloc]init];
+    }
+    return _myGroupArray;
+}
+- (NSMutableArray*)conversationsArray {
+    if (_conversationsArray == nil) {
+        _conversationsArray = [[NSMutableArray alloc]init];
+    }
+    return _conversationsArray;
+}
+- (NSMutableArray*)sectionTitleArray {
+    if (_sectionTitleArray == nil) {
+        _sectionTitleArray = [[NSMutableArray alloc]init];
+    }
+    return _sectionTitleArray;
+}
+- (NSMutableArray*)friendsListArray{
+    if (_friendsListArray == nil) {
+        _friendsListArray = [[NSMutableArray alloc]init];
+    }
+    return _friendsListArray;
+}
+- (NSMutableArray*)groupsListArray {
+    if (_groupsListArray == nil) {
+        _groupsListArray = [[NSMutableArray alloc]init];
+    }
+    return _groupsListArray;
+}
+- (UITableView*)tableView {
+    
+    if (_tableView == nil) {
+        _tableView = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.tableFooterView = [[UIView alloc]init];//去掉下面多余的线
 
+    }
+    return _tableView;
+}
+
+//基本设置
 - (void)setAllViews {
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"群组列表";
+    [self.view addSubview:self.tableView];
+    
+    //发起群聊按钮
+    UIButton *selectedBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+
+    selectedBtn.frame = CGRectMake(0, 0, 60, 30);
+
+    [selectedBtn setTitle:@"发起群聊" forState:UIControlStateNormal];
+    
+    selectedBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+
+    [selectedBtn addTarget:self action:@selector(selectedBtn:) forControlEvents:UIControlEventTouchUpInside];
+
+    UIBarButtonItem *selectItem = [[UIBarButtonItem alloc] initWithCustomView:selectedBtn];
+
+    self.navigationItem.rightBarButtonItem =selectItem;
 }
 
+
+#pragma mark -tableView的 dataSource 和 delegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 1 && _myGroupArray.count != 0) {
+        
+        return _myGroupArray.count;
+        
+    } else if (section == 2 && _otherGroupArray.count != 0) {
+        
+        return _otherGroupArray.count;
+    }
+        
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //复用ID为 group
+    NSString *ID = @"group";
+    ContactCell *cell = [self.tableView dequeueReusableCellWithIdentifier:ID];
+    if (cell == nil) {
+        cell = [[ContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    //第一模块
+    if (indexPath.section == 0) {
+        
+        if (indexPath.row == 0) {
+            
+            cell.icon.image = [UIImage imageNamed:@"通知"];
+            cell.name.text = @"群通知";
+            //如果有新的通知，就加个红点
+            if (_isReceiveGroupEvent) {
+                cell.redPoint.hidden = NO;
+            }else{
+                cell.redPoint.hidden = YES;
+            }
+            cell.icon.backgroundColor = [UIColor whiteColor];
+            
+        }
+        
+    } else if (indexPath.section == 1) {
+        
+        if (_myGroupArray.count == 0) {
+            UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            cell.textLabel.text = @"暂无相关群组";
+            cell.textLabel.textColor = [UIColor grayColor];
+            return cell;
+        }
+        
+        
+        JMSGGroup* group = _myGroupArray[indexPath.row];
+        
+        //设名字
+        cell.name.text = group.name;
+        //头像
+        if (group.avatar != nil) {
+            
+            [group thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+                if (!error) {
+                    
+                    cell.icon.image = [UIImage imageWithData:data];
+
+                } else {
+                    
+                    NSLog(@"群组列表的cell获取头像出现错误：%@",error);
+                    
+                }
+            }];
+            
+        } else {
+            
+            cell.icon.image = nil;
+            
+        }
+        
+    } else if (indexPath.section == 2) {
+        
+        if (_otherGroupArray.count == 0) {
+            UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            cell.textLabel.text = @"暂无相关群组";
+            cell.textLabel.textColor = [UIColor grayColor];
+            return cell;
+        }
+        
+        
+        JMSGGroup* group = _otherGroupArray[indexPath.row];
+        
+        //设名字
+        cell.name.text = group.name;
+        //头像
+        if (group.avatar != nil) {
+            
+            [group thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+                if (!error) {
+                    
+                    cell.icon.image = [UIImage imageWithData:data];
+
+                } else {
+                    
+                    NSLog(@"群组列表的cell获取头像出现错误：%@",error);
+                    
+                }
+            }];
+            
+        } else {
+            
+            cell.icon.image = nil;
+            
+        }
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    return cell;
+}
+
+//每个cell的高
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 55;
+}
+
+//每个section的headerView高度
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section != 0) {
+        return 30;
+    }
+    return 0;
+}
+
+//每个section的headerView样式
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section != 0 ) {
+        
+        NSArray* array = [NSArray arrayWithObjects:@"      我的群组", @"      我加入的群组", nil];
+        
+        UILabel* headerView = [[UILabel alloc]init];
+        headerView.backgroundColor =[UIColor colorWithRed:230.0/255 green:230.0/255 blue:230.0/255 alpha:1];
+        headerView.font = [UIFont systemFontOfSize:14];
+        headerView.textColor = [UIColor colorWithRed:100.0/255 green:100.0/255 blue:100.0/255 alpha:1];
+        headerView.textAlignment = NSTextAlignmentLeft;
+        headerView.text = array[section-1];
+        
+//        if (self.myGroupArray.count == 0) {
+//            headerView.text = array[1];
+//        } else if (self.otherGroupArray.count == 0) {
+//            headerView.text = array[0];
+//        }
+        
+        
+        return headerView;
+    }
+    return nil;
+    
+}
+
+//cell被点击
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 0) {
+        //群通知 这个cell被点击时
+        if (indexPath.row == 0) {
+            //将小红点去掉
+            self.isReceiveGroupEvent = NO;
+            [self.tableView reloadData];
+            //打开通知列表
+            GroupNotificationViewController* groupNotificationVC = [[GroupNotificationViewController alloc]init];
+            //传递通知数组
+//            groupNotificationVC.friendInvitationArray = self.friendInvitationArray;
+            
+            self.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:groupNotificationVC animated:YES];
+            self.hidesBottomBarWhenPushed = NO;
+            
+        }
+        
+    } else {//群组被点击直接进入会话
+        
+//        GroupInfomationViewController* groupInfoVC = [[GroupInfomationViewController alloc]init];
+//        //传group信息。
+//        NSMutableArray* tempArray = self.groupsListArray[indexPath.section-1];
+//        groupInfoVC.group = tempArray[indexPath.row];
+//        //传会话数组
+//        groupInfoVC.conversationsArray = self.conversationsArray;
+//
+//        self.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:groupInfoVC animated:YES];
+//        self.hidesBottomBarWhenPushed = NO;
+        
+    }
+}
+
+// cell右滑解散，问就是左滑不行
+- (nullable UISwipeActionsConfiguration *)tableView:(UITableView *)tableView leadingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath API_AVAILABLE(ios(11.0)) API_UNAVAILABLE(tvos){
+    if (indexPath.section == 1) {
+        //创建Action,然后在里面实现解散方法
+        UIContextualAction *deleteRowAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:@"解散" handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
+            
+            //获取相应信息，删除群组
+            JMSGGroup *group = self.myGroupArray[indexPath.row];
+            [JMSGGroup dissolveGroupWithGid:group.gid handler:^(id resultObject, NSError *error) {
+                if (!error) {
+                    [self.myGroupArray removeObject:group];
+                    [self.tableView reloadData];
+                    
+                    NSString* gid = group.gid;
+                    NSString* groupName = group.name;
+                    
+                    
+                    
+                    NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[gid, groupName] forKeys:@[@"gid", @"groupName"]];
+                    
+                    NSNotification* notification = [[NSNotification alloc]initWithName:@"DeletedGroup" object:nil userInfo:dic];
+                    [[NSNotificationCenter defaultCenter]postNotification:notification];
+                    
+                    
+                } else {
+                    
+                    NSLog(@"解散群组出错:%@",error);
+                    
+                }
+            }];
+            completionHandler(YES);
+        }];
+        
+        deleteRowAction.backgroundColor = [UIColor redColor];
+        
+        //创建configuration
+        UISwipeActionsConfiguration *config = [UISwipeActionsConfiguration configurationWithActions:@[deleteRowAction]];
+        
+        //将右滑过度执行Action关掉
+        config.performsFirstActionWithFullSwipe = NO;
+
+        return config;
+    }
+    return nil;
+}
+
+//发起群聊按钮点击响应事件
+- (void)selectedBtn:(UIButton *)button {
+    SelectUserForGroupController* selectVC = [[SelectUserForGroupController alloc]init];
+    //传好友列表
+    selectVC.friendsListArray = self.friendsListArray;
+    //传首字母数组
+    selectVC.sectionTitleArray = self.sectionTitleArray;
+    
+    self.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:selectVC animated:YES];
+   
+}
+
+
+#pragma mark - 获取群组列表
+- (void)getGroupsList {
+    
+    [JMSGGroup myGroupArray:^(id resultObject, NSError *error) {
+        if (!error) {
+            NSArray* gidArray = resultObject;
+            
+            //获取当前账号信息
+            JMSGUser* ownerUser = [JMSGUser myInfo];
+            
+            for (int i = 0; i < gidArray.count; i++) {
+                NSString* gid = gidArray[i];
+                
+                [JMSGGroup groupInfoWithGroupId:gid completionHandler:^(id resultObject, NSError *error) {
+                    
+                    JMSGGroup* group = resultObject;
+                    
+                    if ([group.owner isEqualToString:ownerUser.username]) {
+                        [self.myGroupArray addObject:group];
+                    } else {
+                        [self.otherGroupArray addObject:group];
+                    }
+                    [self.tableView reloadData];
+                    
+                }];
+            }
+            
+  
+            
+        } else {
+            
+            NSLog(@"获取群组列表出错：%@",error);
+            
+        }
+        
+    }];
+    
+}
+
+#pragma mark -分离群组类型，重新排序
+- (NSMutableArray*)sortingGroupListWithArray:(NSMutableArray*)mutArray {
+    //返回的数组
+    NSMutableArray* array = [[NSMutableArray alloc]init];
+    
+    //复制一份参数数组
+    NSMutableArray* tempArray = [NSMutableArray arrayWithArray:mutArray];
+    
+    //我的群组数组
+    NSMutableArray* myGroupArray = [[NSMutableArray alloc]init];
+
+    //获取当前账号信息
+    JMSGUser* ownerUser = [JMSGUser myInfo];
+    
+    for (JMSGGroup* group in mutArray) {
+        
+        //通过信息对比筛选
+        if ([group.owner isEqualToString:ownerUser.username]) {
+            //加入我的群组数组
+            [myGroupArray addObject:group];
+            //在复制品数组中删掉相应数组
+            [tempArray removeObject:group];
+        }
+        
+        
+    }
+    //分别将对应的数组加入最终的数组中形成二维数组
+    if (myGroupArray.count != 0) {
+        
+        [array addObject:myGroupArray];
+    
+    }
+    
+    if (tempArray.count != 0) {
+        
+        [array addObject:tempArray];
+        
+    }
+
+    return array;
+}
+
+#pragma mark - 观察者响应方法
+- (void)didCreateGroup:(NSNotification*)notification {
+    [self.myGroupArray removeAllObjects];
+    [self.otherGroupArray removeAllObjects];
+    
+    [self getGroupsList];
+    
+}
 
 
 @end
