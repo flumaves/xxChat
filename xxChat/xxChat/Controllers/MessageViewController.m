@@ -12,6 +12,7 @@
 #import "InputView.h"
 #import "MessageTableView.h"
 #import <AVFoundation/AVFoundation.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 #import "MoreFunctionView.h"
 #import <PhotosUI/PhotosUI.h>
 #import "ImagePicker.h"
@@ -45,16 +46,23 @@
 //图片选择器
 @property (nonatomic, weak) ImagePicker *picker;
 
+//表情包数组
+@property (nonatomic, strong) NSMutableArray *imagePathArray;
+
+//图片数组
+@property (nonatomic, strong) NSMutableArray *emojiPathArray;
+
 //消息数组
 @property (nonatomic, strong) NSMutableArray *messagesArray;
 
+//会话类型 （单聊 群组）
+@property (nonatomic, assign) JMSGConversationType conversationType;
 //登陆的人
 @property (nonatomic, strong) JMSGUser *user;
-
 //聊天的对象
 @property (nonatomic, strong) JMSGUser *anotherUser;
-
 //聊天的群组
+@property (nonatomic, strong) JMSGGroup *group;
 
 //语音消息的播放器
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
@@ -109,6 +117,17 @@
 
 
 #pragma mark - 懒加载
+- (void)setConversation:(JMSGConversation *)conversation {
+    _conversation = conversation;
+    
+    if (conversation.conversationType == kJMSGConversationTypeSingle) {
+        self.anotherUser = (JMSGUser *)conversation.target;
+    } else if (conversation.conversationType == kJMSGConversationTypeGroup) {
+        self.group = (JMSGGroup *)conversation.target;
+    }
+    
+    _conversationType = conversation.conversationType;
+}
 //“我”用户
 - (JMSGUser *)user {
     if (_user == nil) {
@@ -116,14 +135,6 @@
         _user = user;
     }
     return _user;
-}
-
-//另一个用户
-- (JMSGUser *)anotherUser {
-    if (_anotherUser == nil) {
-        _anotherUser = _conversation.target;
-    }
-    return _anotherUser;
 }
 
 //消息数组
@@ -158,6 +169,43 @@
     }
     return _messagesArray;
 }
+
+//图片数组
+- (NSMutableArray *)imagePathArray {
+    if (!_imagePathArray) {
+        _imagePathArray = [NSMutableArray array];
+        //所有子目录的文件名
+        NSArray *files = [[NSFileManager defaultManager] subpathsAtPath:[[NSBundle mainBundle] bundlePath]];
+        NSString *subString = @"图片素材";
+        //遍历子目录
+        for (NSString *imageName in files) {
+            if ([imageName containsString:subString]) {
+                NSString *path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:imageName];
+                [_imagePathArray addObject:path];
+            }
+        }
+    }
+    return _imagePathArray;
+}
+
+//表情包数组
+- (NSMutableArray *)emojiPathArray {
+    if (!_emojiPathArray) {
+        _emojiPathArray = [NSMutableArray array];
+        //所有子目录的文件名
+        NSArray *files = [[NSFileManager defaultManager] subpathsAtPath:[[NSBundle mainBundle] bundlePath]];
+        NSString *subString = @"表情包素材";
+        //遍历子目录
+        for (NSString *emojiName in files) {
+            if ([emojiName containsString:subString]) {
+                NSString *path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:emojiName];
+                [_emojiPathArray addObject:path];
+            }
+        }
+    }
+    return _emojiPathArray;
+}
+
 
 #pragma mark - 创建界面
 - (void)creatTableView {
@@ -299,10 +347,15 @@
 - (void)addMessage:(NSString *)text type:(MessageType)type {
     //创建消息
     JMSGTextContent *content = [[JMSGTextContent alloc] initWithText:text];
-    JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:content username:self.anotherUser.username];
-    
-    //发送消息
-    [JMSGMessage sendMessage:message];
+    if (_conversationType == kJMSGConversationTypeSingle) {
+        JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:content username:self.anotherUser.username];
+        
+        //发送消息
+        [JMSGMessage sendMessage:message];
+    } else {
+        JMSGMessage *message = [JMSGMessage createGroupMessageWithContent:content groupId:_group.gid];
+        [JMSGMessage sendMessage:message];
+    }
 }
 
 #pragma mark - scrollViewBeginDragging
@@ -353,55 +406,76 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 20;
+    if ([collectionView isEqual:self.picker.imageCollectionView]) {
+        return self.imagePathArray.count;
+    } else {
+        return self.emojiPathArray.count;
+    }
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([collectionView isEqual:self.picker.imageCollectionView]) {
         ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
         //加载图片素材
-        NSString *imageName = [@"图片素材" stringByAppendingFormat:@"%ld", (long)indexPath.item + 1];
-        NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"jpg"];
-
+        NSString *imagePath = [self.imagePathArray objectAtIndex:indexPath.item];
         cell.imageView.image = [UIImage imageWithContentsOfFile:imagePath];
+        cell.delegate = self.picker;
         return cell;
+        
     } else {
         EmojiCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"emojiCell" forIndexPath:indexPath];
         //加载表情包素材
-        NSString *imageName = [@"表情包素材" stringByAppendingFormat:@"%ld", (long)indexPath.item + 1];
-        NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"jpg"];
-
-        cell.emojiImageView.image = [UIImage imageWithContentsOfFile:imagePath];
+        NSString *emojiPath = [self.emojiPathArray objectAtIndex:indexPath.item];
+        cell.emojiImageView.image = [UIImage imageWithContentsOfFile:emojiPath];
+        cell.emojiPath = emojiPath;
         return cell;
     }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([collectionView isEqual:_picker.imageCollectionView]) {
-        //获取图片data
+        //获取cell
         ImageCollectionViewCell *cell = (ImageCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-        NSData *data = UIImagePNGRepresentation(cell.imageView.image);
-        //创建消息
-        JMSGImageContent *content = [[JMSGImageContent alloc] initWithImageData:data];
-        JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:content username:self.anotherUser.username];
-        //发送消息
-        [JMSGMessage sendMessage:message];
-        //隐藏imagePicker
-        [UIView animateWithDuration:0.3 animations:^{
-            CGRect imagePickerFrame = self.picker.frame;
-            imagePickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
-            self.picker.frame = imagePickerFrame;
-            self.navigationController.navigationBar.hidden = NO;
-        }];
+//        NSData *data = UIImagePNGRepresentation(cell.imageView.image);
+//        //创建消息
+//        JMSGImageContent *content = [[JMSGImageContent alloc] initWithImageData:data];
+//        if (_conversationType == kJMSGConversationTypeSingle) {
+//            JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:content username:_anotherUser.username];
+//            [JMSGMessage sendMessage:message];
+//        } else {
+//            JMSGMessage *message = [JMSGMessage createGroupMessageWithContent:content groupId:_group.gid];
+//            [JMSGMessage sendMessage:message];
+//        }
+//        //隐藏imagePicker
+//        [UIView animateWithDuration:0.3 animations:^{
+//            CGRect imagePickerFrame = self.picker.frame;
+//            imagePickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
+//            self.picker.frame = imagePickerFrame;
+//            self.navigationController.navigationBar.hidden = NO;
+//        }];
     } else if ([collectionView isEqual:_emojiView.emojiCollectionView]) {
         //获取图片data
         EmojiCollectionViewCell *cell = (EmojiCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-        NSData *data = UIImagePNGRepresentation(cell.emojiImageView.image);
+        NSData *data = [NSData data];
+        //判断是gif还是png
+        if (cell.emojiType == EmojiType_JPG) {
+            //直接通过cell中的imgeView获取图片数据
+            data = UIImagePNGRepresentation(cell.emojiImageView.image);
+        } else if (cell.emojiType == EmojiType_GIF) {
+            //gif转NSData
+            data = [NSData dataWithContentsOfFile:cell.emojiPath];
+        }
         //创建消息
         JMSGImageContent *content = [[JMSGImageContent alloc] initWithImageData:data];
-        JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:content username:self.anotherUser.username];
-        //发送消息
-        [JMSGMessage sendMessage:message];
+        if (_conversationType == kJMSGConversationTypeSingle) {
+            JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:content username:self.anotherUser.username];
+            //发送消息
+            [JMSGMessage sendMessage:message];
+        } else {
+            JMSGMessage *message = [JMSGMessage createGroupMessageWithContent:content groupId:_group.gid];
+            //发送消息
+            [JMSGMessage sendMessage:message];
+        }
     }
 }
 
@@ -433,10 +507,18 @@
 #pragma mark - inputView的 delegate 和 通知
 //发送语音消息
 - (void)sendMessage:(JMSGVoiceContent *)voiceContent {
-    JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:voiceContent username:self.anotherUser.username];
-    
-    //发送消息
-    [JMSGMessage sendMessage:message];
+    if (_conversationType == kJMSGConversationTypeSingle) {
+        JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:voiceContent username:self.anotherUser.username];
+        
+        //发送消息
+        [JMSGMessage sendMessage:message];
+        
+    } else {
+        JMSGMessage *message = [JMSGMessage createGroupMessageWithContent:voiceContent groupId:self.group.gid];
+        
+        //发送消息
+        [JMSGMessage sendMessage:message];
+    }
 }
 
 //更新inputview的状态

@@ -6,9 +6,15 @@
 //
 
 #import "ImagePicker.h"
-#import "ImageCollectionViewCell.h"
 
 @implementation ImagePicker
+
+- (NSMutableArray *)choosePhotoArray {
+    if (!_choosePhotoArray) {
+        _choosePhotoArray = [NSMutableArray array];
+    }
+    return _choosePhotoArray;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -91,4 +97,19 @@
     }
 }
 
+- (void)updateChooseNumber:(ImageCollectionViewCell *)cell {
+    if ([cell isChoosed]) {
+        cell.choose = NO;
+        cell.pointView.hidden = YES;
+        [self.choosePhotoArray removeObject:cell];
+        for (int i = 0; i < self.choosePhotoArray.count; i++) {
+            ImageCollectionViewCell *cell = _choosePhotoArray[i];
+            cell.pointView.unreadCount = i + 1;
+        }
+    } else {
+        cell.choose = YES;
+        [self.choosePhotoArray addObject:cell];
+        cell.pointView.unreadCount = (int)self.choosePhotoArray.count;
+    }
+}
 @end

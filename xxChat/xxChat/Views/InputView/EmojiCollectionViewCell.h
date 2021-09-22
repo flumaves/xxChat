@@ -9,9 +9,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, EmojiType) {
+    EmojiType_JPG = 1234,
+    EmojiType_GIF
+};
+
 @interface EmojiCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) UIImageView *emojiImageView;
+
+@property (nonatomic, assign) EmojiType emojiType;
+
+@property (nonatomic, strong) NSString *emojiPath;
 
 @end
 

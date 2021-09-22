@@ -8,6 +8,7 @@
 #import "MessageCell.h"
 #import <AVFoundation/AVFoundation.h>
 #import "MessageButton.h"
+#import "UIImage+YCHUD.h"
 
 @interface MessageCell ()
 
@@ -118,12 +119,12 @@
         _contentBtn.photoImgView.hidden = NO;
         //加载图片
         JMSGImageContent *content = (JMSGImageContent *)message.message.content;
-        [content thumbImageData:^(NSData *data, NSString *objectId, NSError *error) {
+        [content largeImageDataWithProgress:nil completionHandler:^(NSData *data, NSString *objectId, NSError *error) {
             if (error) {
-                NSLog(@"%@",error);
+                NSLog(@"messageCell设置图片出错：%@",error);
                 return;
             }
-            self.contentBtn.photoImgView.image = [UIImage imageWithData:data];
+            self.contentBtn.photoImgView.image = [UIImage YCHUDImageWithSmallGIFData:data scale:1];
         }];
     } else {
         _contentBtn.photoImgView.hidden = YES;

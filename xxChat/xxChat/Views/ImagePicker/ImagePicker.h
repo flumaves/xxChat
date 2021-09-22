@@ -8,6 +8,7 @@
 ///模拟的一个照片选择器
 
 #import <UIKit/UIKit.h>
+#import "ImageCollectionViewCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface ImagePicker : UIView
+@interface ImagePicker : UIView <ImageCollectionViewCellDelegate>
 
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
 
@@ -29,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<ImagePickerDelegate> delegate;
 
+//选中的图片cell数组
+@property (nonatomic, strong) NSMutableArray *choosePhotoArray;
 @end
 
 NS_ASSUME_NONNULL_END
