@@ -245,7 +245,10 @@
         //创建Action,然后在里面实现删除方法
         UIContextualAction *deleteRowAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:@"删除" handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
             //获取相应信息，删除好友
-            JMSGUser *user = self.friendsListArray[indexPath.row];
+            NSArray* tempArray = self.friendsListArray[indexPath.section-1];
+            
+            JMSGUser *user = tempArray[indexPath.row];
+            
             [JMSGFriendManager removeFriendWithUsername:user.username appKey:JMESSAGE_APPKEY completionHandler:^(id resultObject, NSError *error) {
                         if (!error) {
                             [self.friendsListArray removeObject:user];

@@ -35,15 +35,14 @@
 }
 
 ///懒加载
--(NSMutableArray*)didLoginArray
-{
-    if(_didLoginArray==nil){
+-(NSMutableArray*)didLoginArray {
+    if (_didLoginArray == nil) {
         _didLoginArray = [[NSMutableArray alloc]init];
     }
     return _didLoginArray;
 }
 
-- (void)setAllViews{
+- (void)setAllViews {
     self.view.backgroundColor = [UIColor colorWithRed:130/255.0 green:151/255.0 blue:206/255.0 alpha:1];
     //初始化xxchat的logo
     self.xxIcon = [[UIImageView alloc]init];
@@ -63,7 +62,7 @@
 }
 
 #pragma mark - 自动布局方法
-- (void)autolayoutAllViews{
+- (void)autolayoutAllViews {
     _xxIcon.sd_layout.
     topSpaceToView(self.view, 100).
     centerXEqualToView(self.view).
@@ -80,8 +79,8 @@
 
 #pragma mark -展示提示框
 //展示提示框
--(void)showAlertViewWithMessage: (NSString*)message
-{
+-(void)showAlertViewWithMessage:(NSString*)message {
+    
   UIAlertController* alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
   UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
      
@@ -89,12 +88,13 @@
 
   [alertController addAction:cancelAction];
   [self presentViewController:alertController animated:YES completion:nil];
+    
 }
 
 
 #pragma mark - LARView delegate
 
-- (void)passAccount: (NSString*)account WithPassword: (NSString*)password WithAccountType: (AccountType)type{
+- (void)passAccount: (NSString*)account WithPassword: (NSString*)password WithAccountType: (AccountType)type {
   if (type == Register_Account) {
     //注册账号
       [JMSGUser registerWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
@@ -109,7 +109,7 @@
               
               NSString* errorStr = [NSString stringWithFormat:@"%@",error];
               
-              if ([errorStr containsString:@"user exist"]){//如果错误里面包含这个字符串
+              if ([errorStr containsString:@"user exist"]) {//如果错误里面包含这个字符串
                   
                   [self showAlertViewWithMessage:@"用户已存在"];
                   
@@ -119,11 +119,11 @@
           }
       }];
       
-  }else if (type == Login_Account) {
+  } else if (type == Login_Account) {
       //登陆账号
       [JMSGUser loginWithUsername:account password:password completionHandler:^(id resultObject, NSError *error) {
           
-          if (!error){//如果错误为空，即登陆成功
+          if (!error) {//如果错误为空，即登陆成功
               
               //搜索登陆记录，有前科就把它删掉
               [self searchingAndUpdateUserArrayWithAccount:account];
@@ -133,11 +133,11 @@
               //监听已经登陆,让scene delegate跳转页面
               [[NSNotificationCenter defaultCenter]postNotificationName:@"FinishLogin" object:self];
               
-          }else{
+          } else {
               
               NSString* errorStr = [NSString stringWithFormat:@"%@",error];
               
-              if ([errorStr containsString:@"invalid password"]){//如果错误里面包含这个字符串
+              if ([errorStr containsString:@"invalid password"]) {//如果错误里面包含这个字符串
                   
                   [self showAlertViewWithMessage:@"账号或密码错误"];
                   
@@ -152,31 +152,47 @@
           }
       }];
     
-  }else if(type==No_Account){
+  } else if (type == No_Account) {
       //没填账号
       [self showAlertViewWithMessage:@"账号不能为空哦QAQ"];
-  }else if(type==No_Password){
+  } else if (type == No_Password) {
       //没填密码
       [self showAlertViewWithMessage:@"密码不能为空哦QAQ"];
-  }else if (type==Password_NotEqual)
+  } else if (type == Password_NotEqual) {
       //密码不相等
       [self showAlertViewWithMessage:@"两次密码不相等QAQ"];
+  }
 }
 
+//打开修改密码页面
 - (void)changePassword{
+    
     [self.navigationController pushViewController:[[ChangePasswordViewController alloc]init] animated:YES];
+    
 }
 
 #pragma mark - 设置一些一开始的数据
-- (void)setData{
+- (void)setData {
     //设置上次登陆的账号在登陆界面中
     NSMutableArray* dicArray = [User getDictionaryFromPlistWithFileName:@"Users"];
+    
     self.didLoginArray = [User usersArrayWithDictionaryArray:dicArray];
-    if (self.didLoginArray.count!=0){
+    
+    if (self.didLoginArray.count != 0) {
+        
         User *user = self.didLoginArray[self.didLoginArray.count-1];
         self.LARView.loginAccount.text = user.account;
-        //暂时为了方便登陆先把密码加进去，以后删除
+
         self.LARView.loginPassword.text = user.password;
+        
+        //如果密码不为空，那就把记住密码的勾勾给勾上
+        if (user.password != nil) {
+            
+            self.LARView.isRemenberPassword = YES;
+            [self.LARView.passwordMemoryBtn setImage:[UIImage imageNamed:@"已选勾"] forState:UIControlStateNormal];
+            
+        }
+        
     }
 }
 
@@ -184,23 +200,27 @@
 - (void)recordingLoginInfoWithAccount:(NSString*)account WithPassword:(NSString*)password{
     User *user = [[User alloc]init];
     user.account = account;
-    user.password = password;
+    //如果被点了记住密码
+    if (self.LARView.isRemenberPassword) {
+        user.password = password;
+    }
+    
     [self.didLoginArray addObject:user];
     NSMutableArray *array = [User dicsArrayWithUserArray:self.didLoginArray];
     [User writeToFileWithUsersDicArray:array AndFileName:@"Users"];
 }
 
 //搜索是否有登陆记录，有就删掉
-- (void)searchingAndUpdateUserArrayWithAccount:(NSString*)account{
+- (void)searchingAndUpdateUserArrayWithAccount:(NSString*)account {
     //指定过滤条件：数组中的实例的account属性是否包含account
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"account CONTAINS %@", account];
     //获取过滤出来的数据
     NSMutableArray* array = [NSMutableArray arrayWithArray:[self.didLoginArray filteredArrayUsingPredicate:predicate]];
     //如果过滤出来的数组不为0
-    if (array.count!=0){
+    if (array.count != 0) {
         NSUInteger index = 0;
         //遍历数组找相同
-        for (NSUInteger i=0; i<self.didLoginArray.count;i++ ) {
+        for (NSUInteger i=0; i<self.didLoginArray.count; i++) {
             User *user = self.didLoginArray[i];
             if ([user.account isEqualToString:account]) {
                 index = i;
