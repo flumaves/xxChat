@@ -2,7 +2,7 @@
 //  NSString+Pinyin.h
 //  xxChat
 //
-//  Created by 谢恩平 on 2021/9/15.
+//  Created by 谢恩平 on 2021/9/22.
 //
 
 #import <Foundation/Foundation.h>

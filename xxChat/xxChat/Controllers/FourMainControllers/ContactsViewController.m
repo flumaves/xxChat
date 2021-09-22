@@ -32,7 +32,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor lightGrayColor];
     [self getFriendsList];
     [self.view addSubview:self.contactsTableView];
     [self layoutView];
@@ -218,6 +217,8 @@
             groupVC.friendsListArray = self.friendsListArray;
             //传首字母数组
             groupVC.sectionTitleArray = self.sectionTitleArray;
+            //传会话数组
+            groupVC.conversationsArray = self.conversationsArray;
             
             self.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:groupVC animated:YES];
@@ -286,6 +287,7 @@
 
 
 - (void)layoutView {
+    self.view.backgroundColor = [UIColor lightGrayColor];
     
     //右上角的添加button
     UIBarButtonItem *addBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(openAddController)];

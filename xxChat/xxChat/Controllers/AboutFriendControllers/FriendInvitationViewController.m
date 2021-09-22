@@ -8,6 +8,7 @@
 #import "FriendInvitationViewController.h"
 #import "xxChatDelegate.h"
 #import "FriendInvitationCell.h"
+#import "AddViewController.h"
 
 @interface FriendInvitationViewController ()<UITableViewDelegate,UITableViewDataSource,xxChatDelegate,JMessageDelegate>
 
@@ -54,6 +55,13 @@
     self.navigationItem.title = @"新的朋友";
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.friendInvtationTableView];
+    //右上角的添加button
+    UIBarButtonItem *addBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(openAddController)];
+    addBtnItem.tintColor = MainColor;
+    
+    NSArray *btnArray = [NSArray arrayWithObjects:addBtnItem, nil];
+    [self.navigationItem setRightBarButtonItems:btnArray];
+    
 }
 
 
@@ -212,6 +220,13 @@
         [self.friendInvtationTableView reloadData];
     }
     
+}
+
+//打开添加页面
+- (void)openAddController {
+    self.hidesBottomBarWhenPushed = YES;//隐藏tabar
+    AddViewController *addViewController = [[AddViewController alloc]init];
+    [self.navigationController pushViewController:addViewController animated:YES];
 }
 
 @end

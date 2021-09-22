@@ -2,7 +2,7 @@
 //  GroupNotificationViewController.m
 //  xxChat
 //
-//  Created by 谢恩平 on 2021/9/16.
+//  Created by 谢恩平 on 2021/9/22.
 //
 
 #import "GroupNotificationViewController.h"
@@ -15,7 +15,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self setAllViews];
+}
+
+- (void)setAllViews {
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @"群通知(没有公开群，写个寂寞)";
 }
 
 /*

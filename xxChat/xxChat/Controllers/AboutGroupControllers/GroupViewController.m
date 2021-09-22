@@ -285,16 +285,38 @@
         
     } else {//群组被点击直接进入会话
         
-//        GroupInfomationViewController* groupInfoVC = [[GroupInfomationViewController alloc]init];
-//        //传group信息。
-//        NSMutableArray* tempArray = self.groupsListArray[indexPath.section-1];
-//        groupInfoVC.group = tempArray[indexPath.row];
-//        //传会话数组
-//        groupInfoVC.conversationsArray = self.conversationsArray;
-//
-//        self.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:groupInfoVC animated:YES];
-//        self.hidesBottomBarWhenPushed = NO;
+        NSArray* tempArray;
+        JMSGGroup* group;
+        
+        if (indexPath.section == 1) {
+            tempArray = self.myGroupArray;
+            group = tempArray[indexPath.row];
+        } else {
+            tempArray = self.otherGroupArray;
+            group = tempArray[indexPath.row];
+        }
+        
+        NSString* gid = group.gid;
+        
+        [JMSGConversation createGroupConversationWithGroupId:gid completionHandler:^(id resultObject, NSError *error) {
+            
+            if (!error) {
+                
+                JMSGConversation* conversation = resultObject;
+                MessageViewController* messageVC = [[MessageViewController alloc]init];
+                messageVC.conversation = conversation;
+                
+                [self.navigationController pushViewController:messageVC animated:YES];
+            } else {
+                
+                NSLog(@"点击群组列表打开群聊会话出错：%@",error);
+                
+            }
+            
+            
+        }];
+        
+
         
     }
 }
@@ -398,47 +420,7 @@
     
 }
 
-#pragma mark -分离群组类型，重新排序
-- (NSMutableArray*)sortingGroupListWithArray:(NSMutableArray*)mutArray {
-    //返回的数组
-    NSMutableArray* array = [[NSMutableArray alloc]init];
-    
-    //复制一份参数数组
-    NSMutableArray* tempArray = [NSMutableArray arrayWithArray:mutArray];
-    
-    //我的群组数组
-    NSMutableArray* myGroupArray = [[NSMutableArray alloc]init];
 
-    //获取当前账号信息
-    JMSGUser* ownerUser = [JMSGUser myInfo];
-    
-    for (JMSGGroup* group in mutArray) {
-        
-        //通过信息对比筛选
-        if ([group.owner isEqualToString:ownerUser.username]) {
-            //加入我的群组数组
-            [myGroupArray addObject:group];
-            //在复制品数组中删掉相应数组
-            [tempArray removeObject:group];
-        }
-        
-        
-    }
-    //分别将对应的数组加入最终的数组中形成二维数组
-    if (myGroupArray.count != 0) {
-        
-        [array addObject:myGroupArray];
-    
-    }
-    
-    if (tempArray.count != 0) {
-        
-        [array addObject:tempArray];
-        
-    }
-
-    return array;
-}
 
 #pragma mark - 观察者响应方法
 - (void)didCreateGroup:(NSNotification*)notification {

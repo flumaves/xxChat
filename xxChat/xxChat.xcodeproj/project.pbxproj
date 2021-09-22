@@ -27,6 +27,8 @@
 		9B18476226F09DB1003C4FA4 /* 表情包素材2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B18475C26F09DB1003C4FA4 /* 表情包素材2.jpg */; };
 		9B18476326F09DB1003C4FA4 /* 表情包素材3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B18475D26F09DB1003C4FA4 /* 表情包素材3.jpg */; };
 		9B18476426F09DB1003C4FA4 /* 表情包素材1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B18475E26F09DB1003C4FA4 /* 表情包素材1.jpg */; };
+		9B1847A926F1EEF7003C4FA4 /* 表情包素材7.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9B1847A826F1EEF7003C4FA4 /* 表情包素材7.gif */; };
+		9B1847AF26F2378A003C4FA4 /* UIImage+YCHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1847AE26F2378A003C4FA4 /* UIImage+YCHUD.m */; };
 		9B678D7726BEB7DA00483386 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7626BEB7DA00483386 /* AppDelegate.m */; };
 		9B678D7A26BEB7DA00483386 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7926BEB7DA00483386 /* SceneDelegate.m */; };
 		9B678D7D26BEB7DA00483386 /* ChatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7C26BEB7DA00483386 /* ChatsViewController.m */; };
@@ -68,11 +70,11 @@
 		A6C18C0F26ECD787005D5C63 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C0E26ECD787005D5C63 /* ChangePasswordViewController.m */; };
 		A6C18C1326EF4773005D5C63 /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C1226EF4773005D5C63 /* GroupViewController.m */; };
 		A6C18C1826EF53DE005D5C63 /* FriendInfomationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C1726EF53DE005D5C63 /* FriendInfomationViewController.m */; };
-		A6C18C1B26F212A8005D5C63 /* NSString+Pinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C1A26F212A8005D5C63 /* NSString+Pinyin.m */; };
-		A6C18C1E26F34F67005D5C63 /* GroupNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C1D26F34F67005D5C63 /* GroupNotificationViewController.m */; };
-		A6C18C2126F3621A005D5C63 /* GroupInfomationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C2026F3621A005D5C63 /* GroupInfomationViewController.m */; };
-		A6C18C2426F5DDE9005D5C63 /* SelectUserForGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C2326F5DDE9005D5C63 /* SelectUserForGroupController.m */; };
-		A6C18C2726F60111005D5C63 /* CreateGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C2626F60111005D5C63 /* CreateGroupViewController.m */; };
+		A6C18C2A26FB459D005D5C63 /* NSString+Pinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C2926FB459D005D5C63 /* NSString+Pinyin.m */; };
+		A6C18C2D26FB46DE005D5C63 /* CreateGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C2C26FB46DE005D5C63 /* CreateGroupViewController.m */; };
+		A6C18C3026FB4702005D5C63 /* SelectUserForGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C2F26FB4702005D5C63 /* SelectUserForGroupController.m */; };
+		A6C18C3326FB4737005D5C63 /* GroupNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C3226FB4737005D5C63 /* GroupNotificationViewController.m */; };
+		A6C18C3626FB474B005D5C63 /* GroupInfomationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C18C3526FB474B005D5C63 /* GroupInfomationViewController.m */; };
 		D896ADF420D3A0455DCA96A1 /* Pods_xxChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E2D4B3588605E9F2AA7F96 /* Pods_xxChatTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -123,6 +125,9 @@
 		9B18475C26F09DB1003C4FA4 /* 表情包素材2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "表情包素材2.jpg"; sourceTree = "<group>"; };
 		9B18475D26F09DB1003C4FA4 /* 表情包素材3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "表情包素材3.jpg"; sourceTree = "<group>"; };
 		9B18475E26F09DB1003C4FA4 /* 表情包素材1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "表情包素材1.jpg"; sourceTree = "<group>"; };
+		9B1847A826F1EEF7003C4FA4 /* 表情包素材7.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "表情包素材7.gif"; sourceTree = "<group>"; };
+		9B1847AD26F2378A003C4FA4 /* UIImage+YCHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+YCHUD.h"; sourceTree = "<group>"; };
+		9B1847AE26F2378A003C4FA4 /* UIImage+YCHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+YCHUD.m"; sourceTree = "<group>"; };
 		9B678D7226BEB7DA00483386 /* xxChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xxChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B678D7526BEB7DA00483386 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9B678D7626BEB7DA00483386 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -203,16 +208,16 @@
 		A6C18C1226EF4773005D5C63 /* GroupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
 		A6C18C1626EF53DE005D5C63 /* FriendInfomationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendInfomationViewController.h; sourceTree = "<group>"; };
 		A6C18C1726EF53DE005D5C63 /* FriendInfomationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendInfomationViewController.m; sourceTree = "<group>"; };
-		A6C18C1926F212A8005D5C63 /* NSString+Pinyin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Pinyin.h"; sourceTree = "<group>"; };
-		A6C18C1A26F212A8005D5C63 /* NSString+Pinyin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Pinyin.m"; sourceTree = "<group>"; };
-		A6C18C1C26F34F67005D5C63 /* GroupNotificationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupNotificationViewController.h; sourceTree = "<group>"; };
-		A6C18C1D26F34F67005D5C63 /* GroupNotificationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupNotificationViewController.m; sourceTree = "<group>"; };
-		A6C18C1F26F3621A005D5C63 /* GroupInfomationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupInfomationViewController.h; sourceTree = "<group>"; };
-		A6C18C2026F3621A005D5C63 /* GroupInfomationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupInfomationViewController.m; sourceTree = "<group>"; };
-		A6C18C2226F5DDE9005D5C63 /* SelectUserForGroupController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectUserForGroupController.h; sourceTree = "<group>"; };
-		A6C18C2326F5DDE9005D5C63 /* SelectUserForGroupController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectUserForGroupController.m; sourceTree = "<group>"; };
-		A6C18C2526F60111005D5C63 /* CreateGroupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateGroupViewController.h; sourceTree = "<group>"; };
-		A6C18C2626F60111005D5C63 /* CreateGroupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CreateGroupViewController.m; sourceTree = "<group>"; };
+		A6C18C2826FB459D005D5C63 /* NSString+Pinyin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Pinyin.h"; sourceTree = "<group>"; };
+		A6C18C2926FB459D005D5C63 /* NSString+Pinyin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Pinyin.m"; sourceTree = "<group>"; };
+		A6C18C2B26FB46DE005D5C63 /* CreateGroupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateGroupViewController.h; sourceTree = "<group>"; };
+		A6C18C2C26FB46DE005D5C63 /* CreateGroupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CreateGroupViewController.m; sourceTree = "<group>"; };
+		A6C18C2E26FB4702005D5C63 /* SelectUserForGroupController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectUserForGroupController.h; sourceTree = "<group>"; };
+		A6C18C2F26FB4702005D5C63 /* SelectUserForGroupController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectUserForGroupController.m; sourceTree = "<group>"; };
+		A6C18C3126FB4737005D5C63 /* GroupNotificationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupNotificationViewController.h; sourceTree = "<group>"; };
+		A6C18C3226FB4737005D5C63 /* GroupNotificationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupNotificationViewController.m; sourceTree = "<group>"; };
+		A6C18C3426FB474B005D5C63 /* GroupInfomationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupInfomationViewController.h; sourceTree = "<group>"; };
+		A6C18C3526FB474B005D5C63 /* GroupInfomationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupInfomationViewController.m; sourceTree = "<group>"; };
 		A9BFB7ADCDC74788E2CD01FE /* Pods-xxChat-xxChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.release.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.release.xcconfig"; sourceTree = "<group>"; };
 		BED5FCBB519A9BE3680A35D3 /* Pods-xxChat-xxChatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChat-xxChatUITests.debug.xcconfig"; path = "Target Support Files/Pods-xxChat-xxChatUITests/Pods-xxChat-xxChatUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CA19132E76973E48485A7738 /* Pods-xxChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xxChatTests.debug.xcconfig"; path = "Target Support Files/Pods-xxChatTests/Pods-xxChatTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -305,6 +310,7 @@
 				9B18475B26F09DB1003C4FA4 /* 表情包素材4.jpg */,
 				9B18475926F09DB1003C4FA4 /* 表情包素材5.jpg */,
 				9B18475A26F09DB1003C4FA4 /* 表情包素材6.jpg */,
+				9B1847A826F1EEF7003C4FA4 /* 表情包素材7.gif */,
 			);
 			path = "表情包素材";
 			sourceTree = "<group>";
@@ -455,8 +461,10 @@
 				A626537526E337560084050F /* UIImage+ChangeImage.m */,
 				9B18475526F092C4003C4FA4 /* UITabBar+RedPoint.h */,
 				9B18475626F092C4003C4FA4 /* UITabBar+RedPoint.m */,
-				A6C18C1926F212A8005D5C63 /* NSString+Pinyin.h */,
-				A6C18C1A26F212A8005D5C63 /* NSString+Pinyin.m */,
+				9B1847AD26F2378A003C4FA4 /* UIImage+YCHUD.h */,
+				9B1847AE26F2378A003C4FA4 /* UIImage+YCHUD.m */,
+				A6C18C2826FB459D005D5C63 /* NSString+Pinyin.h */,
+				A6C18C2926FB459D005D5C63 /* NSString+Pinyin.m */,
 			);
 			path = Categorys;
 			sourceTree = "<group>";
@@ -515,14 +523,14 @@
 			children = (
 				A6C18C1126EF4773005D5C63 /* GroupViewController.h */,
 				A6C18C1226EF4773005D5C63 /* GroupViewController.m */,
-				A6C18C1C26F34F67005D5C63 /* GroupNotificationViewController.h */,
-				A6C18C1D26F34F67005D5C63 /* GroupNotificationViewController.m */,
-				A6C18C1F26F3621A005D5C63 /* GroupInfomationViewController.h */,
-				A6C18C2026F3621A005D5C63 /* GroupInfomationViewController.m */,
-				A6C18C2226F5DDE9005D5C63 /* SelectUserForGroupController.h */,
-				A6C18C2326F5DDE9005D5C63 /* SelectUserForGroupController.m */,
-				A6C18C2526F60111005D5C63 /* CreateGroupViewController.h */,
-				A6C18C2626F60111005D5C63 /* CreateGroupViewController.m */,
+				A6C18C2B26FB46DE005D5C63 /* CreateGroupViewController.h */,
+				A6C18C2C26FB46DE005D5C63 /* CreateGroupViewController.m */,
+				A6C18C2E26FB4702005D5C63 /* SelectUserForGroupController.h */,
+				A6C18C2F26FB4702005D5C63 /* SelectUserForGroupController.m */,
+				A6C18C3126FB4737005D5C63 /* GroupNotificationViewController.h */,
+				A6C18C3226FB4737005D5C63 /* GroupNotificationViewController.m */,
+				A6C18C3426FB474B005D5C63 /* GroupInfomationViewController.h */,
+				A6C18C3526FB474B005D5C63 /* GroupInfomationViewController.m */,
 			);
 			path = AboutGroupControllers;
 			sourceTree = "<group>";
@@ -663,6 +671,7 @@
 				9B678D8226BEB7DC00483386 /* Assets.xcassets in Resources */,
 				9B18476126F09DB1003C4FA4 /* 表情包素材4.jpg in Resources */,
 				9B18474D26F08EB9003C4FA4 /* 图片素材3.jpg in Resources */,
+				9B1847A926F1EEF7003C4FA4 /* 表情包素材7.gif in Resources */,
 				9B18476026F09DB1003C4FA4 /* 表情包素材6.jpg in Resources */,
 				9B18475026F08EB9003C4FA4 /* 图片素材6.jpg in Resources */,
 				9B18475226F08EB9003C4FA4 /* 图片素材2.jpg in Resources */,
@@ -809,6 +818,7 @@
 				A6C18C1826EF53DE005D5C63 /* FriendInfomationViewController.m in Sources */,
 				9B84E7F326ECB65F006BDCCB /* UnreadRedPointView.m in Sources */,
 				A626534026CA88A30084050F /* LoginAndRegisterView.m in Sources */,
+				A6C18C3326FB4737005D5C63 /* GroupNotificationViewController.m in Sources */,
 				9B84E7A226E7A9F2006BDCCB /* MoreFunctionSubView.m in Sources */,
 				A626533D26CA88000084050F /* VisitorViewController.m in Sources */,
 				9BD29D8226CBFA6B002F7114 /* InputView.m in Sources */,
@@ -816,15 +826,18 @@
 				9B18473B26F08D4F003C4FA4 /* EmojiView.m in Sources */,
 				A626536F26E130870084050F /* FriendInvitationViewController.m in Sources */,
 				9B18475726F092C4003C4FA4 /* UITabBar+RedPoint.m in Sources */,
-				A6C18C1E26F34F67005D5C63 /* GroupNotificationViewController.m in Sources */,
 				A6C18C1326EF4773005D5C63 /* GroupViewController.m in Sources */,
 				9B678DB126C157BF00483386 /* ContactsViewController.m in Sources */,
 				A626536C26E130570084050F /* ChangeInfoViewController.m in Sources */,
 				A626536026E12C860084050F /* FriendInvitationCell.m in Sources */,
 				9B678DB426C1595D00483386 /* DiscoverViewController.m in Sources */,
 				A626535D26E12C480084050F /* ContactCell.m in Sources */,
+				A6C18C2A26FB459D005D5C63 /* NSString+Pinyin.m in Sources */,
 				9B84E7A526E7AA3F006BDCCB /* MessageButton.m in Sources */,
+				A6C18C3626FB474B005D5C63 /* GroupInfomationViewController.m in Sources */,
+				9B1847AF26F2378A003C4FA4 /* UIImage+YCHUD.m in Sources */,
 				A626536926E130280084050F /* AddViewController.m in Sources */,
+				A6C18C2D26FB46DE005D5C63 /* CreateGroupViewController.m in Sources */,
 				A626537626E337560084050F /* UIImage+ChangeImage.m in Sources */,
 				A6C18C0F26ECD787005D5C63 /* ChangePasswordViewController.m in Sources */,
 				A626536626E12CF30084050F /* MessageTableView.m in Sources */,
@@ -834,12 +847,9 @@
 				9B18473F26F08DC7003C4FA4 /* ImageCollectionViewCell.m in Sources */,
 				A626536326E12CB50084050F /* SearchResultCell.m in Sources */,
 				9B18474226F08E0B003C4FA4 /* ImagePicker.m in Sources */,
-				A6C18C2126F3621A005D5C63 /* GroupInfomationViewController.m in Sources */,
 				9BD29D7C26CBF985002F7114 /* MessageFrame.m in Sources */,
-				A6C18C1B26F212A8005D5C63 /* NSString+Pinyin.m in Sources */,
 				9B678DC926C3D97C00483386 /* ChatCell.m in Sources */,
-				A6C18C2726F60111005D5C63 /* CreateGroupViewController.m in Sources */,
-				A6C18C2426F5DDE9005D5C63 /* SelectUserForGroupController.m in Sources */,
+				A6C18C3026FB4702005D5C63 /* SelectUserForGroupController.m in Sources */,
 				9B678D7D26BEB7DA00483386 /* ChatsViewController.m in Sources */,
 				9B678D7726BEB7DA00483386 /* AppDelegate.m in Sources */,
 				9BD29D7F26CBFA2B002F7114 /* MessageCell.m in Sources */,

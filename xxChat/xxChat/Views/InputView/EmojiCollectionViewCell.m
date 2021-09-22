@@ -30,4 +30,13 @@
     return self;
 }
 
+- (void)setEmojiPath:(NSString *)emojiPath {
+    _emojiPath = emojiPath;
+    if ([emojiPath hasSuffix:@"jpg"]) {
+        self.emojiType = EmojiType_JPG;
+    } else if ([emojiPath hasSuffix:@"gif"]) {
+        self.emojiType = EmojiType_GIF;
+    }
+}
+
 @end

@@ -13,6 +13,7 @@
 #import "GroupInfomationViewController.h"
 #import "SelectUserForGroupController.h"
 #import <JMessage/JMessage.h>
+#import "MessageViewController.h"
 
 #define JMESSAGE_APPKEY @"4823f4aad010e515513e2275"
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height

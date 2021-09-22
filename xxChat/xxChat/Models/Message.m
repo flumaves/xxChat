@@ -30,9 +30,8 @@
     }
     
     //判断是谁发送的消息
-    JMSGUser *user = message.target;    //获取消息发送的对象
-    if (_userName != user.username) {
-        //发送的目标不是自己 （即自己发的消息）
+    JMSGUser *user = message.fromUser;
+    if (user.username == _userName) {
         _type = MessageType_ME;
     } else {
         _type = MessageType_Other;

@@ -2,7 +2,7 @@
 //  GroupInfomationViewController.m
 //  xxChat
 //
-//  Created by 谢恩平 on 2021/9/16.
+//  Created by 谢恩平 on 2021/9/22.
 //
 
 #import "GroupInfomationViewController.h"
