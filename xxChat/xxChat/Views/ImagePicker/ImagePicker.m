@@ -16,6 +16,13 @@
     return _choosePhotoArray;
 }
 
+- (int)maxPhotoNumber {
+    if (!_maxPhotoNumber) {
+        _maxPhotoNumber = 1;
+    }
+    return _maxPhotoNumber;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -97,6 +104,7 @@
     }
 }
 
+//每选择一张图片 刷新圆圈里的数字
 - (void)updateChooseNumber:(ImageCollectionViewCell *)cell {
     if ([cell isChoosed]) {
         cell.choose = NO;

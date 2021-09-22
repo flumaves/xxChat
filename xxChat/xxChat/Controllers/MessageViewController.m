@@ -687,7 +687,26 @@
 
 #pragma mark - ImagePicker的delegate
 - (void)didFinishingPickImage {
-    
+    NSMutableArray *choosePhotoArray = _picker.choosePhotoArray;
+    for (ImageCollectionViewCell *cell in choosePhotoArray) {
+        NSData *data = UIImagePNGRepresentation(cell.imageView.image);
+        //创建消息
+        JMSGImageContent *content = [[JMSGImageContent alloc] initWithImageData:data];
+        if (_conversationType == kJMSGConversationTypeSingle) {
+            JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:content username:_anotherUser.username];
+            [JMSGMessage sendMessage:message];
+        } else {
+            JMSGMessage *message = [JMSGMessage createGroupMessageWithContent:content groupId:_group.gid];
+            [JMSGMessage sendMessage:message];
+        }
+    }
+    //隐藏imagePicker
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect imagePickerFrame = self.picker.frame;
+        imagePickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
+        self.picker.frame = imagePickerFrame;
+        self.navigationController.navigationBar.hidden = NO;
+    }];
 }
 
 - (void)didCancelPickImage {
