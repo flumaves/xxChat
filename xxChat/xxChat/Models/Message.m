@@ -38,14 +38,66 @@
     }
     
     //时间
+    //获取当天00：00的时间戳
+    NSTimeInterval todayInterval = [self getTimeofHour:0 minute:0];                 //今天
+    NSTimeInterval yesterdayInterval = todayInterval - 24 * 60 * 60;                //昨天
+    NSTimeInterval dayBeforeYesterdayInterval = yesterdayInterval - 24 * 60 * 60;   //前天
+    NSTimeInterval lastweekInterval = todayInterval - 7 * 24 * 60 * 60;             //上星期
+    NSLog(@"%f",todayInterval);
+    //消息发送的时间戳
     NSNumber *timer = message.timestamp;
     NSTimeInterval interval = [timer doubleValue] / 1000;
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSLog(@"%f",interval);
     //设置日期格式
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
-    NSString *str = [formatter stringFromDate:date];
-    _time = str;
+    if (interval > todayInterval) {     //当天发送的消息
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"HH:mm"];
+        NSString *str = [formatter stringFromDate:date];
+        _time = str;
+        
+    } else if (interval > yesterdayInterval) {  //昨天发送到消息
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"HH:mm"];
+        NSString *str = [@"昨天 " stringByAppendingFormat:@"%@",[formatter stringFromDate:date]];
+        _time = str;
+        
+    } else if (interval > dayBeforeYesterdayInterval) { //前天发送的消息
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"HH:mm"];
+        NSString *str = [@"前天 " stringByAppendingFormat:@"%@",[formatter stringFromDate:date]];
+        _time = str;
+        
+    } else if (interval > lastweekInterval) {   //这星期内发送的消息
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"eeee HH:mm"];
+        NSString *str = [formatter stringFromDate:date];
+        _time = str;
+        
+    } else {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"M-dd HH:mm"];
+        NSString *str = [formatter stringFromDate:date];
+        _time = str;
+    }
+}
+
+
+- (NSTimeInterval)getTimeofHour:(NSInteger)hour minute:(NSInteger)minute {
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+    [calendar setTimeZone:timeZone];
+    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:[NSDate date]];
+    NSDateComponents *dateComponentsForDate = [[NSDateComponents alloc] init];
+    dateComponentsForDate.day   = dateComponents.day;
+    dateComponentsForDate.month = dateComponents.month;
+    dateComponentsForDate.year  = dateComponents.year;
+    dateComponentsForDate.hour  = hour;
+    dateComponentsForDate.minute = minute;
+    
+    NSDate *dateFromDateComponentsForDate = [calendar dateFromComponents:dateComponentsForDate];
+    NSTimeInterval interval = [dateFromDateComponentsForDate timeIntervalSince1970];
+    return interval;
 }
 
 - (instancetype)initWithDict:(NSDictionary *)dict
