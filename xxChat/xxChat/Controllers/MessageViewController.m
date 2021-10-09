@@ -148,6 +148,12 @@
         Message *lastMessage = [[Message alloc] init];
         
         for (JMSGMessage *j_message in array) {
+            if (j_message.contentType != kJMSGContentTypeText &&
+                j_message.contentType != kJMSGContentTypeImage &&
+                j_message.contentType != kJMSGContentTypeVideo &&
+                j_message.contentType != kJMSGContentTypeVoice) {
+                continue;
+            }
             //从JMSGMessage 转成 自己的message并封装messageFrame
             Message *message = [[Message alloc] init];
             message.userName = self.user.username;
