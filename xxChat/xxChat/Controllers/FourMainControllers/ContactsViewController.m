@@ -85,6 +85,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     if (section == 0) {
         return 2;
     } else {
@@ -92,13 +93,16 @@
         
         return tempArray.count;
     }
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //复用ID为 contact
     NSString *ID = @"contact";
     ContactCell *cell = [self.contactsTableView dequeueReusableCellWithIdentifier:ID];
+    
     if (cell == nil) {
+        
         cell = [[ContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
 //        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -109,12 +113,14 @@
             
             cell.icon.image = [UIImage imageNamed:@"新的朋友"];
             cell.name.text = @"新的朋友";
+            
             //如果有新的好友请求，就加个红点
             if (_isReceiveInvitation) {
                 cell.redPoint.hidden = NO;
             }else{
                 cell.redPoint.hidden = YES;
             }
+            
             cell.icon.backgroundColor = [UIColor whiteColor];
             
         } else if (indexPath.row == 1) {
@@ -150,7 +156,7 @@
             
         } else {
             
-            cell.icon.image = nil;
+            [cell.icon setImage:[UIImage imageNamed:@"头像占位图"]];
             
         }
         

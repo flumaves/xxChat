@@ -120,6 +120,7 @@
     //复用ID为 group
     NSString *ID = @"group";
     ContactCell *cell = [self.tableView dequeueReusableCellWithIdentifier:ID];
+    
     if (cell == nil) {
         cell = [[ContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -131,13 +132,16 @@
             
             cell.icon.image = [UIImage imageNamed:@"通知"];
             cell.name.text = @"群通知";
+            cell.icon.backgroundColor = [UIColor whiteColor];
+
+            
             //如果有新的通知，就加个红点
             if (_isReceiveGroupEvent) {
                 cell.redPoint.hidden = NO;
             }else{
                 cell.redPoint.hidden = YES;
             }
-            cell.icon.backgroundColor = [UIColor whiteColor];
+            
             
         }
         
@@ -157,7 +161,7 @@
         //设名字
         cell.name.text = group.name;
         //头像
-        if (group.avatar != nil) {
+        if (![group.avatar isEqualToString:@""]) {
             
             [group thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
                 if (!error) {
@@ -173,7 +177,7 @@
             
         } else {
             
-            cell.icon.image = nil;
+            [cell.icon setImage:[UIImage imageNamed:@"头像占位图"]];
             
         }
         
@@ -193,7 +197,7 @@
         //设名字
         cell.name.text = group.name;
         //头像
-        if (group.avatar != nil) {
+        if (![group.avatar isEqualToString:@""]) {
             
             [group thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
                 if (!error) {
@@ -209,13 +213,11 @@
             
         } else {
             
-            cell.icon.image = nil;
+            [cell.icon setImage:[UIImage imageNamed:@"头像占位图"]];
             
         }
         
-        
-        
-        
+  
         
     }
     
@@ -307,6 +309,8 @@
                 messageVC.conversation = conversation;
                 
                 [self.navigationController pushViewController:messageVC animated:YES];
+                self.hidesBottomBarWhenPushed = YES;
+                
             } else {
                 
                 NSLog(@"点击群组列表打开群聊会话出错：%@",error);

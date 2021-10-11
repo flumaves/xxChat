@@ -146,7 +146,7 @@
         
     } else {
         
-        cell.icon.image = nil;
+        [cell.icon setImage:[UIImage imageNamed:@"头像占位图"]];
         
     }
 
@@ -195,11 +195,11 @@
 
 
 
-//是否可以编辑  默认的时YES
+//是否可以编辑  默认的是YES
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
 
-return YES;
+    return YES;
 
 }
 
@@ -209,7 +209,7 @@ return YES;
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
 
-return UITableViewCellEditingStyleDelete;
+    return UITableViewCellEditingStyleDelete;
 
 }
 
