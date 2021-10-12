@@ -15,8 +15,6 @@
     if (self) {
         self.separatorStyle = NO;
         self.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
-        //让整个tableview旋转180度
-        self.transform = CGAffineTransformMakeRotation(M_PI);
     }
     return self;
 }

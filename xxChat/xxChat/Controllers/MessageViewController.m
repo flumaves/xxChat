@@ -132,7 +132,7 @@
             MessageFrame *messageFrame = _messagesArray[i];
             if (messageFrame.message.message.contentType == kJMSGContentTypeImage) {
                 JMSGImageContent *content = (JMSGImageContent *)messageFrame.message.message.content;
-                [messageImageArray insertObject:content atIndex:0];
+                [messageImageArray addObject:content];
             }
         }
         NSLog(@"%lu",(unsigned long)messageImageArray.count);
@@ -193,7 +193,7 @@
             //封装messageFrame
             MessageFrame *messageFrame = [[MessageFrame alloc] init];
             [messageFrame setMessage:message];
-            [_messagesArray addObject:messageFrame];
+            [_messagesArray insertObject:messageFrame atIndex:0];
             //重新记录lastMessage
             lastMessage = message;
         }
@@ -248,6 +248,7 @@
     self.messageTableView.dataSource = self;
     self.messageTableView.delegate = self;
     [self.view addSubview:self.messageTableView];
+    [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.messagesArray.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
     
     //navigationBar后面添加一个view解决透明度引起的颜色问题
     _backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, navigationBarMAXY)];
@@ -302,7 +303,7 @@
     MessageFrame *messageFrame = [[MessageFrame alloc] init];
     messageFrame.message = newMessage;
     
-    [self.messagesArray insertObject:messageFrame atIndex:0];
+    [self.messagesArray addObject:messageFrame];
     [self.messageTableView reloadData];
     [self.messageTableView scrollsToTop];
 }
@@ -327,7 +328,7 @@
     MessageFrame *messageFrame = [[MessageFrame alloc] init];
     messageFrame.message = newMessage;
     
-    [self.messagesArray insertObject:messageFrame atIndex:0];
+    [self.messagesArray addObject:messageFrame];
     [self.messageTableView reloadData];
     [self.messageTableView scrollsToTop];
 }
