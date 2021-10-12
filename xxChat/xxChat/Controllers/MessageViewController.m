@@ -18,6 +18,9 @@
 #import "ImagePicker.h"
 #import "ImageCollectionViewCell.h"
 #import "EmojiView.h"
+#import "ImageBrowser.h"
+#import "ImageBrowserCollectionViewCell.h"
+#import "UIImage+YCHUD.h"
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -44,16 +47,20 @@
 @property (nonatomic, strong) EmojiView *emojiView;
 
 //图片选择器
-@property (nonatomic, weak) ImagePicker *picker;
+@property (nonatomic, weak) ImagePicker *imgPicker;
+//图片浏览器
+@property (nonatomic, weak) ImageBrowser *imgBrowser;
+//聊天内容的图片的数组
+@property (nonatomic, strong) NSMutableArray <JMSGImageContent *> *messageImageArray;
 
-//表情包数组
+//imagePicker选中的图片数组
 @property (nonatomic, strong) NSMutableArray *imagePathArray;
 
-//图片数组
+//表情包数组
 @property (nonatomic, strong) NSMutableArray *emojiPathArray;
 
 //消息数组
-@property (nonatomic, strong) NSMutableArray *messagesArray;
+@property (nonatomic, strong) NSMutableArray <MessageFrame *> *messagesArray;
 
 //会话类型 （单聊 群组）
 @property (nonatomic, assign) JMSGConversationType conversationType;
@@ -117,6 +124,23 @@
 
 
 #pragma mark - 懒加载
+- (NSMutableArray *)messageImageArray {
+    if (!_messageImageArray) {
+        NSMutableArray *messageImageArray = [NSMutableArray array];
+        //遍历messagesArray 判断内容的类型 如果是图片 添加到数组中
+        for (int i = 0; i < _messagesArray.count; i++) {
+            MessageFrame *messageFrame = _messagesArray[i];
+            if (messageFrame.message.message.contentType == kJMSGContentTypeImage) {
+                JMSGImageContent *content = (JMSGImageContent *)messageFrame.message.message.content;
+                [messageImageArray insertObject:content atIndex:0];
+            }
+        }
+        NSLog(@"%lu",(unsigned long)messageImageArray.count);
+        _messageImageArray = messageImageArray;
+    }
+    return _messageImageArray;
+}
+
 - (void)setConversation:(JMSGConversation *)conversation {
     _conversation = conversation;
     
@@ -128,6 +152,7 @@
     
     _conversationType = conversation.conversationType;
 }
+
 //“我”用户
 - (JMSGUser *)user {
     if (_user == nil) {
@@ -412,53 +437,57 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([collectionView isEqual:self.picker.imageCollectionView]) {
+    if ([collectionView isEqual:self.imgPicker.imageCollectionView]) {
         return self.imagePathArray.count;
-    } else {
+    } else if ([collectionView isEqual:self.emojiView.emojiCollectionView]){
         return self.emojiPathArray.count;
+    } else if ([collectionView isEqual:self.imgBrowser.imageBrowserCollectionView]){
+        return self.messageImageArray.count;
+    } else {
+        return 20;
     }
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if ([collectionView isEqual:self.picker.imageCollectionView]) {
+    if ([collectionView isEqual:self.imgPicker.imageCollectionView]) {
         ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
         //加载图片素材
         NSString *imagePath = [self.imagePathArray objectAtIndex:indexPath.item];
         cell.imageView.image = [UIImage imageWithContentsOfFile:imagePath];
-        cell.delegate = self.picker;
+        cell.delegate = self.imgPicker;
         return cell;
         
-    } else {
+    } else if ([collectionView isEqual:self.emojiView.emojiCollectionView]) {
         EmojiCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"emojiCell" forIndexPath:indexPath];
         //加载表情包素材
         NSString *emojiPath = [self.emojiPathArray objectAtIndex:indexPath.item];
         cell.emojiImageView.image = [UIImage imageWithContentsOfFile:emojiPath];
         cell.emojiPath = emojiPath;
         return cell;
+        
+    } else {
+        ImageBrowserCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ImageBrowserCell" forIndexPath:indexPath];
+        JMSGImageContent *content = _messageImageArray[indexPath.item];
+        NSLog(@"%@",content.imageLink);
+        [content largeImageDataWithProgress:nil completionHandler:^(NSData *data, NSString *objectId, NSError *error) {
+            if (error) {
+                NSLog(@"imageBrowserCell设置图片出错：%@",error);
+                return;
+            }
+            //设置cell的放大倍数，当图片很长的时候，cell默认的3.5倍不够 这是设置图片能够放大到跟屏幕一样宽
+            if (content.imageSize.width < [UIScreen mainScreen].bounds.size.width) {
+                cell.scrollView.maximumZoomScale = [UIScreen mainScreen].bounds.size.width / content.imageSize.width;
+            }
+            cell.imgView.image = [UIImage YCHUDImageWithSmallGIFData:data scale:1];
+        }];
+        return cell;
+    
     }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if ([collectionView isEqual:_picker.imageCollectionView]) {
-        //获取cell
-        ImageCollectionViewCell *cell = (ImageCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-//        NSData *data = UIImagePNGRepresentation(cell.imageView.image);
-//        //创建消息
-//        JMSGImageContent *content = [[JMSGImageContent alloc] initWithImageData:data];
-//        if (_conversationType == kJMSGConversationTypeSingle) {
-//            JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:content username:_anotherUser.username];
-//            [JMSGMessage sendMessage:message];
-//        } else {
-//            JMSGMessage *message = [JMSGMessage createGroupMessageWithContent:content groupId:_group.gid];
-//            [JMSGMessage sendMessage:message];
-//        }
-//        //隐藏imagePicker
-//        [UIView animateWithDuration:0.3 animations:^{
-//            CGRect imagePickerFrame = self.picker.frame;
-//            imagePickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
-//            self.picker.frame = imagePickerFrame;
-//            self.navigationController.navigationBar.hidden = NO;
-//        }];
+    if ([collectionView isEqual:_imgPicker.imageCollectionView]) {
+       
     } else if ([collectionView isEqual:_emojiView.emojiCollectionView]) {
         //获取图片data
         EmojiCollectionViewCell *cell = (EmojiCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
@@ -691,9 +720,9 @@
 }
 
 
-#pragma mark - ImagePicker的delegate
+#pragma mark - ImageimgPicker的delegate
 - (void)didFinishingPickImage {
-    NSMutableArray *choosePhotoArray = _picker.choosePhotoArray;
+    NSMutableArray *choosePhotoArray = _imgPicker.choosePhotoArray;
     for (ImageCollectionViewCell *cell in choosePhotoArray) {
         NSData *data = UIImagePNGRepresentation(cell.imageView.image);
         //创建消息
@@ -708,20 +737,30 @@
     }
     //隐藏imagePicker
     [UIView animateWithDuration:0.3 animations:^{
-        CGRect imagePickerFrame = self.picker.frame;
-        imagePickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
-        self.picker.frame = imagePickerFrame;
+        CGRect imageimgPickerFrame = self.imgPicker.frame;
+        imageimgPickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
+        self.imgPicker.frame = imageimgPickerFrame;
         self.navigationController.navigationBar.hidden = NO;
     }];
 }
 
 - (void)didCancelPickImage {
     [UIView animateWithDuration:0.3 animations:^{
-        CGRect imagePickerFrame = self.picker.frame;
-        imagePickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
-        self.picker.frame = imagePickerFrame;
+        CGRect imageimgPickerFrame = self.imgPicker.frame;
+        imageimgPickerFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
+        self.imgPicker.frame = imageimgPickerFrame;
         self.navigationController.navigationBar.hidden = NO;
     }];
+}
+
+
+#pragma mark - ImageBrowser的方法
+- (void)imageBrowserOneTimeTap {
+    NSLog(@"%s",__func__);
+    [_imgBrowser removeFromSuperview];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"imageBrowserOneTimeTap" object:nil];
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 
@@ -730,21 +769,21 @@
     MoreFunctionSubView *subView = notification.object;
     NSString *subViewText = subView.lbl.text;
     if ([subViewText isEqual:@"相片"]) {
-        ImagePicker *imagePicker = [[ImagePicker alloc] initWithFrame:
+        ImagePicker *imageimgPicker = [[ImagePicker alloc] initWithFrame:
                                     CGRectMake(0,
                                                [UIScreen mainScreen].bounds.size.height,
                                                [UIScreen mainScreen].bounds.size.width,
                                                [UIScreen mainScreen].bounds.size.height)];
-        imagePicker.delegate = self;
-        imagePicker.imageCollectionView.delegate = self;
-        imagePicker.imageCollectionView.dataSource = self;
-        self.picker = imagePicker;
-        [self.view addSubview:imagePicker];
+        imageimgPicker.delegate = self;
+        imageimgPicker.imageCollectionView.delegate = self;
+        imageimgPicker.imageCollectionView.dataSource = self;
+        self.imgPicker = imageimgPicker;
+        [self.view addSubview:imageimgPicker];
         
         [UIView animateWithDuration:0.3 animations:^{
-            CGRect frame = imagePicker.frame;
+            CGRect frame = imageimgPicker.frame;
             frame.origin.y = 0;
-            imagePicker.frame = frame;
+            imageimgPicker.frame = frame;
             self.navigationController.navigationBar.hidden = YES;
         }];
     } else {
@@ -763,6 +802,23 @@
     _audioPlayer.numberOfLoops = 1;
     _audioPlayer.delegate = self;
     [_audioPlayer play];
+}
+
+/// 显示imageBrowser
+- (void)showImageBrowserWithImageTag:(int)imageTag {
+    ImageBrowser *imageBrowser = [[ImageBrowser alloc] initWithFrame:CGRectMake(0,
+                                                                                0,
+                                                            [UIScreen mainScreen].bounds.size.width,
+                                                            [UIScreen mainScreen].bounds.size.height)];
+    imageBrowser.imageBrowserCollectionView.delegate = self;
+    imageBrowser.imageBrowserCollectionView.dataSource = self;
+    _imgBrowser = imageBrowser;
+    [_imgBrowser.imageBrowserCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.messageImageArray.count - imageTag inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+    
+    [self.view addSubview:imageBrowser];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageBrowserOneTimeTap) name:@"imageBrowserOneTimeTap" object:nil];
+    
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 #pragma mark - leftBarButtonItem的方法

@@ -48,6 +48,8 @@
 		9B84E7A226E7A9F2006BDCCB /* MoreFunctionSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E7A126E7A9F2006BDCCB /* MoreFunctionSubView.m */; };
 		9B84E7A526E7AA3F006BDCCB /* MessageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E7A426E7AA3F006BDCCB /* MessageButton.m */; };
 		9B84E7F326ECB65F006BDCCB /* UnreadRedPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E7F226ECB65F006BDCCB /* UnreadRedPointView.m */; };
+		9BD0AA2D26FDFC2600962C4F /* ImageBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD0AA2C26FDFC2600962C4F /* ImageBrowser.m */; };
+		9BD0AA3026FDFC4600962C4F /* ImageBrowserCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD0AA2F26FDFC4600962C4F /* ImageBrowserCollectionViewCell.m */; };
 		9BD29D7626CBF8F7002F7114 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7526CBF8F7002F7114 /* MessageViewController.m */; };
 		9BD29D7926CBF949002F7114 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7826CBF949002F7114 /* Message.m */; };
 		9BD29D7C26CBF985002F7114 /* MessageFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7B26CBF985002F7114 /* MessageFrame.m */; };
@@ -161,6 +163,10 @@
 		9B84E7A426E7AA3F006BDCCB /* MessageButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageButton.m; sourceTree = "<group>"; };
 		9B84E7F126ECB65F006BDCCB /* UnreadRedPointView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnreadRedPointView.h; sourceTree = "<group>"; };
 		9B84E7F226ECB65F006BDCCB /* UnreadRedPointView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnreadRedPointView.m; sourceTree = "<group>"; };
+		9BD0AA2B26FDFC2600962C4F /* ImageBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageBrowser.h; sourceTree = "<group>"; };
+		9BD0AA2C26FDFC2600962C4F /* ImageBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageBrowser.m; sourceTree = "<group>"; };
+		9BD0AA2E26FDFC4600962C4F /* ImageBrowserCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageBrowserCollectionViewCell.h; sourceTree = "<group>"; };
+		9BD0AA2F26FDFC4600962C4F /* ImageBrowserCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageBrowserCollectionViewCell.m; sourceTree = "<group>"; };
 		9BD29D7426CBF8F7002F7114 /* MessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
 		9BD29D7526CBF8F7002F7114 /* MessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		9BD29D7726CBF949002F7114 /* Message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
@@ -431,6 +437,17 @@
 			path = ChatTable;
 			sourceTree = "<group>";
 		};
+		9BD0AA2A26FDFBF400962C4F /* ImageBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				9BD0AA2B26FDFC2600962C4F /* ImageBrowser.h */,
+				9BD0AA2C26FDFC2600962C4F /* ImageBrowser.m */,
+				9BD0AA2E26FDFC4600962C4F /* ImageBrowserCollectionViewCell.h */,
+				9BD0AA2F26FDFC4600962C4F /* ImageBrowserCollectionViewCell.m */,
+			);
+			path = ImageBrowser;
+			sourceTree = "<group>";
+		};
 		A626534426CAAE720084050F /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -468,6 +485,7 @@
 		A654FE0226C17D5400DCE37C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9BD0AA2A26FDFBF400962C4F /* ImageBrowser */,
 				9B18473C26F08D8E003C4FA4 /* ImagePicker */,
 				9B84E7F426ECB665006BDCCB /* ChatTable */,
 				9B84E7A726E85A6B006BDCCB /* MessageTable */,
@@ -800,7 +818,9 @@
 				9B18473B26F08D4F003C4FA4 /* EmojiView.m in Sources */,
 				A626536F26E130870084050F /* FriendInvitationViewController.m in Sources */,
 				9B18475726F092C4003C4FA4 /* UITabBar+RedPoint.m in Sources */,
+				9BD0AA3026FDFC4600962C4F /* ImageBrowserCollectionViewCell.m in Sources */,
 				A6C18C1326EF4773005D5C63 /* GroupViewController.m in Sources */,
+				9BD0AA2D26FDFC2600962C4F /* ImageBrowser.m in Sources */,
 				9B678DB126C157BF00483386 /* ContactsViewController.m in Sources */,
 				A626536C26E130570084050F /* ChangeInfoViewController.m in Sources */,
 				A626536026E12C860084050F /* FriendInvitationCell.m in Sources */,

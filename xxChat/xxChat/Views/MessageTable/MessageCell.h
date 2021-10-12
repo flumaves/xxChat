@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "MessageFrame.h"
 #import "Message.h"
+#import "MessageButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,9 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)playVoice:(NSData *)data;
 
+- (void)showImageBrowserWithImageTag:(int)imageTag;
+
 @end
 
 @interface MessageCell : UITableViewCell
+//内容
+@property (nonatomic, strong) MessageButton *contentBtn;
 
 @property (nonatomic, strong) MessageFrame *messageFrame;
 
