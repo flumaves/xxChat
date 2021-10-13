@@ -63,9 +63,12 @@
         
     } else if (_message.message.contentType == kJMSGContentTypeVoice) { ///语音消息
         //语音消息
-        //消息的宽度 （最少20 最多200）根据语音的时长计算宽度
+        //消息的宽度 （最少20 最多180）根据语音的时长计算宽度
         CGFloat edgeInsets = 20;
         CGFloat voiceWidth = (message.duration.doubleValue / 30) * 200;
+        if (voiceWidth > 200) {
+            voiceWidth = 200;
+        }
         voiceWidth = MAX(voiceWidth, 50) + 2 * edgeInsets;
         CGFloat voiceHeight = 20 + 2 * edgeInsets;
         CGFloat voiceY = iconY;

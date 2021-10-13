@@ -131,7 +131,7 @@
 - (void)start {
     if (self.displayLink == nil) {
         self.displayLink = [CADisplayLink displayLinkWithTarget:_itemLevelCallBack selector:@selector(invoke)];
-        self.displayLink.preferredFramesPerSecond = 6.f;
+        self.displayLink.preferredFramesPerSecond = 15;
         [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     }
 
