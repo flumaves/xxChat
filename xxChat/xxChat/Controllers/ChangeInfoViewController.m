@@ -347,7 +347,15 @@
     JMSGUserInfo *userInfo = [[JMSGUserInfo alloc] init];
     userInfo.nickname = _user.nickname;
     userInfo.gender = _user.gender;
-    userInfo.birthday = @([_user.birthday doubleValue]);//这里应该是JMSUser的错误 把birthday属性设置成了NSString 但文档中规定是NSNumber
+    
+    NSString *string = _user.birthday;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *date = [[NSDate alloc] init];
+    date = [dateFormatter dateFromString:string];
+    NSTimeInterval timeInterval = [date timeIntervalSince1970];
+    userInfo.birthday = @(timeInterval);//这里应该是JMSUser的错误 把birthday属性设置成了NSString 但文档中规定是NSNumber
+    
     userInfo.address = _user.address;
     userInfo.signature = _user.signature;
     

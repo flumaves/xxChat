@@ -96,7 +96,7 @@
                           @"名字",@"xxChat ID",@"性别",@"生日",@"地区",@"签名",nil];
         cell.textLabel.text = array[indexPath.section - 1];
         
-        //展示数据 后期用用户模型加载
+        //展示数据
         NSString *gender = [[NSString alloc] init];
         if (_user.gender == kJMSGUserGenderMale) {
             gender = @"男";
