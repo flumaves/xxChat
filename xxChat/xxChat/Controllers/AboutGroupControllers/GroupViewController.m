@@ -307,6 +307,7 @@
                 JMSGConversation* conversation = resultObject;
                 MessageViewController* messageVC = [[MessageViewController alloc]init];
                 messageVC.conversation = conversation;
+                messageVC.title = group.name;
                 
                 [self.navigationController pushViewController:messageVC animated:YES];
                 self.hidesBottomBarWhenPushed = YES;

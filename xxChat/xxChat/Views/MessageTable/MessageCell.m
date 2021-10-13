@@ -50,6 +50,7 @@
         _iconImgView = [[UIImageView alloc] init];
         _iconImgView.layer.cornerRadius = 5;
         self.iconImgView.backgroundColor = [UIColor grayColor];
+        [self.iconImgView setImage:[UIImage imageNamed:@"头像占位图"]];
         _iconImgView.clipsToBounds = YES;
         [self.contentView addSubview:_iconImgView];
         
@@ -73,7 +74,7 @@
     [fromUser thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
         if (error) {
             NSLog(@"messageCell设置头像错误：%@",error);
-            self.iconImgView.image = nil;
+            [self.iconImgView setImage:[UIImage imageNamed:@"头像占位图"]];
             return;
         }
         if (data) {

@@ -20,6 +20,7 @@
         self.iconImgView.backgroundColor = [UIColor grayColor];
         self.iconImgView.layer.cornerRadius = 10;
         self.iconImgView.clipsToBounds = YES;
+        [self.iconImgView setImage:[UIImage imageNamed:@"头像占位图"]];
         [self addSubview:_iconImgView];
         
         //用户名
