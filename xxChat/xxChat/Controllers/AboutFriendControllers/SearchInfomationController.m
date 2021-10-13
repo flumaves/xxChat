@@ -55,10 +55,10 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    //如果user信息被传进来了
+    //判断时user还是group
     if (self.user) {
         return 7;
-    }else{
+    } else {
         return 3;
     }
 }
@@ -82,21 +82,24 @@
             UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(iconX, iconY, iconL, iconL)];
             iconView.backgroundColor = [UIColor grayColor];
             iconView.layer.cornerRadius = 10;
+            [iconView setImage:[UIImage imageNamed:@"头像占位图"]];
             [cell.contentView addSubview:iconView];
             
             //头像图片
-            [self.user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
-                if (!error) {
-                    
-                    iconView.image = [UIImage imageWithData:data];
+            if (self.user.avatar != nil) {
+                [self.user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+                    if (!error) {
+                        
+                        iconView.image = [UIImage imageWithData:data];
 
-                } else {
-                    
-                    iconView.image = nil;
-                    NSLog(@"好友申请的cell获取头像出现错误：%@",error);
-                    
-                }
-            }];
+                    } else {
+                        
+                        NSLog(@"好友申请的cell获取头像出现错误：%@",error);
+                        
+                    }
+                }];
+            }
+            
             
             cell.textLabel.text = @"头像";
             
@@ -112,7 +115,12 @@
             cell.detailTextLabel.text = array_2[indexPath.section - 1];
             cell.detailTextLabel.textColor = [UIColor grayColor];
         }
-    }else if (self.group) {
+    } else if (self.group) {
+        
+        self.title = @"群组信息";
+        self.addButton.hidden = YES;
+        self.reasonTextView.hidden = YES;
+        
         if (indexPath.section == 0) {
             //第一个cell 用来显示头像 需要单独添加一个UIImageView 不单独封装
             CGFloat iconX = cell.bounds.size.width - 30;
@@ -121,10 +129,31 @@
             UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(iconX, iconY, iconL, iconL)];
             iconView.backgroundColor = [UIColor grayColor];
             iconView.layer.cornerRadius = 10;
+            [iconView setImage:[UIImage imageNamed:@"头像占位图"]];
+
+            //头像图片
+            if (![self.group.avatar isEqualToString:@""]) {
+                
+                [self.group thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+                    if (!error) {
+                        
+                        iconView.image = [UIImage imageWithData:data];
+
+                    } else {
+                        
+                        NSLog(@"搜索群组信息的cell获取头像出现错误：%@",error);
+                        
+                    }
+                }];
+            }
+            
+            
             [cell addSubview:iconView];
             
             cell.textLabel.text = @"头像";
+            
         } else {
+            
             //按顺序显示 群名 群号
             NSArray *array = [NSArray arrayWithObjects:
                               @"群名",@"xxChat GroupID",nil];
@@ -223,17 +252,26 @@
     //发送好友请求方法
     [JMSGFriendManager sendInvitationRequestWithUsername:userName appKey:JMESSAGE_APPKEY reason:reason completionHandler:^(id resultObject, NSError *error) {
         
+        NSString* errorStr = [NSString stringWithFormat:@"%@",error];
+        
             if (!error) {
                 
                 [self showAlertViewWithMessage:@"已发送好友请求"];
                 
-            }else{
+            } else if ([errorStr containsString:@"already is friend"]) {
                 
-                [self showAlertViewWithMessage:@"发送好友请求失败"];
+                [self showAlertViewWithMessage:@"对方已经是您的好友了"];
+                
+            } else if ([errorStr containsString:@"you can't send invitation to youself"]) {
+                
+                [self showAlertViewWithMessage:@"不可以添加自己为好友"];
+            } else {
+                
                 NSLog(@"-发送好友请求失败：%@-",error);
                 
             }
         
+
     }];
 }
 

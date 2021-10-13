@@ -209,8 +209,69 @@
 
 #pragma mark - 发消息按钮点击
 - (void)touchUpInsideChatButton:(UIButton*)button {
+    //获取username然后存在字典中通过userInfo发过去
+    NSString* userNameStr = [NSString stringWithFormat:@"%@",self.user.username];
+    NSDictionary* dic = [NSDictionary dictionaryWithObject:userNameStr forKey:@"username"];
+    
+    //创建通知
+    NSNotification *notification =[NSNotification notificationWithName:@"AddChat" object:nil userInfo:dic];
+    //通过通知中心发送通知
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
     
     
+    
+    [JMSGConversation createSingleConversationWithUsername:userNameStr completionHandler:^(id resultObject, NSError *error) {
+        if (!error) {
+            
+            //创建会话窗口
+            MessageViewController* messageVC = [[MessageViewController alloc]init];
+            //设置标题
+            NSString* nickname = [NSString stringWithFormat:@"%@",self.user.nickname];
+            messageVC.title = nickname;
+            //设置会话数据
+            JMSGConversation* conversation = resultObject;
+            messageVC.conversation = conversation;
+            
+            [self.navigationController pushViewController:messageVC animated:YES];
+            self.hidesBottomBarWhenPushed = YES;
+
+        } else {
+            
+            NSLog(@"在朋友信息中点发消息按钮创建会话窗口出错：%@",error);
+            
+        }
+    }];
+    
+
+    
+}
+
+- (void)createNewConversations {
+    
+    NSString* username = [NSString stringWithFormat:@"%@",self.user.username];
+    //创建新的单聊
+    [JMSGConversation createSingleConversationWithUsername:username completionHandler:^(id resultObject, NSError *error) {
+
+        JMSGConversation *conversations = (JMSGConversation *)resultObject;
+        
+        if (error) {
+            
+            NSLog(@"创建单聊出现错误：%@",error);
+            return;
+            
+        } else {
+            
+            //查看是否已经是存在的对话
+            for (JMSGConversation *conversation in self.conversationsArray) {
+                if (conversation.title == conversations.title) {
+                    return;
+                }
+            }
+
+            [self.conversationsArray addObject:conversations];
+            
+        }
+    }];
 }
 
 

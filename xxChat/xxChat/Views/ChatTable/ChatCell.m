@@ -102,6 +102,7 @@
     [conversation avatarData:^(NSData *data, NSString *objectId, NSError *error) {
         if (error) {
             NSLog(@"chatCell头像设置错误：%@", error);
+            [self.icon setImage:[UIImage imageNamed:@"头像占位图"]];
             return;
         }
         if (data) {

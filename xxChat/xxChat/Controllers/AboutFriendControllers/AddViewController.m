@@ -138,22 +138,28 @@
 //两个按钮的点击方法，切换模式
 - (void)changePattern: (UIButton*)button{
     //改变button颜色，以及更改占位字
-    if (self.addFriendButton==button&&self.inFindGroup) {
+    if (self.addFriendButton == button && self.inFindGroup) {
+        
         [self.addFriendButton setBackgroundColor:MainColor];
         [self.addGroupButton setBackgroundColor:[UIColor whiteColor]];
         [self.addFriendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.addGroupButton setTitleColor:MainColor forState:UIControlStateNormal];
-        self.searchField.text = @"";
+        [self.userAndGroupArray removeAllObjects];
+        [self.searchTableView reloadData];
         self.searchField.placeholder = @"请输入xxChatID";
         self.inFindGroup = NO;
-    }else if (self.addGroupButton==button&&!self.inFindGroup){
+        
+    } else if (self.addGroupButton == button && !self.inFindGroup) {
+        
         [self.addGroupButton setBackgroundColor:MainColor];
         [self.addFriendButton setBackgroundColor:[UIColor whiteColor]];
         [self.addGroupButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.addFriendButton setTitleColor:MainColor forState:UIControlStateNormal];
-        self.searchField.text =@"";
+        [self.userAndGroupArray removeAllObjects];
+        [self.searchTableView reloadData];
         self.searchField.placeholder = @"请输入xxChat群聊ID";
         self.inFindGroup = YES;
+        
     }
 }
 
@@ -163,7 +169,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     NSUInteger i = self.userAndGroupArray.count;
+    
+    if (i == 0) {
+        return 1;
+    }
+    
     return i;
 }
 
@@ -174,6 +186,16 @@
     if (cell == nil) {
         cell = [[SearchResultCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
+    //如果数组为空
+    if (self.userAndGroupArray.count == 0) {
+        
+        UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.text = @"暂无搜索结果";
+        cell.textLabel.textColor = [UIColor grayColor];
+        return cell;
+    }
+    
     //获取搜索得到的user或group，赋值ID和昵称
     if (!_inFindGroup) {
         JMSGUser* user = self.userAndGroupArray[0];
@@ -201,14 +223,38 @@
             
         } else {
             
-            cell.icon.image = nil;
+            [cell.icon setImage:[UIImage imageNamed:@"头像占位图"]];
             
         }
-    }else{
+        
+    } else {
+        
         JMSGGroup* group = self.userAndGroupArray[0];
         cell.ID.text = group.gid;
         cell.name.text = group.name;
+        //头像
+        if (![group.avatar isEqualToString:@""]) {
+            
+            [group thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+                if (!error) {
+                    
+                    cell.icon.image = [UIImage imageWithData:data];
+
+                } else {
+                    
+                    NSLog(@"搜索结果cell获取头像出现错误：%@",error);
+                    
+                }
+            }];
+            
+        } else {
+            
+            [cell.icon setImage:[UIImage imageNamed:@"头像占位图"]];
+            
+        }
+        
     }
+    
     return cell;
 }
 //cell的高度
@@ -216,8 +262,10 @@
     return 70;
 }
 //当cell被点击
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     self.hidesBottomBarWhenPushed = YES;//隐藏tabar
+    
     SearchInfomationController* searchInfoVC = [[SearchInfomationController alloc]init];
     //传入数据
     if (!_inFindGroup) {
@@ -229,37 +277,69 @@
   
 }
 #pragma mark - 搜索方法
-- (void)searchingFriendAndGroup{
+- (void)searchingFriendAndGroup {
    
     //如果找群按钮没被选中
     if (!_inFindGroup) {
         NSString *username = self.searchField.text;
         NSArray *usernameArray = [NSArray arrayWithObject:username];
         [JMSGUser userInfoArrayWithUsernameArray:usernameArray appKey:JMESSAGE_APPKEY completionHandler:^(id resultObject, NSError *error) {
+            
             if (!error) {
+                
                 NSArray *userArray = resultObject;
                 //先清空，再加进来
                 [self.userAndGroupArray removeAllObjects];
                 [self.userAndGroupArray addObjectsFromArray:userArray];
                 [self.searchTableView reloadData];
 
-            }else{
+            } else {
+                NSString* errorStr = [NSString stringWithFormat:@"%@",error];
+                
+                if ([errorStr containsString:@"The username is illegal"]) {//如果错误里面包含这个字符串
+                    
+                    [self showAlertViewWithMessage:@"请输入合法的用户名"];
+                    
+                } else if ([errorStr containsString:@"Code=898002"]) {
+                    
+                    [self showAlertViewWithMessage:@"该用户不存在"];
+                    
+                }
                 NSLog(@"-搜索朋友出现错误：%@-",error);
+                
             }
             
         }];
-    }else{
+        
+    } else {
+        
         NSString* groupID = self.searchField.text;
+        
         [JMSGGroup groupInfoWithGroupId:groupID completionHandler:^(id resultObject, NSError *error) {
+            
                 if (!error) {
+                    
                     JMSGGroup *group = resultObject;
                     [self.userAndGroupArray removeAllObjects];
                     [self.userAndGroupArray addObject:group];
-                }else{
+                    [self.searchTableView reloadData];
+                    
+                } else {
+                    
+                    NSString* errorStr = [NSString stringWithFormat:@"%@",error];
+                    
+                    if ([errorStr containsString:@"group id invalid"]) {//如果错误里面包含这个字符串
+                        
+                        [self showAlertViewWithMessage:@"该群组不存在"];
+                        
+                    }
                     NSLog(@"-搜索群组出现错误：%@-",error);
+                    
+                    
                 }
         }];
     }
+    
 }
 #pragma mark - textfield 的delegate
 //输入框内有内容变化
@@ -271,5 +351,19 @@
     }
 }
 
+
+#pragma mark -展示提示框
+//展示提示框
+-(void)showAlertViewWithMessage:(NSString*)message {
+    
+  UIAlertController* alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+     
+  }];
+
+  [alertController addAction:cancelAction];
+  [self presentViewController:alertController animated:YES completion:nil];
+    
+}
 
 @end

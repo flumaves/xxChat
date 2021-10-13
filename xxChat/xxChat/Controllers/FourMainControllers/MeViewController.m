@@ -136,10 +136,12 @@
 
 //cell被选中
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (indexPath.section == 0) {
         //点击 个人信息的cell
         SelfInformationTableViewController *controller = [[SelfInformationTableViewController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
+        
     } else if (indexPath.section == 1) {
         //点击 设定
     } else if (indexPath.section == 2) {

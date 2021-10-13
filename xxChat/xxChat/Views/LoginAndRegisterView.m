@@ -10,7 +10,7 @@
 @implementation LoginAndRegisterView
 
 //重写初始化方法
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self layOutViews];
@@ -18,6 +18,7 @@
     return self;
 }
 
+#pragma mark - 基本设置
 - (void)layOutViews{
     self.backgroundColor = [UIColor whiteColor];
     
@@ -145,6 +146,17 @@
     [self.changePasswordBtn addTarget:self action:@selector(clickChangePasswordBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.changePasswordBtn];
     
+    //记住密码button
+    self.passwordMemoryBtn = [[UIButton alloc]init];
+    [self.passwordMemoryBtn setBackgroundColor:[UIColor whiteColor]];
+    [self.passwordMemoryBtn setTitleColor:MainColor forState:UIControlStateNormal];
+    [self.passwordMemoryBtn setTitle:@"记住密码" forState:UIControlStateNormal];
+    self.passwordMemoryBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [self.passwordMemoryBtn setImage:[UIImage imageNamed:@"未选勾"] forState:UIControlStateNormal];
+    [self.passwordMemoryBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 80)];
+    [self.passwordMemoryBtn addTarget:self action:@selector(passwordMemoryBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.passwordMemoryBtn];
+    
     //设置确认按钮
     self.confirmButton = [[UIButton alloc]init];
     [self.confirmButton setBackgroundColor:MainColor];
@@ -239,6 +251,13 @@
     rightSpaceToView(self, 15).
     heightIs(20);
     
+    //记住密码按钮
+    _passwordMemoryBtn.sd_layout.
+    topSpaceToView(_line_2, 5).
+    widthIs(100).
+    leftSpaceToView(self, 25).
+    heightIs(20);
+    
     //确认按钮
     _confirmButton.sd_layout.
     topSpaceToView(self.loginPassword, 50).
@@ -252,7 +271,8 @@
     
 }
 
-- (void)slideringViewsWithButton: (UIButton*)button{
+#pragma mark - 滑动动画方法
+- (void)slideringViewsWithButton:(UIButton*)button{
     //改变button颜色
     [button setTitleColor:MainColor forState:UIControlStateNormal];
     //将另一个button颜色调回,并将被点击的button的账号密码设为空
@@ -289,6 +309,8 @@
             CGPoint center_7 = self.line_1.center;
             CGPoint center_8 = self.line_2.center;
             CGPoint center_9 = self.changePasswordBtn.center;
+            CGPoint center_10 = self.passwordMemoryBtn.center;
+
             center_1.x -= ScreenWidth;
             center_2.x -= ScreenWidth;
             center_3.x -= ScreenWidth;
@@ -298,6 +320,8 @@
             center_7.x -= ScreenWidth;
             center_8.x -= ScreenWidth;
             center_9.x -= ScreenWidth;
+            center_10.x -= ScreenWidth;
+            
             self.regiAccount.center = center_1;
             self.regiPassword_1.center = center_2;
             self.regiPassword_2.center = center_3;
@@ -307,6 +331,7 @@
             self.line_1.center = center_7;
             self.line_2.center = center_8;
             self.changePasswordBtn.center = center_9;
+            self.passwordMemoryBtn.center = center_10;
 
             
             ///如果button是注册按钮，而且滑块不在注册按钮下面
@@ -322,6 +347,8 @@
             CGPoint center_7 = self.line_1.center;
             CGPoint center_8 = self.line_2.center;
             CGPoint center_9 = self.changePasswordBtn.center;
+            CGPoint center_10 = self.passwordMemoryBtn.center;
+
             center_1.x += ScreenWidth;
             center_2.x += ScreenWidth;
             center_3.x += ScreenWidth;
@@ -331,6 +358,7 @@
             center_7.x += ScreenWidth;
             center_8.x += ScreenWidth;
             center_9.x += ScreenWidth;
+            center_10.x += ScreenWidth;
             self.regiAccount.center = center_1;
             self.regiPassword_1.center = center_2;
             self.regiPassword_2.center = center_3;
@@ -340,6 +368,7 @@
             self.line_1.center = center_7;
             self.line_2.center = center_8;
             self.changePasswordBtn.center = center_9;
+            self.passwordMemoryBtn.center = center_10;
 
         }
        
@@ -351,38 +380,38 @@
 }
 
 #pragma mark - 确认按钮点击方法
-
-- (void)clickConfiremButton: (UIButton*)button{
+- (void)clickConfiremButton:(UIButton*)button{
     NSLog(@"确认");
     ///如果账号长度为0，并且滑块在对应的(注册或者登陆)按钮下面
-  if((!self.loginAccount.text.length&&!self.inRegister)||(!self.regiAccount.text.length&&self.inRegister)){
+  if ((!self.loginAccount.text.length && !self.inRegister) || (!self.regiAccount.text.length && self.inRegister)) {
       [self.delegate passAccount:@""
                     WithPassword:@""
                  WithAccountType:No_Account];
       
     ///如果密码长度为0，并且滑块在对应的（注册或登录）按钮下面
-  }else if((!self.loginPassword.text.length&&!self.inRegister)||(!self.regiPassword_1.text.length&&self.inRegister)||(!self.regiPassword_2.text.length&&self.inRegister)){
+  } else if ((!self.loginPassword.text.length && !self.inRegister) || (!self.regiPassword_1.text.length && self.inRegister) || (!self.regiPassword_2.text.length && self.inRegister)) {
       [self.delegate passAccount:@""
                     WithPassword:@""
                  WithAccountType:No_Password];
       
     ///注册的账号不为空，两次密码都不相等
-  }else if(self.regiAccount.text.length&&![self.regiPassword_1.text isEqualToString:self.regiPassword_2.text]){
+  } else if (self.regiAccount.text.length && ![self.regiPassword_1.text isEqualToString:self.regiPassword_2.text]) {
       [self.delegate passAccount:@""
                     WithPassword:@""
                  WithAccountType:Password_NotEqual];
       
     ///登陆账号不为空，密码不为空，且滑块在登陆按钮下
-  }else if(self.loginAccount.text.length&&self.loginPassword.text.length&&!self.inRegister){
+  } else if (self.loginAccount.text.length && self.loginPassword.text.length && !self.inRegister) {
           [self.delegate passAccount:self.loginAccount.text
                         WithPassword:self.loginPassword.text
                      WithAccountType:Login_Account];
       
     ///注册账号不为空，两次密码相等，且滑块在注册按钮下面
-  }else if(self.regiAccount.text.length&&[self.regiPassword_1.text isEqualToString:self.regiPassword_2.text]&&self.inRegister){
+  }else if (self.regiAccount.text.length && [self.regiPassword_1.text isEqualToString:self.regiPassword_2.text] && self.inRegister) {
       [self.delegate passAccount:self.regiAccount.text
                     WithPassword:self.regiPassword_1.text
                  WithAccountType:Register_Account];
+      
   }
     
 
@@ -391,8 +420,26 @@
 
 
 //点击修改密码btn
-- (void)clickChangePasswordBtn:(UIButton*)button{
+- (void)clickChangePasswordBtn:(UIButton*)button {
     [self.delegate changePassword];
+}
+
+//点击记住密码button
+- (void)passwordMemoryBtn:(UIButton*)button {
+    
+    if (self.isRemenberPassword == NO) {
+        
+        [button setImage:[UIImage imageNamed:@"已选勾"] forState:UIControlStateNormal];
+        self.isRemenberPassword = YES;
+        
+    } else {
+        
+        [button setImage:[UIImage imageNamed:@"未选勾"] forState:UIControlStateNormal];
+        self.isRemenberPassword = NO;
+        
+    }
+     
+    
 }
 
 @end

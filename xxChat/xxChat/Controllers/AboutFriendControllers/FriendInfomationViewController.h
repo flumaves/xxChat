@@ -8,6 +8,8 @@
 #import <UIKit/UIKit.h>
 #import <SDAutoLayout/SDAutoLayout.h>
 #import <JMessage/JMessage.h>
+#import "MessageViewController.h"
+
 #define JMESSAGE_APPKEY @"4823f4aad010e515513e2275"
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
@@ -25,6 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 //发起会话button
 @property (nonatomic,strong) UIButton* chatButton;
+
+//储存会话列表 （array中是 JMSGConversation）
+@property (nonatomic, strong)NSMutableArray *conversationsArray;
+
 
 @end
 

@@ -29,6 +29,11 @@
     [super viewDidLoad];
     //添加代理
     [JMessage addDelegate:self withConversation:nil];
+    
+    //设置监听中心，添加观察者
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(addChatWithUsername:) name:@"AddChat" object:nil];
+    [center addObserver:self selector:@selector(deleteConversation:) name:@"DeletedGroup" object:nil];
 
     [self layoutView];
     [self loadData];
@@ -53,25 +58,7 @@
     }];
 }
 
-//创建单聊对话
-- (void)addChat {
-    [JMSGConversation createSingleConversationWithUsername:@"333333" completionHandler:^(id resultObject, NSError *error) {
-        JMSGConversation *conversations = (JMSGConversation *)resultObject;
-        if (error) {
-            NSLog(@"%@",error);
-            return;
-        } else {
-            //查看是否已经是存在的对话
-            for (JMSGConversation *conversation in self.conversationsArray) {
-                if (conversation.title == conversations.title) {
-                    return;
-                }
-            }
-            [self.conversationsArray addObject:conversations];
-            [self.conversationsTableView reloadData];
-        }
-    }];
-}
+
 
 
 - (UITableView *)conversationsTableView {
@@ -123,7 +110,7 @@
 
     if (cell == nil) {
         cell = [[ChatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     //传入数据 JMSGConversation
@@ -157,31 +144,25 @@
     controller.title = cell.name.text;
     controller.conversation = cell.conversation;
     [self.navigationController pushViewController:controller animated:YES];
-    
-    [self performSelector:@selector(deselect) withObject:nil afterDelay:0.5f];
 }
 
-/// 过一段时间，取消cell的选中状态
-- (void)deselect {
-    [self.conversationsTableView deselectRowAtIndexPath:[self.conversationsTableView indexPathForSelectedRow] animated:YES];
-}
-
-
-#pragma mark - 加载界面
+#pragma mark -
 - (void)layoutView {
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.conversationsTableView.tableFooterView = [[UIView alloc] init];
     [self.view addSubview:self.conversationsTableView];
+    
     //右上角的添加button
     UIBarButtonItem *addBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(openAddController)];
     addBtnItem.tintColor = MainColor;
-    
+    //右上角的搜索按钮
     UIBarButtonItem *searchBtnItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(openSearchController)];
     searchBtnItem.tintColor = MainColor;
+    //加入按钮数组
     NSArray *btnArray = [NSArray arrayWithObjects:addBtnItem,searchBtnItem, nil];
     [self.navigationItem setRightBarButtonItems:btnArray];
-    //左上角的button
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"addChat" style:UIBarButtonItemStyleDone target:self action:@selector(addChat)];
+    
     
     
 }
@@ -201,6 +182,129 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark - 观察者响应方法
+//创建单聊对话
+- (void)addChatWithUsername:(NSNotification*)notification {
+    
+    //获得通知传过来的消息
+    NSString* username = notification.userInfo[@"username"];
+    
+    //创建新的单聊
+    [JMSGConversation createSingleConversationWithUsername:username completionHandler:^(id resultObject, NSError *error) {
+
+        JMSGConversation *conversations = (JMSGConversation *)resultObject;
+        
+        if (error) {
+            
+            NSLog(@"创建单聊出现错误：%@",error);
+            return;
+            
+        } else {
+            
+            //查看是否已经是存在的对话
+            for (JMSGConversation *conversation in self.conversationsArray) {
+                if (conversation.title == conversations.title) {
+                    return;
+                }
+            }
+            
+            [self.conversationsArray addObject:conversations];
+            [self.conversationsTableView reloadData];
+            
+        }
+    }];
+}
+
+//删除群组后 删除对应的会话
+- (void)deleteConversation:(NSNotification*)notification {
+    
+    NSString* gid = notification.userInfo[@"gid"];
+    NSString* groupName = notification.userInfo[@"groupName"];
+    
+    [JMSGConversation deleteGroupConversationWithGroupId:gid];
+    
+    for (JMSGConversation* conversation in self.conversationsArray) {
+        
+        if (conversation.conversationType == kJMSGConversationTypeGroup && [conversation.title isEqualToString:groupName]) {
+            
+            [self.conversationsArray removeObject:conversation];
+            [self.conversationsTableView reloadData];
+            break;
+        }
+    }
+    
+    
+    
+    
+}
 
 
 
