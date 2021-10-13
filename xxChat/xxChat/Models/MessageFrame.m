@@ -90,13 +90,13 @@
         _voiceImgFrame = CGRectMake(imgX, imgY, imgWidth, imgHeight);
         
         //语音消息的秒数
-        CGFloat durationLblWidth = 20;
+        CGFloat durationLblWidth = 40;
         CGFloat durationLblHeight = 20;
         CGFloat durationLblX = 0;
         if (_message.type == MessageType_ME) {
-            durationLblX = imgX - durationLblWidth - 5;
+            durationLblX = imgX - durationLblWidth;
         } else {
-            durationLblX = imgX + 5 + imgWidth;
+            durationLblX = imgX + imgWidth;
         }
         CGFloat durationLblY = imgY;
         _durationLblFrame = CGRectMake(durationLblX, durationLblY, durationLblWidth, durationLblHeight);

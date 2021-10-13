@@ -8,13 +8,17 @@
 #import "InputView.h"
 #import "UIImage+ChangeImage.h"
 #import <AVFoundation/AVFoundation.h>
+#import "SpectrumView.h"
 
-@interface InputView () <UITextFieldDelegate>
+@interface InputView () <UITextFieldDelegate,AVAudioRecorderDelegate>
 //录音机
 @property (nonatomic, strong) AVAudioRecorder *audioRecorder;
 
 //录音存放目录
 @property (nonatomic, strong) NSString *recorderSavePath;
+
+/// 录音光谱的view
+@property (nonatomic, strong) SpectrumView *spectrumView;
 
 @end
 
@@ -39,6 +43,8 @@
         NSDictionary *setting = [self getAudioRecorderSetting];
         //创建录音机
         _audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:setting error:nil];
+        _audioRecorder.delegate = self;
+        _audioRecorder.meteringEnabled = YES;
     }
     return _audioRecorder;
 }
@@ -70,6 +76,20 @@
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 1)];
         view.backgroundColor = [UIColor colorWithRed:225/255.0 green:225/255.0 blue:225/255.0 alpha:1];
         [self addSubview:view];
+        
+        //光谱view
+        CGFloat spectrumX = 0;
+        CGFloat spectrumWidth = [UIScreen mainScreen].bounds.size.width;
+        CGFloat spectrumHeight = [UIScreen mainScreen].bounds.size.height - frame.size.height;
+        CGFloat spectrumY = -spectrumHeight;
+        _spectrumView = [[SpectrumView alloc] initWithFrame:CGRectMake(spectrumX,
+                                                                       spectrumY,
+                                                                       spectrumWidth,
+                                                                       spectrumHeight)];
+        _spectrumView.itemColor = [UIColor whiteColor];
+        _spectrumView.itemWidth = 10;
+        _spectrumView.numberOfItems = 16;
+        [self addSubview:_spectrumView];
         
         CGFloat y = 7; //控件离顶部的距离
         CGFloat space = 5;//控件之间的距离
@@ -138,7 +158,7 @@
 
 //长按开始录音按钮的方法
 - (void)beginRecordBtnPress:(UILongPressGestureRecognizer *)sender {
-    if (sender.state == UIGestureRecognizerStateBegan || sender.state == UIGestureRecognizerStateChanged) {
+    if (sender.state == UIGestureRecognizerStateBegan) {
         NSLog(@"录音开始");
         
         if ([self.audioRecorder isRecording]) {
@@ -153,6 +173,15 @@
         [self.audioRecorder record];
         
         [self.beginRecordBtn setTitle:@"松开结束" forState:UIControlStateNormal];
+        __weak InputView *weakSelf = self;
+        __weak SpectrumView *weakSpectrumView = self.spectrumView;
+        self.spectrumView.itemLevelCallBack = ^() {
+            [weakSelf.audioRecorder updateMeters];
+            
+            float power = [weakSelf.audioRecorder averagePowerForChannel:0];
+            weakSpectrumView.level = power;
+        };
+        self.spectrumView.hidden = NO;
     }
     if (sender.state == UIGestureRecognizerStateEnded) {
         NSLog(@"终止录音");
@@ -160,6 +189,7 @@
         [self.audioRecorder stop];
 
         [self.beginRecordBtn setTitle:@"按下录音" forState:UIControlStateNormal];
+        self.spectrumView.hidden = YES;
         //发送语音消息
         [self sendMessage];
     }

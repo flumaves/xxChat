@@ -29,6 +29,7 @@
 		9B18476426F09DB1003C4FA4 /* 表情包素材1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B18475E26F09DB1003C4FA4 /* 表情包素材1.jpg */; };
 		9B1847A926F1EEF7003C4FA4 /* 表情包素材7.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9B1847A826F1EEF7003C4FA4 /* 表情包素材7.gif */; };
 		9B1847AF26F2378A003C4FA4 /* UIImage+YCHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1847AE26F2378A003C4FA4 /* UIImage+YCHUD.m */; };
+		9B23264D2716C832000C077F /* SpectrumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B23264C2716C832000C077F /* SpectrumView.m */; };
 		9B678D7726BEB7DA00483386 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7626BEB7DA00483386 /* AppDelegate.m */; };
 		9B678D7A26BEB7DA00483386 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7926BEB7DA00483386 /* SceneDelegate.m */; };
 		9B678D7D26BEB7DA00483386 /* ChatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7C26BEB7DA00483386 /* ChatsViewController.m */; };
@@ -125,6 +126,8 @@
 		9B1847A826F1EEF7003C4FA4 /* 表情包素材7.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "表情包素材7.gif"; sourceTree = "<group>"; };
 		9B1847AD26F2378A003C4FA4 /* UIImage+YCHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+YCHUD.h"; sourceTree = "<group>"; };
 		9B1847AE26F2378A003C4FA4 /* UIImage+YCHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+YCHUD.m"; sourceTree = "<group>"; };
+		9B23264B2716C832000C077F /* SpectrumView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpectrumView.h; sourceTree = "<group>"; };
+		9B23264C2716C832000C077F /* SpectrumView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpectrumView.m; sourceTree = "<group>"; };
 		9B678D7226BEB7DA00483386 /* xxChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xxChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B678D7526BEB7DA00483386 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9B678D7626BEB7DA00483386 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -306,6 +309,15 @@
 			path = "表情包素材";
 			sourceTree = "<group>";
 		};
+		9B23264A2716C80D000C077F /* 录音光谱view */ = {
+			isa = PBXGroup;
+			children = (
+				9B23264B2716C832000C077F /* SpectrumView.h */,
+				9B23264C2716C832000C077F /* SpectrumView.m */,
+			);
+			path = "录音光谱view";
+			sourceTree = "<group>";
+		};
 		9B678D6926BEB7DA00483386 = {
 			isa = PBXGroup;
 			children = (
@@ -399,6 +411,7 @@
 		9B84E7A626E85A2E006BDCCB /* InputView */ = {
 			isa = PBXGroup;
 			children = (
+				9B23264A2716C80D000C077F /* 录音光谱view */,
 				9BD29D8026CBFA6B002F7114 /* InputView.h */,
 				9BD29D8126CBFA6B002F7114 /* InputView.m */,
 				9B84E79D26E7A966006BDCCB /* MoreFunctionView.h */,
@@ -837,6 +850,7 @@
 				9B678DB726C1596600483386 /* MeViewController.m in Sources */,
 				9B18473F26F08DC7003C4FA4 /* ImageCollectionViewCell.m in Sources */,
 				A626536326E12CB50084050F /* SearchResultCell.m in Sources */,
+				9B23264D2716C832000C077F /* SpectrumView.m in Sources */,
 				9B18474226F08E0B003C4FA4 /* ImagePicker.m in Sources */,
 				9BD29D7C26CBF985002F7114 /* MessageFrame.m in Sources */,
 				9B678DC926C3D97C00483386 /* ChatCell.m in Sources */,
