@@ -248,7 +248,9 @@
     self.messageTableView.dataSource = self;
     self.messageTableView.delegate = self;
     [self.view addSubview:self.messageTableView];
-    [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.messagesArray.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
+    if (self.messagesArray.count != 0) {
+        [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.messagesArray.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
+    }
     
     //navigationBar后面添加一个view解决透明度引起的颜色问题
     _backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, navigationBarMAXY)];
@@ -318,7 +320,7 @@
     //消息发送成功
     //创建模型储存
     Message *newMessage = [[Message alloc] init];
-    newMessage.userName = _user.username;
+    newMessage.userName = self.user.username;
     [newMessage setMessage:message];
     //获取最近一次消息的模型（判断是否隐藏时间）
     MessageFrame *lastMessageFrame = self.messagesArray.firstObject;
@@ -330,7 +332,7 @@
     
     [self.messagesArray addObject:messageFrame];
     [self.messageTableView reloadData];
-    [self.messageTableView scrollsToTop];
+    [self tableViewScrollToButton];
 }
 
 #pragma mark - 比较时间的间隔
@@ -430,6 +432,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     MessageFrame *frame = [self.messagesArray objectAtIndex:indexPath.row];
     return frame.rowHeight;
+}
+
+/// 滚动到底部
+- (void)tableViewScrollToButton {
+    [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.messagesArray.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
 }
 
 #pragma mark - collectionView的delegate和datasource
@@ -559,6 +566,7 @@
 
 //更新inputview的状态
 - (void)changeInputViewFromStatus:(InputViewStatus)fromStatus ToStatus:(InputViewStatus)toStatus {
+    NSLog(@"%ld,%ld",(long)fromStatus, (long)toStatus);
     _fromStatus = fromStatus;
     _toStatus = toStatus;
     self.moreFunctionView.hidden = YES;

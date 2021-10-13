@@ -18,10 +18,10 @@
         
         _durationLbl = [[UILabel alloc] init];
         _durationLbl.font = [UIFont systemFontOfSize:15];
+        _durationLbl.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_durationLbl];
         
         _voiceImgView = [[UIImageView alloc] init];
-        _voiceImgView.image = [UIImage imageNamed:@"语音消息"];
         _voiceImgView.hidden = YES;
         [self addSubview:_voiceImgView];
         

@@ -100,6 +100,11 @@
         _contentBtn.voiceImgView.frame = messageFrame.voiceImgFrame;
         _contentBtn.durationLbl.frame = messageFrame.durationLblFrame;
         _contentBtn.durationLbl.text = [NSString stringWithFormat:@"%d''",message.duration.intValue];
+        if (message.type == MessageType_ME) {
+            _contentBtn.voiceImgView.image = [UIImage imageNamed:@"voice_left"];
+        } else {
+            _contentBtn.voiceImgView.image = [UIImage imageNamed:@"voice_right"];
+        }
         _contentBtn.voiceImgView.hidden = NO;
         _contentBtn.durationLbl.hidden = NO;
     } else {
@@ -119,7 +124,6 @@
     if (_message.contentType == kJMSGContentTypeImage) { //图片消息
         static int imageTag = 0;
         _imageTag = ++imageTag;
-        NSLog(@"imageTag:%d",imageTag);
         _contentBtn.photoImgView.frame = messageFrame.photoImgFrame;
         _contentBtn.photoImgView.hidden = NO;
         [self.contentBtn addTarget:self action:@selector(showImageBrowser) forControlEvents:UIControlEventTouchUpInside];

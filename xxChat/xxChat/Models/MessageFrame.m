@@ -80,14 +80,24 @@
         //语音消息的图片
         CGFloat imgWidth = 20;
         CGFloat imgHeight = 20;
-        CGFloat imgX = (voiceWidth - imgWidth) - 20;
+        CGFloat imgX = 0;
+        if (_message.type == MessageType_ME) {
+            imgX = (voiceWidth - imgWidth) - 20;
+        } else {
+            imgX = 20;
+        }
         CGFloat imgY = (voiceHeight - imgHeight) / 2;
         _voiceImgFrame = CGRectMake(imgX, imgY, imgWidth, imgHeight);
         
         //语音消息的秒数
         CGFloat durationLblWidth = 20;
         CGFloat durationLblHeight = 20;
-        CGFloat durationLblX = imgX - durationLblWidth;
+        CGFloat durationLblX = 0;
+        if (_message.type == MessageType_ME) {
+            durationLblX = imgX - durationLblWidth - 5;
+        } else {
+            durationLblX = imgX + 5 + imgWidth;
+        }
         CGFloat durationLblY = imgY;
         _durationLblFrame = CGRectMake(durationLblX, durationLblY, durationLblWidth, durationLblHeight);
         

@@ -55,7 +55,7 @@
 
 //创建单聊对话
 - (void)addChat {
-    [JMSGConversation createSingleConversationWithUsername:@"222222" completionHandler:^(id resultObject, NSError *error) {
+    [JMSGConversation createSingleConversationWithUsername:@"333333" completionHandler:^(id resultObject, NSError *error) {
         JMSGConversation *conversations = (JMSGConversation *)resultObject;
         if (error) {
             NSLog(@"%@",error);
@@ -123,7 +123,7 @@
 
     if (cell == nil) {
         cell = [[ChatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
     }
     
     //传入数据 JMSGConversation
@@ -157,9 +157,17 @@
     controller.title = cell.name.text;
     controller.conversation = cell.conversation;
     [self.navigationController pushViewController:controller animated:YES];
+    
+    [self performSelector:@selector(deselect) withObject:nil afterDelay:0.5f];
 }
 
-#pragma mark -
+/// 过一段时间，取消cell的选中状态
+- (void)deselect {
+    [self.conversationsTableView deselectRowAtIndexPath:[self.conversationsTableView indexPathForSelectedRow] animated:YES];
+}
+
+
+#pragma mark - 加载界面
 - (void)layoutView {
     self.view.backgroundColor = [UIColor whiteColor];
     self.conversationsTableView.tableFooterView = [[UIView alloc] init];
