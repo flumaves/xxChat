@@ -52,7 +52,20 @@
     self.groupName.placeholder = @"请输入群名";
     self.groupName.layer.borderWidth = 1;
     self.groupName.layer.borderColor = [MainColor CGColor];
+    self.groupName.layer.cornerRadius = 4;
     [self.view addSubview:self.groupName];
+    
+    //一根线
+    CGFloat lineX = 50;
+    CGFloat lineY = CGRectGetMaxY(self.groupName.frame)+35;
+    CGFloat lineW = ScreenWidth-100;
+    CGFloat lineH = 1;
+    
+    UIView* line = [[UIView alloc]initWithFrame:CGRectMake(lineX, lineY, lineW, lineH)];
+    line.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:line];
+    
+    
     
     //群描述label
     CGFloat descriptionLabelX = 50;
@@ -75,6 +88,7 @@
     self.descriptionTextView.layer.borderWidth = 1;
     self.descriptionTextView.layer.borderColor = [MainColor CGColor];
     self.descriptionTextView.font = [UIFont systemFontOfSize:16];
+    self.descriptionTextView.layer.cornerRadius = 4;
     [self.view addSubview:self.descriptionTextView];
     
     
@@ -86,6 +100,7 @@
     
     UIButton* confirmBtn = [[UIButton alloc]initWithFrame:CGRectMake(confirmBtnX, confirmBtnY, confirmBtnW, confirmBtnH)];
     confirmBtn.backgroundColor = MainColor;
+    confirmBtn.layer.cornerRadius = 4;
     [confirmBtn setTitle:@"创 建" forState:UIControlStateNormal];
     confirmBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [confirmBtn addTarget:self action:@selector(confirmBtn:) forControlEvents:UIControlEventTouchUpInside];

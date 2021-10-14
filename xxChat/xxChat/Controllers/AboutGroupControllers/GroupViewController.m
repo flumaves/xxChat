@@ -120,10 +120,10 @@
     //复用ID为 group
     NSString *ID = @"group";
     ContactCell *cell = [self.tableView dequeueReusableCellWithIdentifier:ID];
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (cell == nil) {
         cell = [[ContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
     }
     //第一模块
     if (indexPath.section == 0) {
@@ -307,10 +307,17 @@
                 JMSGConversation* conversation = resultObject;
                 MessageViewController* messageVC = [[MessageViewController alloc]init];
                 messageVC.conversation = conversation;
-                messageVC.title = group.name;
+                [group memberArrayWithCompletionHandler:^(id resultObject, NSError *error) {
+                    NSArray* array = resultObject;
+                    
+                    NSString* title = [NSString stringWithFormat:@"%@(%lu)",group.name,array.count];
+                    messageVC.title = title;
+                                    
+                    [self.navigationController pushViewController:messageVC animated:YES];
+                    self.hidesBottomBarWhenPushed = YES;
+                }];
                 
-                [self.navigationController pushViewController:messageVC animated:YES];
-                self.hidesBottomBarWhenPushed = YES;
+                
                 
             } else {
                 

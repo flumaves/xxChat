@@ -21,6 +21,9 @@
 //总的未读消息数
 @property (nonatomic, assign)int allUnreadCount;
 
+//群组lieb
+@property (nonatomic,strong)NSMutableArray *groupArray;
+
 @end
 
 @implementation ChatsViewController
@@ -36,9 +39,19 @@
     [center addObserver:self selector:@selector(deleteConversation:) name:@"DeletedGroup" object:nil];
 
     [self layoutView];
+    [self getGroupsList];
     [self loadData];
     
 }
+
+#pragma mark - 懒加载
+- (NSMutableArray*)groupArray {
+    if (!_groupArray) {
+        _groupArray = [[NSMutableArray alloc]init];
+    }
+    return _groupArray;
+}
+
 
 
 #pragma mark - 加载数据
@@ -141,9 +154,38 @@
     
     //创建会话的controller
     MessageViewController *controller = [[MessageViewController alloc] init];
-    controller.title = cell.name.text;
-    controller.conversation = cell.conversation;
-    [self.navigationController pushViewController:controller animated:YES];
+    
+    //判断是群聊还是单聊
+    if (cell.conversation.conversationType == kJMSGConversationTypeGroup) {
+        //获取对应群组人数
+        for (JMSGGroup* group in self.groupArray) {
+            if ([group.name isEqualToString:cell.name.text]) {
+                
+                [group memberArrayWithCompletionHandler:^(id resultObject, NSError *error) {
+                    
+                    NSArray* array = resultObject;
+                    
+                    NSString* title = [NSString stringWithFormat:@"%@(%lu)",group.name,array.count];
+                    
+                    controller.title = title;
+                    
+                    controller.conversation = cell.conversation;
+                    
+                    [self.navigationController pushViewController:controller animated:YES];
+
+                    
+                }];
+                break;
+            }
+        }
+        
+    } else {
+        
+        controller.title = cell.name.text;
+        controller.conversation = cell.conversation;
+        [self.navigationController pushViewController:controller animated:YES];
+        
+    }
 }
 
 #pragma mark -
@@ -184,7 +226,35 @@
 
 
 
-
+- (void)getGroupsList {
+    
+    [JMSGGroup myGroupArray:^(id resultObject, NSError *error) {
+        if (!error) {
+            
+            NSArray* gidArray = resultObject;
+            
+            for (int i = 0; i < gidArray.count; i++) {
+                NSString* gid = gidArray[i];
+                
+                [JMSGGroup groupInfoWithGroupId:gid completionHandler:^(id resultObject, NSError *error) {
+                    
+                    JMSGGroup* group = resultObject;
+                    
+                    [self.groupArray addObject:group];
+                    
+                }];
+            }
+  
+            
+        } else {
+            
+            NSLog(@"获取群组列表出错：%@",error);
+            
+        }
+        
+    }];
+    
+}
 
 
 
