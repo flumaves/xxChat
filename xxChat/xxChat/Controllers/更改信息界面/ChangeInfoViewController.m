@@ -24,6 +24,8 @@
 @property (nonatomic, strong)UITextView *textView;      //签名
 @property (nonatomic, strong)UILabel *countLbl;         //字数限制label
 
+@property (nonatomic, strong)NSMutableArray *imagePathArray;    //图片数组
+
 @end
 
 #define MAXSIGNLENGTH 60
@@ -170,22 +172,38 @@
 }
 
 
+//图片数组
+- (NSMutableArray *)imagePathArray {
+    if (!_imagePathArray) {
+        _imagePathArray = [NSMutableArray array];
+        //所有子目录的文件名
+        NSArray *files = [[NSFileManager defaultManager] subpathsAtPath:[[NSBundle mainBundle] bundlePath]];
+        NSString *subString = @"图片素材";
+        //遍历子目录
+        for (NSString *imageName in files) {
+            if ([imageName containsString:subString]) {
+                NSString *path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:imageName];
+                [_imagePathArray addObject:path];
+            }
+        }
+    }
+    return _imagePathArray;
+}
+
 #pragma mark - collectionView的delegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 20;
+    return self.imagePathArray.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageCell" forIndexPath:indexPath];
-    //加载图片素材
-    NSString *imageName = [@"图片素材" stringByAppendingFormat:@"%ld", (long)indexPath.item + 1];
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"jpg"];
-
-    cell.imageView.image = [UIImage imageWithContentsOfFile:imagePath];
+    cell.pointView.hidden = YES;
+    cell.clearButton.hidden = YES;
+    cell.imageView.image = [UIImage imageWithContentsOfFile:self.imagePathArray[indexPath.item]];
     return cell;
 }
 
@@ -329,7 +347,15 @@
     JMSGUserInfo *userInfo = [[JMSGUserInfo alloc] init];
     userInfo.nickname = _user.nickname;
     userInfo.gender = _user.gender;
-    userInfo.birthday = @([_user.birthday doubleValue]);//这里应该是JMSUser的错误 把birthday属性设置成了NSString 但文档中规定是NSNumber
+    
+    NSString *string = _user.birthday;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *date = [[NSDate alloc] init];
+    date = [dateFormatter dateFromString:string];
+    NSTimeInterval timeInterval = [date timeIntervalSince1970];
+    userInfo.birthday = @(timeInterval);//这里应该是JMSUser的错误 把birthday属性设置成了NSString 但文档中规定是NSNumber
+    
     userInfo.address = _user.address;
     userInfo.signature = _user.signature;
     

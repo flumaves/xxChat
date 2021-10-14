@@ -43,12 +43,10 @@
     NSTimeInterval yesterdayInterval = todayInterval - 24 * 60 * 60;                //昨天
     NSTimeInterval dayBeforeYesterdayInterval = yesterdayInterval - 24 * 60 * 60;   //前天
     NSTimeInterval lastweekInterval = todayInterval - 7 * 24 * 60 * 60;             //上星期
-    NSLog(@"%f",todayInterval);
     //消息发送的时间戳
     NSNumber *timer = message.timestamp;
     NSTimeInterval interval = [timer doubleValue] / 1000;
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-    NSLog(@"%f",interval);
     //设置日期格式
     if (interval > todayInterval) {     //当天发送的消息
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];

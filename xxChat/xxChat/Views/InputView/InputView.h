@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
     inputView的编辑状态
  */
 typedef NS_ENUM(NSInteger, InputViewStatus) {
-    InputViewStatusNothing = 100,      //无状态
-    InputViewStatusShowVoice,    //录音
-    InputViewStatusShowEmoji,     //表情
-    InputViewStatusShowMore,     //更多
-    InputViewStatusShowKeyboard, //键盘
+    InputViewStatusNothing = 555,       //无状态
+    InputViewStatusShowVoice,           //录音
+    InputViewStatusShowEmoji,           //表情
+    InputViewStatusShowMore,            //更多
+    InputViewStatusShowKeyboard,        //键盘
 };
 
 @protocol InputViewDelegate <NSObject>

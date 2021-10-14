@@ -51,6 +51,7 @@
                                                   collectionViewLayout:layout];
         [_imageCollectionView registerClass:[ImageCollectionViewCell class]
                  forCellWithReuseIdentifier:@"imageCell"];
+        _imageCollectionView.backgroundColor = [UIColor clearColor];
         [self addSubview:_imageCollectionView];
         
         //取消按钮

@@ -29,6 +29,7 @@
 		9B18476426F09DB1003C4FA4 /* 表情包素材1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B18475E26F09DB1003C4FA4 /* 表情包素材1.jpg */; };
 		9B1847A926F1EEF7003C4FA4 /* 表情包素材7.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9B1847A826F1EEF7003C4FA4 /* 表情包素材7.gif */; };
 		9B1847AF26F2378A003C4FA4 /* UIImage+YCHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1847AE26F2378A003C4FA4 /* UIImage+YCHUD.m */; };
+		9B23264D2716C832000C077F /* SpectrumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B23264C2716C832000C077F /* SpectrumView.m */; };
 		9B678D7726BEB7DA00483386 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7626BEB7DA00483386 /* AppDelegate.m */; };
 		9B678D7A26BEB7DA00483386 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7926BEB7DA00483386 /* SceneDelegate.m */; };
 		9B678D7D26BEB7DA00483386 /* ChatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B678D7C26BEB7DA00483386 /* ChatsViewController.m */; };
@@ -48,6 +49,8 @@
 		9B84E7A226E7A9F2006BDCCB /* MoreFunctionSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E7A126E7A9F2006BDCCB /* MoreFunctionSubView.m */; };
 		9B84E7A526E7AA3F006BDCCB /* MessageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E7A426E7AA3F006BDCCB /* MessageButton.m */; };
 		9B84E7F326ECB65F006BDCCB /* UnreadRedPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B84E7F226ECB65F006BDCCB /* UnreadRedPointView.m */; };
+		9BD0AA2D26FDFC2600962C4F /* ImageBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD0AA2C26FDFC2600962C4F /* ImageBrowser.m */; };
+		9BD0AA3026FDFC4600962C4F /* ImageBrowserCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD0AA2F26FDFC4600962C4F /* ImageBrowserCollectionViewCell.m */; };
 		9BD29D7626CBF8F7002F7114 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7526CBF8F7002F7114 /* MessageViewController.m */; };
 		9BD29D7926CBF949002F7114 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7826CBF949002F7114 /* Message.m */; };
 		9BD29D7C26CBF985002F7114 /* MessageFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD29D7B26CBF985002F7114 /* MessageFrame.m */; };
@@ -128,6 +131,8 @@
 		9B1847A826F1EEF7003C4FA4 /* 表情包素材7.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "表情包素材7.gif"; sourceTree = "<group>"; };
 		9B1847AD26F2378A003C4FA4 /* UIImage+YCHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+YCHUD.h"; sourceTree = "<group>"; };
 		9B1847AE26F2378A003C4FA4 /* UIImage+YCHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+YCHUD.m"; sourceTree = "<group>"; };
+		9B23264B2716C832000C077F /* SpectrumView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpectrumView.h; sourceTree = "<group>"; };
+		9B23264C2716C832000C077F /* SpectrumView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpectrumView.m; sourceTree = "<group>"; };
 		9B678D7226BEB7DA00483386 /* xxChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xxChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B678D7526BEB7DA00483386 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9B678D7626BEB7DA00483386 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -166,6 +171,10 @@
 		9B84E7A426E7AA3F006BDCCB /* MessageButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageButton.m; sourceTree = "<group>"; };
 		9B84E7F126ECB65F006BDCCB /* UnreadRedPointView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnreadRedPointView.h; sourceTree = "<group>"; };
 		9B84E7F226ECB65F006BDCCB /* UnreadRedPointView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnreadRedPointView.m; sourceTree = "<group>"; };
+		9BD0AA2B26FDFC2600962C4F /* ImageBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageBrowser.h; sourceTree = "<group>"; };
+		9BD0AA2C26FDFC2600962C4F /* ImageBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageBrowser.m; sourceTree = "<group>"; };
+		9BD0AA2E26FDFC4600962C4F /* ImageBrowserCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageBrowserCollectionViewCell.h; sourceTree = "<group>"; };
+		9BD0AA2F26FDFC4600962C4F /* ImageBrowserCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageBrowserCollectionViewCell.m; sourceTree = "<group>"; };
 		9BD29D7426CBF8F7002F7114 /* MessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
 		9BD29D7526CBF8F7002F7114 /* MessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		9BD29D7726CBF949002F7114 /* Message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
@@ -315,6 +324,15 @@
 			path = "表情包素材";
 			sourceTree = "<group>";
 		};
+		9B23264A2716C80D000C077F /* 录音光谱view */ = {
+			isa = PBXGroup;
+			children = (
+				9B23264B2716C832000C077F /* SpectrumView.h */,
+				9B23264C2716C832000C077F /* SpectrumView.m */,
+			);
+			path = "录音光谱view";
+			sourceTree = "<group>";
+		};
 		9B678D6926BEB7DA00483386 = {
 			isa = PBXGroup;
 			children = (
@@ -344,9 +362,9 @@
 				A626537326E135150084050F /* Categorys */,
 				A626534426CAAE720084050F /* Protocols */,
 				A654FE0226C17D5400DCE37C /* Views */,
-				9B678DAC26C155EB00483386 /* Others */,
-				9B678DAB26C155DE00483386 /* Controllers */,
 				A654FE0126C17D3F00DCE37C /* Models */,
+				9B678DAB26C155DE00483386 /* Controllers */,
+				9B678DAC26C155EB00483386 /* Others */,
 				9B678D8126BEB7DC00483386 /* Assets.xcassets */,
 				9B678D8626BEB7DC00483386 /* Info.plist */,
 				9B678D8726BEB7DC00483386 /* main.m */,
@@ -403,6 +421,7 @@
 		9B84E7A626E85A2E006BDCCB /* InputView */ = {
 			isa = PBXGroup;
 			children = (
+				9B23264A2716C80D000C077F /* 录音光谱view */,
 				9BD29D8026CBFA6B002F7114 /* InputView.h */,
 				9BD29D8126CBFA6B002F7114 /* InputView.m */,
 				9B84E79D26E7A966006BDCCB /* MoreFunctionView.h */,
@@ -439,6 +458,17 @@
 				9B84E7F226ECB65F006BDCCB /* UnreadRedPointView.m */,
 			);
 			path = ChatTable;
+			sourceTree = "<group>";
+		};
+		9BD0AA2A26FDFBF400962C4F /* ImageBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				9BD0AA2B26FDFC2600962C4F /* ImageBrowser.h */,
+				9BD0AA2C26FDFC2600962C4F /* ImageBrowser.m */,
+				9BD0AA2E26FDFC4600962C4F /* ImageBrowserCollectionViewCell.h */,
+				9BD0AA2F26FDFC4600962C4F /* ImageBrowserCollectionViewCell.m */,
+			);
+			path = ImageBrowser;
 			sourceTree = "<group>";
 		};
 		A626534426CAAE720084050F /* Protocols */ = {
@@ -480,6 +510,7 @@
 		A654FE0226C17D5400DCE37C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9BD0AA2A26FDFBF400962C4F /* ImageBrowser */,
 				9B18473C26F08D8E003C4FA4 /* ImagePicker */,
 				9B84E7F426ECB665006BDCCB /* ChatTable */,
 				9B84E7A726E85A6B006BDCCB /* MessageTable */,
@@ -866,7 +897,9 @@
 				9B18473B26F08D4F003C4FA4 /* EmojiView.m in Sources */,
 				A626536F26E130870084050F /* FriendInvitationViewController.m in Sources */,
 				9B18475726F092C4003C4FA4 /* UITabBar+RedPoint.m in Sources */,
+				9BD0AA3026FDFC4600962C4F /* ImageBrowserCollectionViewCell.m in Sources */,
 				A6C18C1326EF4773005D5C63 /* GroupViewController.m in Sources */,
+				9BD0AA2D26FDFC2600962C4F /* ImageBrowser.m in Sources */,
 				9B678DB126C157BF00483386 /* ContactsViewController.m in Sources */,
 				A626536C26E130570084050F /* ChangeInfoViewController.m in Sources */,
 				A626536026E12C860084050F /* FriendInvitationCell.m in Sources */,
@@ -886,6 +919,7 @@
 				9B678DB726C1596600483386 /* MeViewController.m in Sources */,
 				9B18473F26F08DC7003C4FA4 /* ImageCollectionViewCell.m in Sources */,
 				A626536326E12CB50084050F /* SearchResultCell.m in Sources */,
+				9B23264D2716C832000C077F /* SpectrumView.m in Sources */,
 				9B18474226F08E0B003C4FA4 /* ImagePicker.m in Sources */,
 				9BD29D7C26CBF985002F7114 /* MessageFrame.m in Sources */,
 				9B678DC926C3D97C00483386 /* ChatCell.m in Sources */,

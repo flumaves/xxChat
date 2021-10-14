@@ -7,7 +7,6 @@
 
 #import "MessageCell.h"
 #import <AVFoundation/AVFoundation.h>
-#import "MessageButton.h"
 #import "UIImage+YCHUD.h"
 
 @interface MessageCell ()
@@ -15,11 +14,14 @@
 //时间
 @property (nonatomic, strong) UILabel *timeLabel;
 
-//内容
-@property (nonatomic, strong) MessageButton *contentBtn;
-
 //头像
 @property (nonatomic, strong) UIImageView *iconImgView;
+
+/// JMSGMessage
+@property (nonatomic, strong) JMSGMessage *message;
+
+/// 图片的tag
+@property (nonatomic, assign) int imageTag;
 
 @end
 
@@ -28,8 +30,6 @@
 //重写init方法
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        //tableView旋转180度后 内容要正过来则要再旋转180度
-        self.transform = CGAffineTransformMakeRotation(M_PI);
         
         //时间
         _timeLabel = [[UILabel alloc] init];
@@ -40,7 +40,6 @@
         //内容
         _contentBtn = [[MessageButton alloc] init];
         [self.contentView addSubview:_contentBtn];
-        [_contentBtn addTarget:self action:@selector(playVoice) forControlEvents:UIControlEventTouchUpInside];
         [_contentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         //设置内边距
         CGFloat edgeInsets = 20;
@@ -64,6 +63,7 @@
 - (void)setMessageFrame:(MessageFrame *)messageFrame {
     _messageFrame = messageFrame;               //frame模型
     Message *message = _messageFrame.message;   //message模型
+    _message = message.message;
     
     //设置时间
     _timeLabel.frame = messageFrame.timeFrame;
@@ -96,18 +96,25 @@
     _iconImgView.frame = messageFrame.iconFrame;
     _contentBtn.frame = messageFrame.contentFrame;
     
-    if (message.message.contentType == kJMSGContentTypeVoice) { //语音消息
+    if (_message.contentType == kJMSGContentTypeVoice) { //语音消息
+        [self.contentBtn addTarget:self action:@selector(playVoice) forControlEvents:UIControlEventTouchUpInside];
         _contentBtn.voiceImgView.frame = messageFrame.voiceImgFrame;
         _contentBtn.durationLbl.frame = messageFrame.durationLblFrame;
         _contentBtn.durationLbl.text = [NSString stringWithFormat:@"%d''",message.duration.intValue];
+        if (message.type == MessageType_ME) {
+            _contentBtn.voiceImgView.image = [UIImage imageNamed:@"voice_left"];
+        } else {
+            _contentBtn.voiceImgView.image = [UIImage imageNamed:@"voice_right"];
+        }
         _contentBtn.voiceImgView.hidden = NO;
         _contentBtn.durationLbl.hidden = NO;
     } else {
+        [self.contentBtn removeTarget:self action:@selector(playVoice) forControlEvents:UIControlEventTouchUpInside];
         _contentBtn.voiceImgView.hidden = YES;
         _contentBtn.durationLbl.hidden = YES;
     }
     
-    if (message.message.contentType == kJMSGContentTypeText) {  //文本消息
+    if (_message.contentType == kJMSGContentTypeText) {  //文本消息
         [_contentBtn setTitle:message.text forState:UIControlStateNormal];
         [_contentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     } else {
@@ -115,9 +122,12 @@
         [_contentBtn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
     }
     
-    if (message.message.contentType == kJMSGContentTypeImage) { //图片消息
+    if (_message.contentType == kJMSGContentTypeImage) { //图片消息
+        static int imageTag = 0;
+        _imageTag = ++imageTag;
         _contentBtn.photoImgView.frame = messageFrame.photoImgFrame;
         _contentBtn.photoImgView.hidden = NO;
+        [self.contentBtn addTarget:self action:@selector(showImageBrowser) forControlEvents:UIControlEventTouchUpInside];
         //加载图片
         JMSGImageContent *content = (JMSGImageContent *)message.message.content;
         [content largeImageDataWithProgress:nil completionHandler:^(NSData *data, NSString *objectId, NSError *error) {
@@ -129,6 +139,7 @@
         }];
     } else {
         _contentBtn.photoImgView.hidden = YES;
+        [self.contentBtn removeTarget:self action:@selector(showImageBrowser) forControlEvents:UIControlEventTouchUpInside];
     }
 }
 
@@ -140,12 +151,18 @@
         JMSGVoiceContent *voiceContent = (JMSGVoiceContent *)message.content;
         [voiceContent voiceData:^(NSData *data, NSString *objectId, NSError *error) {
             if (error) {
-                NSLog(@"%@",error);
+                NSLog(@"播放语音消息错误%@",error);
             }
             if ([self.delegate respondsToSelector:@selector(playVoice:)]) {
                 [self.delegate playVoice:data];
             }
         }];
+    }
+}
+
+- (void)showImageBrowser {
+    if ([self.delegate respondsToSelector:@selector(showImageBrowserWithImageTag:)]) {
+        [self.delegate showImageBrowserWithImageTag:_imageTag];
     }
 }
 @end
