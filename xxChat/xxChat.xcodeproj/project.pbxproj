@@ -377,19 +377,14 @@
 		9B678DAB26C155DE00483386 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A69E56D8271846FB000BBBA0 /* 更改信息界面 */,
+				A69E56D7271846D7000BBBA0 /* 个人信息界面 */,
+				A69E56D6271846BF000BBBA0 /* 会话窗口 */,
+				A69E56D527184673000BBBA0 /* 登陆界面 */,
+				A69E56D42718464D000BBBA0 /* 改密码界面 */,
 				A6C18C1526EF479F005D5C63 /* AboutFriendControllers */,
 				A6C18C1426EF477A005D5C63 /* AboutGroupControllers */,
 				A6C18C0C26ECD6D2005D5C63 /* FourMainControllers */,
-				9BD29D7426CBF8F7002F7114 /* MessageViewController.h */,
-				9BD29D7526CBF8F7002F7114 /* MessageViewController.m */,
-				9B678DC426C3C1EF00483386 /* SelfInformationTableViewController.h */,
-				9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */,
-				A626536A26E130570084050F /* ChangeInfoViewController.h */,
-				A626536B26E130570084050F /* ChangeInfoViewController.m */,
-				A626533B26CA88000084050F /* VisitorViewController.h */,
-				A626533C26CA88000084050F /* VisitorViewController.m */,
-				A6C18C0D26ECD787005D5C63 /* ChangePasswordViewController.h */,
-				A6C18C0E26ECD787005D5C63 /* ChangePasswordViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -501,6 +496,51 @@
 				A626536226E12CB50084050F /* SearchResultCell.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A69E56D42718464D000BBBA0 /* 改密码界面 */ = {
+			isa = PBXGroup;
+			children = (
+				A6C18C0D26ECD787005D5C63 /* ChangePasswordViewController.h */,
+				A6C18C0E26ECD787005D5C63 /* ChangePasswordViewController.m */,
+			);
+			path = "改密码界面";
+			sourceTree = "<group>";
+		};
+		A69E56D527184673000BBBA0 /* 登陆界面 */ = {
+			isa = PBXGroup;
+			children = (
+				A626533B26CA88000084050F /* VisitorViewController.h */,
+				A626533C26CA88000084050F /* VisitorViewController.m */,
+			);
+			path = "登陆界面";
+			sourceTree = "<group>";
+		};
+		A69E56D6271846BF000BBBA0 /* 会话窗口 */ = {
+			isa = PBXGroup;
+			children = (
+				9BD29D7426CBF8F7002F7114 /* MessageViewController.h */,
+				9BD29D7526CBF8F7002F7114 /* MessageViewController.m */,
+			);
+			path = "会话窗口";
+			sourceTree = "<group>";
+		};
+		A69E56D7271846D7000BBBA0 /* 个人信息界面 */ = {
+			isa = PBXGroup;
+			children = (
+				9B678DC426C3C1EF00483386 /* SelfInformationTableViewController.h */,
+				9B678DC526C3C1EF00483386 /* SelfInformationTableViewController.m */,
+			);
+			path = "个人信息界面";
+			sourceTree = "<group>";
+		};
+		A69E56D8271846FB000BBBA0 /* 更改信息界面 */ = {
+			isa = PBXGroup;
+			children = (
+				A626536A26E130570084050F /* ChangeInfoViewController.h */,
+				A626536B26E130570084050F /* ChangeInfoViewController.m */,
+			);
+			path = "更改信息界面";
 			sourceTree = "<group>";
 		};
 		A6C18C0C26ECD6D2005D5C63 /* FourMainControllers */ = {
